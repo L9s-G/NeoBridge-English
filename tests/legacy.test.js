@@ -45,8 +45,10 @@ test('legacy.html 由 index.html 正确派生', () => {
   assert.ok(/<script src="\.\/legacy\.js"><\/script>/.test(html), '应加载经典脚本 legacy.js');
   assert.ok(!/js\/app\.js/.test(html), '不应引用模块版 app.js');
   assert.ok(/href="\.\/index\.html"/.test(html), '应有回新版入口的链接');
+  assert.ok(/class="classic-link" href="\.\/index\.html"/.test(html), '标题栏经典图标应指回 index.html');
+  assert.ok(/class="classic-link" href="\.\/legacy\.html"/.test(modern), 'index.html 标题栏应有进旧版的经典图标');
 
-  // 派生关系：除四处替换外，其余必须与 index.html 逐字一致
+  // 派生关系：除既定替换外，其余必须与 index.html 逐字一致
   const reparsed = buildLegacyHtml(modern);
   assert.equal(reparsed, html, 'legacy.html 与 index.html 的派生关系断了（产物过期？）');
   assert.ok(/rel="manifest"/.test(modern), 'index.html 必须保留 manifest（新版走 PWA）');
@@ -59,7 +61,7 @@ test('legacy.html 与 index.html 标题/品牌一致', () => {
   const title = html.match(/<title>(.*?)<\/title>/)[1];
   const modernTitle = modern.match(/<title>(.*?)<\/title>/)[1];
 
-  assert.equal(title, `${modernTitle}（旧版）`, '标题应 = 新版标题 +（旧版）');
+  assert.equal(title, `${modernTitle}（经典版）`, '标题应 = 潮流版标题 +（经典版）');
   assert.equal(
     html.match(/<h1 class="title">(.*?)<\/h1>/)[1],
     modern.match(/<h1 class="title">(.*?)<\/h1>/)[1],

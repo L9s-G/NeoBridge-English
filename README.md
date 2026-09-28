@@ -352,9 +352,13 @@ iOS 12（Safari 12）上整页白屏的真凶是 **`?.` / `??` 语法**（Safari
 模块解析阶段就 SyntaxError，与 PWA/SW 无关（iOS 11.3 起 SW 本身可用）。为此加了
 `legacy.html` 双入口：源码保持现代写法，旧浏览器兼容由构建保证。
 
-- **入口差异**：新版 `index.html` 带 manifest → 注册 SW；旧版 `legacy.html` 无
+站内统一叫法：**潮流版** = `index.html`（默认 PWA 入口）、**经典版** = `legacy.html`；
+标题栏右侧的「经典小电视」图标（`.classic-link`）双向互跳，title 分别为「经典版」「潮流版」。
+
+- **入口差异**：潮流版 `index.html` 带 manifest → 注册 SW；经典版 `legacy.html` 无
   manifest ⇒ `app.js` 的 `IS_LEGACY` 为真 ⇒ **不注册 SW、整块隐藏「下载全部发音」卡**
-  （发音只在线播，卡片正面 🔊 直接指向同源 mp3）。设置区底部有互跳链接。
+  （发音只在线播，卡片正面 🔊 直接指向同源 mp3）。小电视图标在经典版里由构建
+  改写为指回潮流版（href + title + aria-label 一并改写）。
 - **构建**：`npm run build:legacy` 用 esbuild 把 `js/app.js` 整棵模块图打成
   `legacy.js`（iife、`target=safari12`，`?.`/`??` 机械降级），`legacy.html` 由
   `index.html` 派生。**产物入库，Cloudflare 照旧零构建部署**；data/audio 不复制，

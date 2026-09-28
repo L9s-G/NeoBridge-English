@@ -7,7 +7,7 @@
  *                    运行时 API（replaceChildren / 剪贴板 / crypto.subtle）的
  *                    兜底写在共享源码里，这里不处理。
  *   app/legacy.html  由 index.html 派生：去 manifest（= 不注册 Service Worker）、
- *                    module script 换成经典脚本、入口链接改为指回新版。
+ *                    module script 换成经典脚本、标题栏经典图标改为指回新版。
  *
  * 产物入库（Cloudflare 照旧零构建部署）。改了 app/js 后必须重跑本脚本，
  * tests/legacy.test.js 会重新构建并与产物比对，忘了跑就测试红。
@@ -54,7 +54,7 @@ export function buildLegacyHtml(modernHtml) {
   swap(/<link rel="manifest"[^>]*>\n/, '', 'manifest link');
   swap(
     /<title>(.*?)<\/title>/,
-    (m, title) => `<title>${title}（旧版）</title>`,
+    (m, title) => `<title>${title}（经典版）</title>`,
     '<title>',
   );
   swap(
@@ -62,10 +62,11 @@ export function buildLegacyHtml(modernHtml) {
     '<script src="./legacy.js"></script>',
     'module script',
   );
+  // 标题栏右侧的经典图标：潮流版指向 legacy.html（经典版），经典版里反过来指回潮流版
   swap(
-    /<p class="legacy-row">[\s\S]*?<\/p>/,
-    '<p class="legacy-row"><a class="legacy-link" href="./index.html">这是旧版入口，新版（PWA）在首页 →</a></p>',
-    'legacy-row 入口链接',
+    /class="classic-link" href="\.\/legacy\.html" title="[^"]*" aria-label="[^"]*"/,
+    'class="classic-link" href="./index.html" title="潮流版" aria-label="潮流版入口"',
+    'classic-link 双入口图标',
   );
   return html;
 }

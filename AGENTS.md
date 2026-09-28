@@ -7,7 +7,7 @@
 
 NeoBridge English：EVP 官方词库 → 纯静态 PWA（间隔答题 + 发音），**零构建、产物入库、
 push 即部署**（Cloudflare Workers Static Assets，Root directory = `app/`）。
-单站点双入口：新版 `app/index.html`（PWA，注册 SW）+ 旧版 `app/legacy.html`（iOS 12 等旧浏览器）。
+单站点双入口（站内叫法）：**潮流版** `app/index.html`（PWA，注册 SW）+ **经典版** `app/legacy.html`（iOS 12 等旧浏览器）。
 
 ## 常用命令
 
@@ -33,7 +33,8 @@ SMOKE_PATH=legacy.html npm run smoke   # 冒烟旧版入口
    Cloudflare 不跑构建 —— 源码改完必须本地构建再一起 commit。
 5. **双入口语义别破坏**：`app.js` 里 `IS_LEGACY = !document.querySelector('link[rel="manifest"]')`。
    legacy.html 不带 manifest ⇒ 不注册 SW、隐藏「下载全部发音」卡（发音只在线播）。
-   不要给 legacy.html 加 manifest，也不要让它注册 SW；新版入口的互跳链接（`.legacy-row`）别删。
+   不要给 legacy.html 加 manifest，也不要让它注册 SW；标题栏的双入口互跳图标（`.classic-link`）别删
+   （新版指向 legacy.html，`build:legacy` 会把旧版页面里的 href 改写为指回 index.html）。
 6. **发音缓存名两处手工同步**：`app/js/ui/audio-download.js` 的 `AUDIO_CACHE` 与
    `app/sw.js` 的 `AUDIO_CACHE`（sw.js 是经典脚本不能 import，只能人肉一致）。
 7. **动文件前先重读 / `git diff`**：本仓库常有人工并发编辑（品牌名、缓存前缀之类），
