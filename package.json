@@ -13,9 +13,13 @@
     "report": "node scripts/report-evp.mjs",
     "start": "node scripts/serve.mjs",
     "smoke": "node scripts/smoke.mjs",
+    "build:legacy": "node scripts/build-legacy.mjs",
     "test": "node --test"
   },
   "dependencies": {
     "playwright-core": "^1.63.0"
+  },
+  "devDependencies": {
+    "esbuild": "^0.28.2"
   }
 }

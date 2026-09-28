@@ -19,14 +19,18 @@
 │   ├── evp-lib.mjs           共享：字段映射、entry 归一化、SQLite 写入
 │   ├── audio-lib.mjs         共享：音频表翻页、名称归一、并发下载
 │   ├── report-evp.mjs        词库查询 / 抽查工具
+│   ├── build-legacy.mjs      生成旧版入口 legacy.html + legacy.js（esbuild safari12）
+│   ├── smoke.mjs             Playwright 冒烟（SMOKE_PATH=legacy.html 跑旧版入口）
 │   └── serve.mjs             零依赖静态服务器（npm start）
 ├── data/                   ① 源库（开发机，只读，永不发布）
 │   ├── evp.sqlite
 │   └── raw/
 │       ├── checkpoint.json   抓取断点（7101 条原始记录，可用于重建 DB）
 │       └── audio-files.json  官网音频表（13229 行，name → mp3 URL）
-├── app/                    ② PWA 根目录，纯静态、零构建
-│   ├── index.html          外壳
+├── app/                    ② PWA 根目录，纯静态、零构建（+ 双入口：新版 PWA / 旧版 legacy）
+│   ├── index.html          外壳（新版入口，带 manifest → 注册 SW）
+│   ├── legacy.html         旧版入口（`npm run build:legacy` 生成，无 manifest → 不注册 SW）
+│   ├── legacy.js           旧版入口的打包产物（esbuild target=safari12，勿手改）
 │   ├── app.css / icon.svg / manifest.webmanifest
 │   ├── sw.js               Service Worker：外壳缓存 + 词包缓存 + 发音缓存
 │   ├── wrangler.jsonc      Cloudflare Workers 部署配置（Root directory = app）
@@ -42,10 +46,11 @@
 │   │   │   ├── progress.js     进度状态的创建与更新
 │   │   │   ├── scheduler.js    抽一个词：去重 → 分池 → 配额 → 加权随机
 │   │   │   ├── queue.js        抽一整轮：预抽题队列（session 内不重复）
-│   │   │   └── day.js          日历工具：dayKey / lastDays / relDay（7 天卡片）
+│   │   │   ├── day.js          日历工具：dayKey / lastDays / relDay（7 天卡片）
+│   │   │   └── sha256.js       纯 JS SHA-256（crypto.subtle 不可用时的校验兜底）
 │   │   ├── ui/             答题界面
 │   │   │   ├── session.js      状态与流程：作答 → 落库 → 重画
-│   │   │   ├── views.js        只把状态画成 DOM，无状态判断
+│   │   │   ├── views.js        只把状态画成 DOM，无状态判断（含 replaceChildren 兼容实现）
 │   │   │   ├── audio-download.js 发音：缓存下载、进度、正面 🔊 播放
 │   │   │   └── lists.js        首页清单：7 天卡片 + 错词名单 + 一键复制
 │   │   └── db/             本地存储与 DLC 管理
@@ -55,15 +60,18 @@
 │   └── data/
 │       ├── manifest.json   DLC 包描述（sha256 / 字数 / 版本）
 │       └── words.v2.json   ★ DLC 词包正文
-├── tests/                  npm test（node --test，64 项）
+├── tests/                  npm test（node --test，72 项）
 │   ├── _rng.js             固定种子随机数
 │   ├── scheduler.test.js   调度引擎 + 错词恢复规则单测
 │   ├── queue.test.js       题队列单测
 │   ├── day.test.js         日历工具单测（跨月 / 跨年 / 闰年）
 │   ├── simulation.test.js  真实 5008 词 × 8000 次抽样的模拟
 │   ├── importer.test.js    词包校验单测（直接跑真实 app/data/）
-│   └── audio.test.js       发音覆盖单测（词包 ↔ app/audio/ 一一对应）
+│   ├── audio.test.js       发音覆盖单测（词包 ↔ app/audio/ 一一对应）
+│   ├── sha256.test.js      纯 JS SHA-256 对拍 crypto.subtle + NIST 向量
+│   └── legacy.test.js      旧版入口：构建成功 + 产物无旧语法 + 防漂移
 ├── package.json
+├── AGENTS.md               后续 Agent 作业手册（发版 SOP + iOS 12 兼容红线）
 └── README.md
 ```
 
@@ -91,7 +99,9 @@ npm run rebuild            # 不联网，从 checkpoint 重建 DB 并跑校验
 npm run build:pack         # 打 DLC 词包 → app/data/（含 25 项校验）
 npm run report             # 查看总量与等级分布
 npm start                  # http://localhost:1080，同时监听 0.0.0.0（局域网可访问）
-npm test                   # 64 项：调度引擎 + 题队列 + 日历 + 词包 + 发音 + 全量模拟
+npm run build:legacy       # 重新生成 app/legacy.{html,js}（改了 app/js 之后必须跑）
+npm test                   # 72 项：调度引擎 + 题队列 + 日历 + 词包 + 发音 + SHA256 + legacy 产物 + 全量模拟
+SMOKE_PATH=legacy.html npm run smoke   # 冒烟跑旧版入口（默认跑 /）
 node scripts/report-evp.mjs --level B1 --search abandon
 node scripts/report-evp.mjs --entry account  # 按词头查整个词条族
 node scripts/report-evp.mjs --entry ID_00003010
@@ -316,7 +326,7 @@ clean : On Wednesday morning ... to see the Vatican.
 ### PWA 离线
 
 - `app/sw.js` 三个缓存：
-  - `neobridge-shell-v14`（页面与代码），install 时预缓存；
+  - `neobridge-shell-v15`（页面与代码），install 时预缓存；
   - `neobridge-pack-<sha256>`（词包正文），install 时预缓存，并清掉别的词包缓存；
   - `neobridge-audio-v1`（发音 mp3，约 23 MB）——**不预缓存、不随发版删除**，
     由设置页「下载全部发音」逐个写入，SW 只负责把 `/audio/*` 的读写都路由到这里，
@@ -329,11 +339,44 @@ clean : On Wednesday morning ... to see the Vatican.
   （`PORT=` / `HOST=` 可覆盖），启动时会打印本机 IPv4，手机连同一 Wi-Fi 直接
   `http://<局域网IP>:1080/` 打开即可测试。
 - **局域网 IP 不是安全上下文**：Service Worker 注册不了，`crypto.subtle`
-  （词包 sha 校验）和 `caches`（发音缓存）也都不可用 —— 手机 Chrome 先到
+  与 `caches`（发音缓存）也都不可用 —— 词包 sha 校验会自动回落纯 JS 实现
+  （`core/sha256.js`），照常能下；要测 PWA 离线则手机 Chrome 先到
   `chrome://flags/#unsafely-treat-insecure-origin-as-secure` 填 `http://<IP>:1080`
   并重启浏览器；另外 Windows 防火墙要放行 1080 入站（默认无 node 规则会被拦）。
 - `file://` 打不开 —— Service Worker 与 `crypto.subtle` 都要求安全上下文，
   本地必须走 `http://localhost`（或加白名单的局域网 IP）。
+
+### 旧版入口（iOS 12 / Safari 12）
+
+iOS 12（Safari 12）上整页白屏的真凶是 **`?.` / `??` 语法**（Safari 13.1 才支持）——
+模块解析阶段就 SyntaxError，与 PWA/SW 无关（iOS 11.3 起 SW 本身可用）。为此加了
+`legacy.html` 双入口：源码保持现代写法，旧浏览器兼容由构建保证。
+
+- **入口差异**：新版 `index.html` 带 manifest → 注册 SW；旧版 `legacy.html` 无
+  manifest ⇒ `app.js` 的 `IS_LEGACY` 为真 ⇒ **不注册 SW、整块隐藏「下载全部发音」卡**
+  （发音只在线播，卡片正面 🔊 直接指向同源 mp3）。设置区底部有互跳链接。
+- **构建**：`npm run build:legacy` 用 esbuild 把 `js/app.js` 整棵模块图打成
+  `legacy.js`（iife、`target=safari12`，`?.`/`??` 机械降级），`legacy.html` 由
+  `index.html` 派生。**产物入库，Cloudflare 照旧零构建部署**；data/audio 不复制，
+  双入口同源共享。
+- **纪律**：改了 `app/js` 或 `index.html` 必须重跑 `build:legacy` ——
+  `tests/legacy.test.js` 会重新构建与入库产物比对，忘了跑就测试红。
+- **运行时 API 不归 esbuild 管**，回退写在共享源码里，新旧浏览器共用一份：
+
+  | 位置 | Safari 12 缺什么 | 回退 |
+  |---|---|---|
+  | `views.replaceChildren()` | `Element.replaceChildren`（14+） | 等价实现，4 处调用点改走它 |
+  | `lists.copyText()` | `navigator.clipboard`（13.1+） | textarea + `execCommand('copy')` |
+  | `importer.sha256Hex()` | 非安全上下文没有 `crypto.subtle` | 纯 JS `core/sha256.js`（对拍单测） |
+  | `audio.countCached()` | `globalThis`（12.1+） | `typeof caches` 判定 |
+
+- **CSS 降级**（`app.css`，现代浏览器整块不生效）：`clamp()` 前置静态字号（13.1+）；
+  flex `gap` 补 margin（14.1+）——注意 **不能** 用 `@supports not (gap)`，iOS 12 的
+  grid 已支持 gap、feature query 会误判，实际用的是 `(-webkit-touch-callout) and
+  (not (translate))` 检测（见 app.css 注释）；`:focus-visible` 拆成独立规则（15.4+，
+  否则整条连 `:hover` 一起被丢）。
+- **冒烟**：`SMOKE_PATH=legacy.html npm run smoke`（跑 `/` 为默认新版）。
+  真机 iOS 12 需人工过一遍 —— CI 模拟不了 Safari 12，残余风险是它的 IndexedDB 怪癖。
 
 ### 部署到 Cloudflare（Git 连接 + 自动部署，手机测 HTTPS 最省事）
 

@@ -1,6 +1,8 @@
 import { chromium } from 'playwright-core';
 
-const BASE = 'http://localhost:1080/';
+// 默认跑新版入口；SMOKE_PATH=legacy.html 跑旧版入口（iOS 12 用的那个）
+const PAGE = '/' + String(process.env.SMOKE_PATH || '').replace(/^\/+/, '');
+const BASE = 'http://localhost:1080' + PAGE;
 const browser = await chromium.launch({ channel: 'chrome', headless: true });
 const page = await browser.newPage();
 const errors = [];
@@ -8,12 +10,20 @@ page.on('console', m => { if (m.type() === 'error') errors.push(m.text()); });
 page.on('pageerror', e => errors.push('pageerror: ' + e.message));
 page.on('dialog', async d => { console.log('DIALOG:', d.message().slice(0, 80)); await d.dismiss(); });
 
-const hint = async () => (await page.textContent('#audio-hint')).trim();
+// 旧版入口的发音卡整块隐藏（只在线播），textContent 会拿到初始占位文案 —— 显式标注
+const hint = async () => (await page.$eval('#audio-card', el => el.hidden))
+  ? '(audio-card hidden)'
+  : (await page.textContent('#audio-hint')).trim();
 const packs = async () => (await page.textContent('#pack-list')).replace(/\s+/g, ' ').trim();
 
 try {
+  console.log('[entry]    ', BASE);
   await page.goto(BASE, { waitUntil: 'networkidle', timeout: 60000 });
   await page.waitForTimeout(2500);
+  console.log('[boot]     title =', await page.title());
+  console.log('[boot]     sw registrations =',
+    await page.evaluate(async () => (await navigator.serviceWorker.getRegistrations()).length));
+  console.log('[boot]     audio-card hidden =', await page.$eval('#audio-card', el => el.hidden));
 
   await page.click('#tabs .tab[data-tab="packs"]');
   console.log('[boot]     hint =', await hint());

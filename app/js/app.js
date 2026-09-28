@@ -16,9 +16,16 @@ import { getActivePackId, loadDaily, loadProgress, openStore } from './db/stores
 import { audioNamesOf, countCached, downloadAudio } from './ui/audio-download.js';
 import { renderWeek, renderWrongList } from './ui/lists.js';
 import { openSession } from './ui/session.js';
+import { replaceChildren } from './ui/views.js';
 
 const BUNDLED_BASE = './data/';
 const params = withParams();
+
+/**
+ * 入口信号：legacy.html 不带 manifest link —— 旧版入口不注册 Service Worker、
+ * 不显示「下载全部发音」卡（发音只在线播）。现代 index.html 带 manifest → 走 PWA。
+ */
+const IS_LEGACY = !document.querySelector('link[rel="manifest"]');
 
 const $ = id => document.getElementById(id);
 
@@ -52,7 +59,7 @@ let audioNames = [];
 function renderPacks() {
   $('pack-card').hidden = false;
   const list = $('pack-list');
-  list.replaceChildren();
+  replaceChildren(list);
 
   if (!view.packs.length) {
     const li = document.createElement('li');
@@ -140,7 +147,8 @@ async function renderAudio() {
   const card = $('audio-card');
   const hint = $('audio-hint');
   const btn = $('btn-audio');
-  if (!view.payload) { card.hidden = true; return; }
+  // 旧版入口没有 Service Worker，发音只在线播 —— 下载卡整块隐藏，按钮不可达
+  if (IS_LEGACY || !view.payload) { card.hidden = true; return; }
   card.hidden = false;
   audioNames = audioNamesOf(view.payload);
 
@@ -251,7 +259,7 @@ async function refresh() {
 
 async function boot() {
   try {
-    if ('serviceWorker' in navigator) {
+    if (!IS_LEGACY && 'serviceWorker' in navigator) {
       navigator.serviceWorker.register('./sw.js')
         .catch(err => console.warn('Service Worker 注册失败', err));
     }

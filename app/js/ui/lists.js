@@ -5,15 +5,31 @@
  */
 
 import { dayKey, dayLabel, relDay } from '../core/day.js';
-import { h } from './views.js';
+import { h, replaceChildren } from './views.js';
 
 const WEEK_DAYS = 7;
 
-/** 复制到剪贴板；PWA 跑在 localhost / HTTPS 上，clipboard API 可用 */
+/** 复制到剪贴板；现代浏览器走 clipboard API，iOS 12 没有它 → 回落 execCommand */
 export async function copyText(text) {
   try {
     await navigator.clipboard.writeText(text);
     return true;
+  } catch {
+    // clipboard 缺失时是同步 TypeError，落在下面这段仍在点击手势内执行
+  }
+  try {
+    const ta = document.createElement('textarea');
+    ta.value = text;
+    ta.setAttribute('readonly', '');
+    ta.style.position = 'fixed';
+    ta.style.top = '-9999px';
+    document.body.appendChild(ta);
+    ta.focus();
+    ta.select();
+    ta.setSelectionRange(0, text.length); // iOS Safari 需要显式选区才认
+    const ok = document.execCommand('copy');
+    document.body.removeChild(ta);
+    return ok;
   } catch {
     return false;
   }
@@ -72,7 +88,7 @@ export function renderWeek(card, rows, byKey) {
     days.push(dayKey(new Date(base.getFullYear(), base.getMonth(), base.getDate() - i)));
   }
 
-  card.replaceChildren(h('h2', null, '最近 7 天'));
+  replaceChildren(card, h('h2', null, '最近 7 天'));
   for (const day of days) {
     const items = rows.filter(r => r.day === day && byKey.has(r.k)).sort(byWrongFirst);
     card.append(dayCard(day, items, byKey, day === today));
@@ -125,5 +141,5 @@ export function renderWrongList(card, entries, byKey) {
 
   if (entries.length) title.append(collapsible(head, body));
 
-  card.replaceChildren(head, body);
+  replaceChildren(card, head, body);
 }

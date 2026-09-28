@@ -17,6 +17,15 @@ import {
 /** 外链统一新标签打开：套进 PWA 里会丢掉当前 session */
 const EXT = { target: '_blank', rel: 'noopener' };
 
+/**
+ * 清空 el 并替换成给定子节点 —— `Element.replaceChildren()` 要 Safari 14+，
+ * iOS 12（Safari 12）没有，这里给出等价实现，新旧浏览器共用这一份。
+ */
+export function replaceChildren(el, ...nodes) {
+  while (el.firstChild) el.removeChild(el.firstChild);
+  for (const node of nodes) el.append(node);
+}
+
 /** tag + 属性 + 子节点 → 元素；属性名 on* 绑事件，class 单独识别。props 可传 null */
 export function h(tag, props = {}, ...children) {
   const node = document.createElement(tag);

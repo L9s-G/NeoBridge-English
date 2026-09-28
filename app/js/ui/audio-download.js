@@ -33,7 +33,7 @@ export function audioNamesOf(payload) {
 
 /** 已经在缓存里的数量；传 names 时返回其中已缓存的子集数量 */
 export async function countCached(names) {
-  if (!('caches' in globalThis)) return 0;
+  if (typeof caches === 'undefined') return 0;
   const cache = await caches.open(AUDIO_CACHE);
   const keys = await cache.keys();
   const have = new Set(keys.map(k => nameOf(k.url)));

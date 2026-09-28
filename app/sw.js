@@ -12,7 +12,7 @@
  * 所以 SW 缓存过期最多少拿一次，不会读到损坏数据。
  */
 
-const SHELL_CACHE = 'neobridge-shell-v14';   // ← 发版时改这里（v14：词包数据改网络优先，发音卡错误态提示）
+const SHELL_CACHE = 'neobridge-shell-v15';   // ← 发版时改这里（v15：legacy 双入口 + iOS12 运行时兜底 + sha256 纯 JS 回落）
 const PACK_CACHE_PREFIX = 'neobridge-pack-';
 // 与 app/js/ui/audio-download.js 里的 AUDIO_CACHE 保持一致（sw.js 是经典脚本，不能 import）
 const AUDIO_CACHE = 'neobridge-audio-v1';
@@ -26,6 +26,7 @@ const SHELL = [
   './js/app.js',
   './js/core/params.js',
   './js/core/mastery.js',
+  './js/core/sha256.js',
   './js/core/weight.js',
   './js/core/pools.js',
   './js/core/progress.js',

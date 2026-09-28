@@ -16,7 +16,7 @@ import { createState, markSeen } from '../core/progress.js';
 import { buildQueue } from '../core/queue.js';
 import { saveDaily, saveProgress } from '../db/stores.js';
 import { playAudio } from './audio-download.js';
-import { h, questionView, summaryView } from './views.js';
+import { h, questionView, replaceChildren, summaryView } from './views.js';
 
 /**
  * @param {object} opts.db        IndexedDB 连接
@@ -105,7 +105,7 @@ export function openSession({
   }
 
   function paint() {
-    host.replaceChildren();
+    replaceChildren(host);
 
     if (index >= queue.length) {
       const data = summary();

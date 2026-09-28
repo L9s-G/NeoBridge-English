@@ -102,6 +102,11 @@ body {
   margin-top: .9rem;
 }
 
+/* 旧版入口链接（设置区底部，指向 legacy.html） */
+.legacy-row { margin: 1rem 0 0; font-size: .85rem; }
+.legacy-link { color: var(--accent); text-decoration: none; }
+.legacy-link:hover { text-decoration: underline; }
+
 ul { margin: 0; padding: 0; list-style: none; }
 
 li {
@@ -225,16 +230,18 @@ select {
 
 .q { text-align: center; }
 
-/* 词长 4 档 × 视口宽度：长短语不再撑破窄屏 */
+/* 词长 4 档 × 视口宽度：长短语不再撑破窄屏。
+   clamp() 要 Safari 13.1+ —— 旧浏览器忽略第二行、用第一行的静态值 */
 .q-word {
   margin: .5rem 0 .2rem;
+  font-size: 1.7rem;
   font-size: clamp(1.7rem, 7vw, 2.5rem);
   font-weight: 600;
   word-break: break-word;
 }
-.q-word.len-s  { font-size: clamp(2rem,   8vw,   3rem); }
-.q-word.len-l  { font-size: clamp(1.3rem, 5.5vw, 2rem); }
-.q-word.len-xl { font-size: clamp(1rem,   4vw,   1.5rem); }
+.q-word.len-s  { font-size: 2rem;   font-size: clamp(2rem,   8vw,   3rem); }
+.q-word.len-l  { font-size: 1.3rem; font-size: clamp(1.3rem, 5.5vw, 2rem); }
+.q-word.len-xl { font-size: 1rem;   font-size: clamp(1rem,   4vw,   1.5rem); }
 
 .summary .q-word { font-size: 1.3rem; }
 
@@ -285,7 +292,10 @@ select {
   cursor: pointer;
   -webkit-tap-highlight-color: transparent;
 }
-.q-bell:hover, .q-bell:focus-visible { color: var(--accent); }
+/* :focus-visible 要 Safari 15.4+ —— 旧浏览器无法解析含它的选择器、会整条丢弃（连 :hover 一起），
+   所以拆成两条 */
+.q-bell:hover { color: var(--accent); }
+.q-bell:focus-visible { color: var(--accent); }
 
 /* 归档词头：纯文本，正面一律不放链接 */
 .q-key {
@@ -471,4 +481,27 @@ button.ghost { padding: .25rem .6rem; font-size: .8rem; }
   margin: .1rem 0 0;
   color: var(--text-dim);
   font-size: .82rem;
+}
+
+/* ---------------- iOS 12（Safari 14.1 以下）flex gap 兜底 ----------------
+ *
+ * flex 的 gap 要 Safari 14.1+，iOS 12 没有；但 `@supports not (gap: …)` 在这里
+ * 不可用 —— Safari 12 的 grid 已支持 gap（见 WebKit 14.1 发布说明），feature query
+ * 会误判成"支持"。改用社区验证的等价检测，精准命中「WebKit 且 Safari < 14.1」：
+ *   · -webkit-touch-callout 是 WebKit 专有属性（排除 Chrome / Firefox，它们要么
+ *     自带 flex gap、要么永不命中本块）
+ *   · translate 属性是 Safari 14.1 才加入的（区分 14.0 与 14.1+）
+ * 现代浏览器整块不生效，只有旧 Safari 拿到 margin 行内间距。
+ * 若将来往这些选择器里新增 gap，记得同步补一条。 */
+@supports (-webkit-touch-callout: none) and (not (translate: none)) {
+  .card-actions > * + * { margin-left: .5rem; }
+  li > * + * { margin-left: .6rem; }
+  .opt-row > * + * { margin-left: 1.2rem; }
+  .opt-row select { margin-left: .45rem; }        /* label 内是「文字节点 + select」，选择器碰不到文字 */
+  .q-tags > * { margin: .4rem .4rem 0; }          /* 标签会折行，行距用 margin-top */
+  .q-tags > :first-child { margin-left: 0; }
+  .q-sound > * + * { margin-left: .45rem; }
+  .q-actions > * + * { margin-left: .6rem; }
+  .day-head > * + * { margin-left: .5rem; }
+  .day-list li > * + * { margin-left: .5rem; }
 }

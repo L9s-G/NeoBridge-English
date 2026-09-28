@@ -12,14 +12,28 @@
  * 结构自洽（计数、schema、wordKey）兜底 —— 字节损坏几乎必然先在这里炸。
  */
 
+import { sha256Bytes } from '../core/sha256.js';
 import { deletePack, getActivePackId, getDownloadedPackIds, getPack, packIdOf, putPack, setActivePackId } from './stores.js';
 
 /** 词包结构版本，跟 pack 头里的 schemaVersion 对齐 */
 export const SCHEMA_VERSION = 1;
 
+const toHex = bytes => [...bytes].map(b => b.toString(16).padStart(2, '0')).join('');
+
+/**
+ * crypto.subtle 要求安全上下文（HTTPS / localhost）—— 局域网 http 下它是
+ * undefined，词包校验会整条挂掉，所以回落到纯 JS 实现（core/sha256.js，有单测对拍）。
+ */
 export async function sha256Hex(buffer) {
-  const digest = await crypto.subtle.digest('SHA-256', buffer);
-  return [...new Uint8Array(digest)].map(b => b.toString(16).padStart(2, '0')).join('');
+  try {
+    if (typeof crypto !== 'undefined' && crypto.subtle) {
+      const digest = await crypto.subtle.digest('SHA-256', buffer);
+      return toHex(new Uint8Array(digest));
+    }
+  } catch (err) {
+    console.warn('crypto.subtle 不可用，回落纯 JS SHA-256：', err);
+  }
+  return toHex(sha256Bytes(new Uint8Array(buffer)));
 }
 
 /**
