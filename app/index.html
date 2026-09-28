@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>牛Bridge 英语</title>
+  <meta name="theme-color" content="#0f1420">
+  <meta name="description" content="离线背词：EVP B1/B2 词库，自适应调度">
+  <link rel="manifest" href="./manifest.webmanifest">
+  <link rel="icon" href="./icon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="./app.css">
+</head>
+<body>
+  <main class="page">
+    <header>
+      <h1 class="title">牛Bridge 英语</h1>
+    </header>
+
+    <div id="home">
+      <nav id="tabs" aria-label="功能分区">
+        <button class="tab on" data-tab="review" type="button">复习</button>
+        <button class="tab" data-tab="progress" type="button">进度</button>
+        <button class="tab" data-tab="packs" type="button">设置</button>
+      </nav>
+
+      <div class="pane" id="pane-review">
+        <section id="start-card" class="card" hidden>
+          <h2>抽卡复习</h2>
+          <p class="start-hint">看到词先在心里回忆，点「开」对照释义，再按熟悉度标记</p>
+          <div class="opt-row start-row">
+            <label>
+              词数：
+              <select id="size">
+                <option value="10">10</option>
+                <option value="20" selected>20</option>
+                <option value="50">50</option>
+              </select>
+            </label>
+            <button id="btn-start" class="primary">开始</button>
+          </div>
+        </section>
+      </div>
+
+      <div class="pane" id="pane-progress" hidden>
+        <section id="week-card" class="card" hidden></section>
+        <section id="wrong-card" class="card" hidden></section>
+
+        <section id="stat-card" class="card" hidden>
+          <h2>当前进度</h2>
+          <dl id="stat-list"></dl>
+          <div class="meter"><span id="meter-fill" style="width:0"></span></div>
+        </section>
+      </div>
+
+      <div class="pane" id="pane-packs" hidden>
+        <p class="sub">离线背词 · English Profile EVP B1/B2</p>
+        <p id="status" class="status">正在初始化…</p>
+
+        <section id="pack-card" class="card" hidden>
+          <h2>词包</h2>
+          <ul id="pack-list"></ul>
+          <div class="card-actions">
+            <button id="btn-download" class="primary">下载内置词包</button>
+          </div>
+        </section>
+
+        <section id="audio-card" class="card" hidden>
+          <h2>发音</h2>
+          <p id="audio-hint" class="start-hint">正在统计…</p>
+          <div class="meter"><span id="audio-fill" style="width:0"></span></div>
+          <div class="card-actions">
+            <button id="btn-audio" class="primary">下载全部发音</button>
+          </div>
+        </section>
+      </div>
+    </div>
+
+    <section id="session-card" class="card" hidden></section>
+
+    <p id="detail" class="detail" hidden></p>
+  </main>
+
+  <script type="module" src="./js/app.js"></script>
+</body>
+</html>

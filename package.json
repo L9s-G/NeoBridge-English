@@ -1,0 +1,21 @@
+{
+  "name": "niubridge-evp",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "scrape": "node scripts/scrape-evp.mjs",
+    "scrape:fresh": "node scripts/scrape-evp.mjs --fresh",
+    "scrape:audio": "node scripts/scrape-audio-urls.mjs",
+    "audio": "node scripts/download-audio.mjs",
+    "rebuild": "node scripts/rebuild-db.mjs",
+    "build:pack": "node scripts/build-dataset.mjs",
+    "report": "node scripts/report-evp.mjs",
+    "start": "node scripts/serve.mjs",
+    "smoke": "node scripts/smoke.mjs",
+    "test": "node --test"
+  },
+  "dependencies": {
+    "playwright-core": "^1.63.0"
+  }
+}

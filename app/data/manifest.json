@@ -1,0 +1,15 @@
+{
+  "packId": "evp-uk-b1b2",
+  "version": 2,
+  "schemaVersion": 1,
+  "levels": [
+    "B1",
+    "B2"
+  ],
+  "file": "words.v2.json",
+  "wordCount": 5008,
+  "senseCount": 7101,
+  "bytes": 3203922,
+  "sha256": "aa92fb7727b459f63874c15ae82b804353c32c0f5fabe8c8764b3c08788d77fe",
+  "generatedAt": "2026-09-28T13:09:56.870Z"
+}

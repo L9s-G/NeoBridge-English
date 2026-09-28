@@ -1,0 +1,15 @@
+# Cloudflare Pages 专用头（本地 scripts/serve.mjs 自己发 no-cache，这个文件它忽略）
+# 目的：避免浏览器 HTTP 缓存把旧 manifest / 旧词包喂给「网络优先」的 SW，
+# 否则会出现「下到 v1 词包 → 没有发音」那类问题。
+
+/*
+  Cache-Control: public, max-age=0, must-revalidate
+
+/sw.js
+  Cache-Control: no-cache
+
+/data/*
+  Cache-Control: no-cache
+
+/audio/*
+  Cache-Control: public, max-age=604800
