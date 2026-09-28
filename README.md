@@ -29,6 +29,8 @@
 │   ├── index.html          外壳
 │   ├── app.css / icon.svg / manifest.webmanifest
 │   ├── sw.js               Service Worker：外壳缓存 + 词包缓存 + 发音缓存
+│   ├── wrangler.jsonc      Cloudflare Workers 部署配置（Root directory = app）
+│   ├── _headers / .assetsignore  部署缓存头规则 / 上传排除清单
 │   ├── audio/              官网发音 mp3（3701 个，约 23 MB，`npm run audio` 下载）
 │   ├── js/
 │   │   ├── app.js          启动流程：开库 → 恢复词包 → 下载 → 渲染
@@ -333,17 +335,39 @@ clean : On Wednesday morning ... to see the Vatican.
 - `file://` 打不开 —— Service Worker 与 `crypto.subtle` 都要求安全上下文，
   本地必须走 `http://localhost`（或加白名单的局域网 IP）。
 
-### 部署到 Cloudflare（手机测 HTTPS 最省事）
+### 部署到 Cloudflare（Git 连接 + 自动部署，手机测 HTTPS 最省事）
 
-- **部署目录是 `app/`**（它就是站点根，页面里全是 `./` 相对路径，没有前缀问题）。
-  3726 个文件 / 约 26 MB（`audio/` 22.7 MB + `data/` 3.1 MB），远在 Pages 限制内
-  （20,000 文件 / 单文件 25 MiB）。
-  - Dashboard：**Workers & Pages → Create → Pages → Upload assets** → 拖 `app` 目录
-  - CLI：`npx wrangler login`，然后
-    `npx wrangler pages project create <名字> production` → `npx wrangler pages deploy app --project-name=<名字>`
-- `app/_headers` 专供 Pages：`/data/*` 与 `/sw.js` 强制 `no-cache`，
-  免得浏览器 HTTP 缓存把旧 `manifest.json` 喂给「网络优先」的 SW（本地
+生产部署走 **Workers Static Assets**：Cloudflare 连 GitHub 仓库，`git push` 即自动上线，
+访问地址 `https://neobridge.workers.dev`。
+
+**Dashboard 一次性配置**（Workers & Pages → Create application → Connect Git）：
+
+| 项 | 值 |
+|---|---|
+| Repository | `L9s-G/NeoBridge-English` |
+| **Root directory** | `app` —— 只以 `app/` 为项目根，仓库其余部分（`scripts/` `tests/` `data/` `node_modules/`）不参与部署 |
+| Build command | 留空（`app/` 已是构建产物，零构建） |
+| Deploy command | `npx wrangler deploy`（默认） |
+| Framework preset | None |
+
+之后每次 `git push` 到 `main` 触发一次部署。
+
+- **配置文件是 `app/wrangler.jsonc`**：assets-only Worker（不写 `main`），
+  `assets.directory: "."` 相对该文件，即部署 `app/` 自身；`app/.assetsignore`
+  把 `wrangler.jsonc` 排除在上传之外，不会被公开访问。
+- **站点根是 `app/`**（页面里全是 `./` 相对路径，没有前缀问题）。
+  全站 3700+ 个文件 / 约 26 MB（`audio/` 22.7 MB + `data/` 3.1 MB），
+  远在 Workers 限制内（20,000 文件 / 单文件 25 MiB）。
+- **增量上传**：wrangler 对 assets 目录逐文件算哈希生成 manifest，与上次部署 diff，
+  只上传哈希变化与新增的文件、删除消失的文件。所以全量只发生在**首次**部署，
+  日常 push 只改几个文件就只传几个文件，3700+ 文件也不会拖慢。
+- **发版提醒**：外壳有更新时要 bump `sw.js` 的 `SHELL_CACHE` 版本号，
+  否则旧 SW 不刷新（见上文「PWA 离线」）——这与 Cloudflare 无关，push 前记得改。
+- `app/_headers` 同样被 Workers Static Assets 解析（不只 Pages）：`/data/*` 与 `/sw.js`
+  强制 `no-cache`，免得浏览器 HTTP 缓存把旧 `manifest.json` 喂给「网络优先」的 SW（本地
   `scripts/serve.mjs` 自己发 no-cache，忽略这个文件）。
+- 本地手动部署 / 预演（可选）：`npx wrangler login` 后在 `app/` 下
+  `npx wrangler deploy`；`npx wrangler deploy --dry-run --outdir <目录>` 只列产物清单不上传。
 - HTTPS 一到位全绿：SW / `crypto.subtle` / `caches` 都能用，手机不用加白名单。
 - **部署 = 公网可见**（Cambridge 版权，见文末版权节，仅限个人使用）：
   要么给域名套一层 Cloudflare Access，要么改用 Tunnel 把本机 1080 挂出去：

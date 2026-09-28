@@ -1,0 +1,11 @@
+{
+  // Cloudflare Workers 静态资源部署配置（assets-only Worker，无 main 脚本）。
+  // Cloudflare 构建时以仓库根的 app/ 为 Root directory，因此本文件路径即站点根，
+  // assets.directory "." = 部署 app/ 下全部文件，仓库其余部分（scripts/tests/data）不参与部署。
+  // 详见 README「部署到 Cloudflare」。
+  "name": "neobridge",
+  "compatibility_date": "2026-09-28",
+  "assets": {
+    "directory": "."
+  }
+}

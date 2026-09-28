@@ -1,0 +1,6 @@
+# assets.directory 为 "."，会把整个 app/ 当静态资源上传。
+# 下列文件是部署配置或工具状态，不对外暴露（格式同 .gitignore）。
+# `_headers` 无需列出：wrangler 解析它但不会当资源上传。
+wrangler.jsonc
+.assetsignore
+.wrangler
