@@ -29,6 +29,18 @@ const IS_LEGACY = !document.querySelector('link[rel="manifest"]');
 
 const $ = id => document.getElementById(id);
 
+/**
+ * 标题栏小电视图标兼状态提示：潮流版灰（hover 亮，点按 → legacy.html），
+ * 经典版亮（hover 灰，点按 → index.html，href 已由 build:legacy 改写）。
+ * 模块脚本在 body 末尾执行，DOM 已就绪。
+ */
+const modeSwitch = document.querySelector('.classic-link');
+if (modeSwitch) {
+  modeSwitch.classList.toggle('on', IS_LEGACY);
+  modeSwitch.title = IS_LEGACY ? '当前：经典版 · 点按切回潮流版' : '当前：潮流版 · 点按切换经典版';
+  modeSwitch.setAttribute('aria-label', modeSwitch.title);
+}
+
 /** 初始化/下载失败统一落这里：页面底部的 #detail（默认隐藏） */
 function showError(prefix, err) {
   console.error(err);
@@ -182,12 +194,15 @@ async function renderLists() {
   const rows = await loadDaily(db, days[0], days[days.length - 1]);
   renderWeek($('week-card'), rows, byKey);
 
-  const wrongs = view.payload.words
-    .filter(w => isWrongWord(view.progress[w.k], params))
+  const wrongWords = view.payload.words
+    .filter(w => isWrongWord(view.progress[w.k], params));
+  const entries = wrongWords
     .map(w => ({ k: w.k, lastWrongAt: view.progress[w.k].lastWrongAt ?? 0 }))
     .sort((a, b) => a.lastWrongAt - b.lastWrongAt);
 
-  renderWrongList($('wrong-card'), wrongs, byKey);
+  // 「复练全部」按名单顺序（最久没练在最上）交出去；抽题顺序仍由调度器决定
+  const order = entries.map(e => byKey.get(e.k));
+  renderWrongList($('wrong-card'), entries, byKey, () => startSession(order.length, order));
 }
 
 /* ---------------- 主流程 ---------------- */
@@ -212,14 +227,18 @@ function showPane(name) {
   });
 }
 
-function startSession(size) {
+/**
+ * 开一轮答题。words 默认整包；传子集即"只练这一批"（如强化记忆的错词复练）。
+ * states 永远传全量进度 —— 调度要看完整的掌握度，不只是这批词。
+ */
+function startSession(size, words) {
   if (!view.payload) return;
   const host = $('session-card');
   showHome(false);
 
   openSession({
     db,
-    words: view.payload.words,
+    words: words || view.payload.words,
     baseUrl: view.payload.baseUrl,
     states: view.progress,
     size,
@@ -340,8 +359,11 @@ $('tabs').addEventListener('click', e => {
 });
 
 $('btn-start').onclick = () => {
-  const size = Number($('size').value) || 20;
-  startSession(size);
+  // 题数只有一个来源：HTML 的 <select id="size">（selected 那项即默认）。
+  // 这里只做"值非法就退回第一项"的兜底，不再硬编码第二个默认数字。
+  const sel = $('size');
+  const size = Number(sel.value) || Number(sel.options[0] && sel.options[0].value) || 0;
+  if (size > 0) startSession(size);
 };
 
 boot();

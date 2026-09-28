@@ -132,6 +132,33 @@ export function questionView({ word, baseUrl, flipped, onFlip, onAnswer, onPlay 
   return root;
 }
 
+/**
+ * 让正面词按卡片可用宽度缩到单行：先回到 CSS 的档位封顶，量出自然宽度，
+ * 超出可用宽度就按比例缩小（只缩不放大，永不越过封顶）。
+ * 必须在元素已入 DOM 后调用 —— 要靠布局量宽；session.js 在 append 的同一帧
+ * 调用，用户看不到中间字号。可重复调用（横竖屏切换后按新宽度重算）。
+ * @param {Element} root questionView() 返回的卡片根节点
+ */
+export function fitWord(root) {
+  const el = root.querySelector('.q-word');
+  if (!el) return;
+
+  el.style.fontSize = '';                        // 清掉上次算的，避免重复调用越缩越小
+  const avail = el.clientWidth;                  // 卡片可用宽度（p 是块级，等于容器内宽）
+  if (!avail) return;
+
+  // Range 量的是文本自己的宽度，不受居中对齐 / overflow 裁剪影响
+  const range = document.createRange();
+  range.selectNodeContents(el);
+  const natural = range.getBoundingClientRect().width;
+  if (!(natural > avail)) return;                // 放得下就保持封顶字号
+
+  const cap = parseFloat(getComputedStyle(el).fontSize);  // 当前封顶（px）
+  if (!cap) return;
+  // 向下取 0.1px：宁可小一点点也绝不溢出
+  el.style.fontSize = `${Math.floor(cap * (avail / natural) * 10) / 10}px`;
+}
+
 /** 本轮小结 */
 export function summaryView({ total, counts, wrongWords, onPractice, onExit }) {
   const rows = [

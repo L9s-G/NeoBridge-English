@@ -26,7 +26,7 @@ body {
   padding: 1.5rem 1rem 5.5rem;
 }
 
-/* 标题栏：左标题右经典图标（双入口互跳，见 .classic-link） */
+/* 标题栏：左标题右模式开关（双入口互跳，见 .classic-link） */
 header {
   display: flex;
   align-items: center;
@@ -36,15 +36,23 @@ header {
 .title { margin: 0; font-size: 1.5rem; }
 
 /* 旧版入口图标（标题栏右侧小电视）：href 指向 legacy.html；
-   legacy.html 里由构建改写成指回 index.html */
+   legacy.html 里由构建改写成指回 index.html。
+   颜色就是状态提示 —— app.js 按 IS_LEGACY 给它加 .on：
+     潮流版：默认灰，hover/focus 亮   → 提示"点我进经典版"
+     经典版（.on）：默认亮，hover/focus 灰 → 提示"点我回潮流版"
+   顺序不能换：.on 与 :hover 同特异性，靠后才压得住；.on:hover 特异性最高。
+   :focus 让键盘 Tab 也拿到同一套反馈。 */
 .classic-link {
   display: inline-flex;
   padding: .35rem;
   margin: -.35rem -.35rem 0 0;
   color: var(--text-dim);
+  transition: color .18s ease;   /* 图标 stroke 是 currentColor，跟父元素一起变 */
   -webkit-tap-highlight-color: transparent;
 }
-.classic-link:hover { color: var(--accent); }
+.classic-link:hover, .classic-link:focus { color: var(--accent); }
+.classic-link.on { color: var(--accent); }
+.classic-link.on:hover, .classic-link.on:focus { color: var(--text-dim); }
 
 /* 只在设置区显示（跟着 pane 走），下边距按 pane 内间距调 */
 .sub {
@@ -245,18 +253,23 @@ select {
 
 .q { text-align: center; }
 
-/* 词长 4 档 × 视口宽度：长短语不再撑破窄屏。
-   clamp() 要 Safari 13.1+ —— 旧浏览器忽略第二行、用第一行的静态值 */
+/* 词长字号：档位只给「封顶」，实际字号由 ui/views.js 的 fitWord() 按可用
+   宽度缩到单行（append 同帧算完，看不到中间值；横竖屏切换会重算）。
+   每条两行 font-size：第二行 clamp() 要 Safari 13.1+ —— 旧浏览器忽略它、用
+   第一行；JS 没跑（或失败）时这就是兜底，nowrap + 省略号也不让卡片被撑破。 */
 .q-word {
   margin: .5rem 0 .2rem;
-  font-size: 1.7rem;
-  font-size: clamp(1.7rem, 7vw, 2.5rem);
+  font-size: 2.5rem;
+  font-size: clamp(1.7rem, 9vw, 2.5rem);
   font-weight: 600;
-  word-break: break-word;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
-.q-word.len-s  { font-size: 2rem;   font-size: clamp(2rem,   8vw,   3rem); }
-.q-word.len-l  { font-size: 1.3rem; font-size: clamp(1.3rem, 5.5vw, 2rem); }
-.q-word.len-xl { font-size: 1rem;   font-size: clamp(1rem,   4vw,   1.5rem); }
+.q-word.len-s  { font-size: 3rem;    font-size: clamp(2rem,   10vw, 3rem); }
+.q-word.len-m  { font-size: 2.75rem; font-size: clamp(1.9rem, 9.5vw, 2.75rem); }
+.q-word.len-l  { font-size: 2.5rem;  font-size: clamp(1.7rem, 9vw,  2.5rem); }
+.q-word.len-xl { font-size: 2.25rem; font-size: clamp(1.4rem, 8vw,  2.25rem); }
 
 .summary .q-word { font-size: 1.3rem; }
 

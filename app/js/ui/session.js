@@ -16,7 +16,15 @@ import { createState, markSeen } from '../core/progress.js';
 import { buildQueue } from '../core/queue.js';
 import { saveDaily, saveProgress } from '../db/stores.js';
 import { playAudio } from './audio-download.js';
-import { h, questionView, replaceChildren, summaryView } from './views.js';
+import { fitWord, h, questionView, replaceChildren, summaryView } from './views.js';
+
+/** 当前题卡根节点；横竖屏 / 窗口变宽后按新可用宽度重算字号（模块级只挂一个监听） */
+let activeCard = null;
+if (typeof window !== 'undefined') {
+  window.addEventListener('resize', () => {
+    if (activeCard) fitWord(activeCard);
+  });
+}
 
 /**
  * @param {object} opts.db        IndexedDB 连接
@@ -109,6 +117,7 @@ export function openSession({
 
     if (index >= queue.length) {
       const data = summary();
+      activeCard = null;
       host.append(summaryView({
         ...data,
         onPractice: practice,
@@ -117,17 +126,17 @@ export function openSession({
       return;
     }
 
-    host.append(
-      header(),
-      questionView({
-        word: byKey.get(queue[index].k),
-        baseUrl,
-        flipped,
-        onFlip: () => { flipped = true; paint(); },
-        onAnswer: answer,
-        onPlay,
-      }),
-    );
+    const card = questionView({
+      word: byKey.get(queue[index].k),
+      baseUrl,
+      flipped,
+      onFlip: () => { flipped = true; paint(); },
+      onAnswer: answer,
+      onPlay,
+    });
+    host.append(header(), card);
+    activeCard = card;
+    fitWord(card);   // 入 DOM 后立刻按可用宽度缩到单行（同帧，无闪变）
   }
 
   start(words, size);

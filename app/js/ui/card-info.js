@@ -50,7 +50,8 @@ export function showGrouping(word) {
   return distinctPos(word).length > 1;
 }
 
-/** 正面词的字号档：按词长分 4 档，配合 CSS 里的 clamp() 做流体字号 */
+/** 正面词的字号档：按词长分 4 档，档位只决定字号「封顶」（app.css .q-word）；
+ *  超出卡片可用宽度时由 views.js 的 fitWord() 再按宽度缩小到单行 */
 export function lenClass(word) {
   const n = (word?.w || '').length;
   if (n <= 6) return 'len-s';

@@ -817,6 +817,20 @@
     ));
     return root;
   }
+  function fitWord(root) {
+    const el = root.querySelector(".q-word");
+    if (!el) return;
+    el.style.fontSize = "";
+    const avail = el.clientWidth;
+    if (!avail) return;
+    const range = document.createRange();
+    range.selectNodeContents(el);
+    const natural = range.getBoundingClientRect().width;
+    if (!(natural > avail)) return;
+    const cap = parseFloat(getComputedStyle(el).fontSize);
+    if (!cap) return;
+    el.style.fontSize = "".concat(Math.floor(cap * (avail / natural) * 10) / 10, "px");
+  }
   function summaryView({ total, counts, wrongWords, onPractice, onExit }) {
     const rows = [
       ["\u5B8C\u6210\u9898\u6570", String(total)],
@@ -952,9 +966,21 @@
     if (count) title.append(collapsible(head, body));
     return h("div", { class: "day-card" + (count ? "" : " empty") }, head, body);
   }
-  function renderWrongList(card, entries, byKey) {
+  function renderWrongList(card, entries, byKey, onPractice) {
     const title = h("h2", null, entries.length ? "\u5F3A\u5316\u8BB0\u5FC6 \xB7 ".concat(entries.length) : "\u5F3A\u5316\u8BB0\u5FC6");
-    const head = h("div", { class: "day-head wrong-head" }, title);
+    const head = h(
+      "div",
+      { class: "day-head wrong-head" },
+      title,
+      entries.length && onPractice ? h("button", {
+        class: "btn ghost",
+        // 头部整体可点（折叠），按钮必须拦住冒泡，否则点了会顺带展开
+        onclick: (e) => {
+          e.stopPropagation();
+          onPractice();
+        }
+      }, "\u590D\u7EC3\u5168\u90E8") : null
+    );
     const body = entries.length ? h(
       "ul",
       { class: "wrong-full" },
@@ -1041,6 +1067,12 @@
   }
 
   // app/js/ui/session.js
+  var activeCard = null;
+  if (typeof window !== "undefined") {
+    window.addEventListener("resize", () => {
+      if (activeCard) fitWord(activeCard);
+    });
+  }
   function openSession({
     db: db2,
     words,
@@ -1116,6 +1148,7 @@
       replaceChildren(host);
       if (index >= queue.length) {
         const data = summary();
+        activeCard = null;
         host.append(summaryView({
           ...data,
           onPractice: practice,
@@ -1123,20 +1156,20 @@
         }));
         return;
       }
-      host.append(
-        header(),
-        questionView({
-          word: byKey.get(queue[index].k),
-          baseUrl,
-          flipped,
-          onFlip: () => {
-            flipped = true;
-            paint();
-          },
-          onAnswer: answer,
-          onPlay
-        })
-      );
+      const card = questionView({
+        word: byKey.get(queue[index].k),
+        baseUrl,
+        flipped,
+        onFlip: () => {
+          flipped = true;
+          paint();
+        },
+        onAnswer: answer,
+        onPlay
+      });
+      host.append(header(), card);
+      activeCard = card;
+      fitWord(card);
     }
     start(words, size);
   }
@@ -1146,6 +1179,12 @@
   var params = withParams();
   var IS_LEGACY = !document.querySelector('link[rel="manifest"]');
   var $ = (id) => document.getElementById(id);
+  var modeSwitch = document.querySelector(".classic-link");
+  if (modeSwitch) {
+    modeSwitch.classList.toggle("on", IS_LEGACY);
+    modeSwitch.title = IS_LEGACY ? "\u5F53\u524D\uFF1A\u7ECF\u5178\u7248 \xB7 \u70B9\u6309\u5207\u56DE\u6F6E\u6D41\u7248" : "\u5F53\u524D\uFF1A\u6F6E\u6D41\u7248 \xB7 \u70B9\u6309\u5207\u6362\u7ECF\u5178\u7248";
+    modeSwitch.setAttribute("aria-label", modeSwitch.title);
+  }
   function showError(prefix, err) {
     console.error(err);
     const el = $("detail");
@@ -1272,11 +1311,13 @@
     const days = lastDays(7);
     const rows = await loadDaily(db, days[0], days[days.length - 1]);
     renderWeek($("week-card"), rows, byKey);
-    const wrongs = view.payload.words.filter((w) => isWrongWord(view.progress[w.k], params)).map((w) => {
+    const wrongWords = view.payload.words.filter((w) => isWrongWord(view.progress[w.k], params));
+    const entries = wrongWords.map((w) => {
       var _a;
       return { k: w.k, lastWrongAt: (_a = view.progress[w.k].lastWrongAt) != null ? _a : 0 };
     }).sort((a, b) => a.lastWrongAt - b.lastWrongAt);
-    renderWrongList($("wrong-card"), wrongs, byKey);
+    const order = entries.map((e) => byKey.get(e.k));
+    renderWrongList($("wrong-card"), entries, byKey, () => startSession(order.length, order));
   }
   function renderStart() {
     $("start-card").hidden = !view.payload;
@@ -1293,13 +1334,13 @@
       pane.hidden = pane.id !== "pane-".concat(name);
     });
   }
-  function startSession(size) {
+  function startSession(size, words) {
     if (!view.payload) return;
     const host = $("session-card");
     showHome(false);
     openSession({
       db,
-      words: view.payload.words,
+      words: words || view.payload.words,
       baseUrl: view.payload.baseUrl,
       states: view.progress,
       size,
@@ -1402,8 +1443,9 @@
     if (btn) showPane(btn.dataset.tab);
   });
   $("btn-start").onclick = () => {
-    const size = Number($("size").value) || 20;
-    startSession(size);
+    const sel = $("size");
+    const size = Number(sel.value) || Number(sel.options[0] && sel.options[0].value) || 0;
+    if (size > 0) startSession(size);
   };
   boot();
 })();

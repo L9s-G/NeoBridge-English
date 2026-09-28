@@ -23,10 +23,17 @@ SMOKE_PATH=legacy.html npm run smoke   # 冒烟旧版入口
 
 ## 纪律（违反 = 测试红，或线上白屏）
 
+**Git 红线（优先于下面所有条目）：**
+
+0a. **用户没有明确同意 commit 前，一律不提交**。改完只留在工作区，
+    报告改了什么、测试/冒烟结果，等用户自己验完质量并明确说"可以 commit"。
+0b. **禁止 `git push`**。push 即部署到 Cloudflare，会绕过用户的人工验证 ——
+    无论用户怎么描述"发版/上线"，push 一律由用户手动执行，agent 不代劳。
+
 1. **改了 `app/js/**` 或 `app/index.html` → 必须 `npm run build:legacy`**。
    `tests/legacy.test.js` 会现场重新构建并与入库产物比对，忘了跑直接测试失败。
-2. **发版必须 bump `app/sw.js` 里的 `SHELL_CACHE` 版本号**（v15 → v16…），
-   否则老用户外壳不刷新，改动静默不生效。
+2. **发版必须 bump `app/sw.js` 里的 `SHELL_CACHE` 版本号**（`neobridge-shell-vNN` 的 NN +1，
+   当前 v18），否则老用户外壳不刷新（shell 是 cache-first），改动静默不生效。
 3. **`app/sw.js` 的 `SHELL` 预缓存清单要盖住所有入口用到的模块**：
    新增 `app/js/core/*.js` 这类被 import 的文件时，记得同步加进去（如 `./js/core/sha256.js`）。
 4. **`app/legacy.html`、`app/legacy.js` 是构建输出，勿手改**；它们入库提交，
@@ -74,7 +81,9 @@ esbuild 的保守数据会认为 Safari 12 不支持解构、直接报错，实�
 2. 动过 `app/js` / `index.html` → `npm run build:legacy`
 3. bump `SHELL_CACHE` 版本号（改 `app/sw.js`）
 4. `npm start` 起服务 → `npm run smoke` 与 `SMOKE_PATH=legacy.html npm run smoke` 双双 `errors: none`
-5. `git add`（**包含产物 `app/legacy.*`**）→ commit → push（push 即自动部署到 Cloudflare）
+5. `git add`（**包含产物 `app/legacy.*`**）→ **停在这里**：
+   commit 前先让用户验完这一轮修改；用户明确同意后才 commit。
+   **不 push** —— push 会触发部署，由用户手动执行。
 6. 回归：真机 iOS 12 人工过一遍旧版入口（CI 模拟不了 Safari 12；
    残余风险是 iOS 12 的 IndexedDB 怪癖 —— 白屏先查 console SyntaxError 再查 IDB）
 

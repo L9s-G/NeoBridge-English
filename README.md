@@ -1,4 +1,4 @@
-# EVP B1/B2 离线背词 PWA
+# NeoBridge English（EVP B1/B2 离线背词 PWA）
 
 从 [English Vocabulary Profile Online](https://englishprofile.org/?menu=evp-online) 抓取 CEFR **B1 + B2** 等级的
 7101 条词条，落盘为本地 SQLite，再打成纯前端 PWA 的离线词包，
@@ -50,9 +50,9 @@
 │   │   │   └── sha256.js       纯 JS SHA-256（crypto.subtle 不可用时的校验兜底）
 │   │   ├── ui/             答题界面
 │   │   │   ├── session.js      状态与流程：作答 → 落库 → 重画
-│   │   │   ├── views.js        只把状态画成 DOM，无状态判断（含 replaceChildren 兼容实现）
+│   │   │   ├── views.js        只把状态画成 DOM，无状态判断（replaceChildren 兼容实现 + fitWord 宽度自适应）
 │   │   │   ├── audio-download.js 发音：缓存下载、进度、正面 🔊 播放
-│   │   │   └── lists.js        首页清单：7 天卡片 + 错词名单 + 一键复制
+│   │   │   └── lists.js        首页清单：7 天卡片 + 错词名单（一键复练）+ 一键复制
 │   │   └── db/             本地存储与 DLC 管理
 │   │       ├── idb.js          IndexedDB 的 Promise 封装
 │   │       ├── stores.js       库结构 + 读写接口
@@ -326,7 +326,7 @@ clean : On Wednesday morning ... to see the Vatican.
 ### PWA 离线
 
 - `app/sw.js` 三个缓存：
-  - `neobridge-shell-v15`（页面与代码），install 时预缓存；
+  - `neobridge-shell-v<N>`（页面与代码，`N` 见 `sw.js` 的 `SHELL_CACHE`），install 时预缓存；
   - `neobridge-pack-<sha256>`（词包正文），install 时预缓存，并清掉别的词包缓存；
   - `neobridge-audio-v1`（发音 mp3，约 23 MB）——**不预缓存、不随发版删除**，
     由设置页「下载全部发音」逐个写入，SW 只负责把 `/audio/*` 的读写都路由到这里，
@@ -353,7 +353,11 @@ iOS 12（Safari 12）上整页白屏的真凶是 **`?.` / `??` 语法**（Safari
 `legacy.html` 双入口：源码保持现代写法，旧浏览器兼容由构建保证。
 
 站内统一叫法：**潮流版** = `index.html`（默认 PWA 入口）、**经典版** = `legacy.html`；
-标题栏右侧的「经典小电视」图标（`.classic-link`）双向互跳，title 分别为「经典版」「潮流版」。
+标题栏右侧的「经典小电视」图标（`.classic-link`）双向互跳，**图标本身兼作模式提示**：
+潮流版里默认灰、hover/focus 亮（提示"点我进经典版"）；经典版里默认亮、hover/focus 灰
+（提示"点我回潮流版"）。`app.js` 按 `IS_LEGACY` 加 `.on` 决定默认色，`title` 启动时改成
+「当前：潮流版 · 点按切换经典版 / 当前：经典版 · 点按切回潮流版」（HTML 里的静态
+`title`/`aria-label` 仍是兜底文案）。
 
 - **入口差异**：潮流版 `index.html` 带 manifest → 注册 SW；经典版 `legacy.html` 无
   manifest ⇒ `app.js` 的 `IS_LEGACY` 为真 ⇒ **不注册 SW、整块隐藏「下载全部发音」卡**
@@ -425,7 +429,7 @@ iOS 12（Safari 12）上整页白屏的真凶是 **`?.` / `??` 语法**（Safari
 
 决定"下一个出哪个词"。**纯函数、无 IO**，`words` / `states` / `coverage` /
 `sessionSeen` / `rng` / `now` 全部由调用方注入，所以 `npm test` 能直接在
-Node 里跑单测与全量模拟（64 项）。
+Node 里跑单测与全量模拟（全 72 项）。
 
 ### 抽一个词的四步
 
@@ -498,10 +502,13 @@ Node 里跑单测与全量模拟（64 项）。
 | 未翻面 | 只出词 + 音标 + 喇叭（有本地发音是播放按钮，没有则回落 YouGlish 链接），**不给任何释义** | 「开」→ 翻面 |
 | 已翻面 | 正面 + 全部义项 + guide + 例句 | 熟悉 → `right`，一般 → `fuzzy`，标记 → `wrong` |
 
-- 一轮固定题数（10 / 20 / 50），**标完一档直接进下一题**（`answer()` 落库后调 `next()`），
+- 一轮固定题数（10 / 20 / 50，**唯一来源是 `index.html` 的 `#size` 下拉**，`app.js` 不再另写默认值），
+  **标完一档直接进下一题**（`answer()` 落库后调 `next()`），
   中途没有"已记录 / 下一步"确认页，最后一题标完直接出小结
 - 每答一题**先写 `progress` 再写 `daily`，两个都落库才翻页**，中途关页面也不会丢这一题
 - 结束出小结：三档计数 + 标记的词清单，可**一键重练这些词**（队列只从这些词里抽）
+- 进度区「强化记忆」名单另有**「复练全部」**：题数 = 名单长度，队列只从名单里抽，
+  走同一条 `openSession({ words, size })` 路径（`app.js` 的 `startSession(size, words)` 接受任意词子集）
 - 进度按 `wordKey` 落 `progress` 仓库，刷新、换包、删除重下都不会丢
 
 ### 发音（`ui/audio-download.js`）
@@ -558,14 +565,16 @@ checkpoint 里有官方文件名（`ukdrive028` / `uka30019` / `ukinfec024` / `u
 **最近 7 天**：`core/day.js` 的 `lastDays(7, now)` 生成 7 张卡（**新 → 旧，第一张是今天**，越往下越早），
 数据来自 `daily` 仓库。卡内排序是**错的排前面，其次按作答时间从早到晚**，
 答错的用红色圆点 `●` 标记。标题显示当天作答数（`9月28日 周一（今天） · 10`），
-**有词的卡默认折叠**（点标题展开，`▸`/`▾` 标方向；空卡只有一行「未复习」，不折叠）。
+**有词的卡默认折叠**（点标题展开，`▸`/`▾` 标方向；空卡只剩标题行、整卡加 `.day-card.empty` 淡显，不折叠）。
 「复制」按钮 `stopPropagation`，点它只复制、不展开。产出
 
 ```
 word1; word2; word3      # 分号 + 空格，直接粘进背单词工具
 ```
 
-**错词名单**：标题 `错词 · N`，同样默认折叠、点标题展开。判定规则是 `pools.js` 里的
+**强化记忆（错词名单）**：标题 `强化记忆 · N`（空名单只有标题 + 一行「暂无」），
+同样默认折叠、点标题展开。卡头右侧有**「复练全部」**按钮（`stopPropagation`，
+点了只开一轮、不碰折叠）。判定规则是 `pools.js` 里的
 
 ```js
 isWrongWord(state, params) = state.wrongs > 0 && state.rightStreak < params.recoverStreak
@@ -573,7 +582,10 @@ isWrongWord(state, params) = state.wrongs > 0 && state.rightStreak < params.reco
 
 - 错**一次**即入列；**连对 `recoverStreak`（默认 2）次**才出列
 - 名单与调度**共用同一条判断**（`poolOf` 也调用它），不会出现「名单要练、调度却不出」的分裂
-- 按 `lastWrongAt` 从旧到新排，最久没练的在最上面
+- 按 `lastWrongAt` 从旧到新排，最久没练的在最上面（只有答错才刷新 `lastWrongAt`，
+  答对/答一般不改名次，再答错一次才跳到列表末尾）
+- 「复练全部」的题数 = 名单长度、队列只从名单里抽；**抽题顺序仍由调度器加权随机**，
+  不是列表顺序（列表顺序只是"从谁开始/阅读顺序"）
 - 恢复后该词**仍留在 7 天卡片里**——卡片记录事实，名单只反映「现在该不该重练」
 
 ### 题队列为什么一次抽完
@@ -588,11 +600,11 @@ isWrongWord(state, params) = state.wrongs > 0 && state.rightStreak < params.reco
 |---|---|
 | `core/queue.js` | 抽一整轮（纯函数，`rng` 注入，单测覆盖） |
 | `core/day.js` | 日历工具（纯函数，字符串日期，不受时区影响） |
-| `ui/session.js` | 状态与流程：作答 → 更新进度 → 落库（`progress` + `daily`）→ 直接跳下一题 |
-| `ui/views.js` | 只把状态画成 DOM，无状态判断；**全部走 `textContent`**（中文释义将来来自 LLM，不能当 HTML 解析）；卡面文案与派生数据由 `ui/card-info.js` 算 |
-| `ui/lists.js` | 首页两个清单的标题、当天数量、折叠状态与一键复制 |
+| `ui/session.js` | 状态与流程：作答 → 更新进度 → 落库（`progress` + `daily`）→ 直接跳下一题；`append` 后同帧调 `fitWord()`，横竖屏切换重算 |
+| `ui/views.js` | 只把状态画成 DOM，无状态判断；**全部走 `textContent`**（中文释义将来来自 LLM，不能当 HTML 解析）；卡面文案与派生数据由 `ui/card-info.js` 算；`fitWord()` 按卡片可用宽度把正面词缩到单行（`lenClass` 只给字号封顶） |
+| `ui/lists.js` | 首页两个清单的标题、折叠状态、一键复制，以及错词名单的「复练全部」入口 |
 | `ui/audio-download.js` | 发音：清单（来自词包 `a`）、批量下载进 Cache Storage、正面 🔊 播放 |
-| `app.js` | 首页 ↔ 答题页切换，退出时刷新统计与清单 |
+| `app.js` | 首页 ↔ 答题页切换，退出时刷新统计与清单；`startSession(size, words)` 接受任意词子集（整包 / 错词名单） |
 
 ## 抓取方法（为什么这么做）
 

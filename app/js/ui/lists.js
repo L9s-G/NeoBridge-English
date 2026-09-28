@@ -128,10 +128,20 @@ function dayCard(day, items, byKey, isToday) {
  * @param {object} card    #wrong-card 整个卡片（标题数量也由这里画）
  * @param {Array} entries  [{k, lastWrongAt}]，已按 lastWrongAt 升序
  *                        （最久没练的排最上面）
+ * @param {Map}    byKey   wordKey → 词
+ * @param {Function} [onPractice] 「复练全部」：用整份名单开一轮答题；不传则不画按钮
  */
-export function renderWrongList(card, entries, byKey) {
+export function renderWrongList(card, entries, byKey, onPractice) {
   const title = h('h2', null, entries.length ? `强化记忆 · ${entries.length}` : '强化记忆');
-  const head = h('div', { class: 'day-head wrong-head' }, title);
+  const head = h('div', { class: 'day-head wrong-head' }, title,
+    entries.length && onPractice
+      ? h('button', {
+          class: 'btn ghost',
+          // 头部整体可点（折叠），按钮必须拦住冒泡，否则点了会顺带展开
+          onclick: e => { e.stopPropagation(); onPractice(); },
+        }, '复练全部')
+      : null,
+  );
 
   const body = entries.length
     ? h('ul', { class: 'wrong-full' },
