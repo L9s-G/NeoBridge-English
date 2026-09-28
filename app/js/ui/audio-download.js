@@ -14,7 +14,7 @@
  */
 
 // 同 app/sw.js 的 AUDIO_CACHE（sw.js 不能 import 模块）
-export const AUDIO_CACHE = 'niubridge-audio-v1';
+export const AUDIO_CACHE = 'neobridge-audio-v1';
 
 const MIN_BYTES = 500;
 

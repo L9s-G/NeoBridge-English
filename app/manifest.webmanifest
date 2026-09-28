@@ -1,6 +1,6 @@
 {
-  "name": "牛Bridge 英语",
-  "short_name": "牛Bridge",
+  "name": "NeoBridge English",
+  "short_name": "NeoBridge",
   "description": "离线背词：EVP B1/B2 词库，自适应调度",
   "lang": "zh-CN",
   "start_url": "./index.html",

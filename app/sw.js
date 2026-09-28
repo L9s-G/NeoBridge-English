@@ -12,10 +12,10 @@
  * 所以 SW 缓存过期最多少拿一次，不会读到损坏数据。
  */
 
-const SHELL_CACHE = 'niubridge-shell-v14';   // ← 发版时改这里（v14：词包数据改网络优先，发音卡错误态提示）
-const PACK_CACHE_PREFIX = 'niubridge-pack-';
+const SHELL_CACHE = 'neobridge-shell-v14';   // ← 发版时改这里（v14：词包数据改网络优先，发音卡错误态提示）
+const PACK_CACHE_PREFIX = 'neobridge-pack-';
 // 与 app/js/ui/audio-download.js 里的 AUDIO_CACHE 保持一致（sw.js 是经典脚本，不能 import）
-const AUDIO_CACHE = 'niubridge-audio-v1';
+const AUDIO_CACHE = 'neobridge-audio-v1';
 
 const SHELL = [
   './',
@@ -75,7 +75,7 @@ self.addEventListener('activate', event => {
     const names = await caches.keys();
     await Promise.all(
       names
-        .filter(n => n.startsWith('niubridge-shell-') && n !== SHELL_CACHE)
+        .filter(n => n.startsWith('neobridge-shell-') && n !== SHELL_CACHE)
         .map(n => caches.delete(n)),
     );
     await self.clients.claim();

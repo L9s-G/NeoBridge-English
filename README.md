@@ -316,9 +316,9 @@ clean : On Wednesday morning ... to see the Vatican.
 ### PWA 离线
 
 - `app/sw.js` 三个缓存：
-  - `niubridge-shell-v14`（页面与代码），install 时预缓存；
-  - `niubridge-pack-<sha256>`（词包正文），install 时预缓存，并清掉别的词包缓存；
-  - `niubridge-audio-v1`（发音 mp3，约 23 MB）——**不预缓存、不随发版删除**，
+  - `neobridge-shell-v14`（页面与代码），install 时预缓存；
+  - `neobridge-pack-<sha256>`（词包正文），install 时预缓存，并清掉别的词包缓存；
+  - `neobridge-audio-v1`（发音 mp3，约 23 MB）——**不预缓存、不随发版删除**，
     由设置页「下载全部发音」逐个写入，SW 只负责把 `/audio/*` 的读写都路由到这里，
     这样换 `SHELL_CACHE` 版本号不会连坐清掉音频。
 - **`/data/*.json` 走网络优先**（`handle()` → `networkFirst()`）：缓存里的旧
@@ -479,7 +479,7 @@ checkpoint 里有官方文件名（`ukdrive028` / `uka30019` / `ukinfec024` / `u
 
 - **正面 🔊**：义项 `a` 有值就播 `app/audio/<a>.mp3`；同一张卡有多个 `a`（如 `increase`
   名词/动词重音不同）会轮流播。离线且没下载时给一句提示，不跳外链。
-- **设置 → 发音**：「下载全部发音」把清单逐个写进 `niubridge-audio-v1` 缓存，
+- **设置 → 发音**：「下载全部发音」把清单逐个写进 `neobridge-audio-v1` 缓存，
   进度条实时刷新，**已存在的直接跳过**，中断后重跑同一次点击即可续传。
 - 用 Cache Storage 而不是 IndexedDB：Service Worker 拦同源 GET 就能直接回，
   播放不用先把字节读出来拼 Blob。

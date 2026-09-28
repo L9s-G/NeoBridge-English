@@ -13,7 +13,7 @@
 
 import { del, getAll, getAllByIndex, getAllKeys, get, openDB, put, withTx } from './idb.js';
 
-export const DB_NAME = 'niubridge';
+export const DB_NAME = 'neobridge';
 /** v2：新增 daily 仓库（按天的复习清单） */
 export const DB_VERSION = 2;
 

@@ -75,7 +75,7 @@ server.listen(PORT, HOST, () => {
     .flat()
     .filter(n => n && n.family === 'IPv4' && !n.internal)
     .map(n => n.address);
-  console.log(`\n  牛Bridge 英语  →  http://localhost:${PORT}/`);
+  console.log(`\n  NeoBridge English  →  http://localhost:${PORT}/`);
   for (const ip of lan) console.log(`  局域网        →  http://${ip}:${PORT}/`);
   console.log(`  服务目录       →  ${ROOT}`);
   console.log(`  监听           →  ${HOST}:${PORT}`);
