@@ -3,7 +3,7 @@
   "short_name": "NeoBridge",
   "description": "离线背词：EVP B1/B2 词库，自适应调度",
   "lang": "zh-CN",
-  "start_url": "./index.html",
+  "start_url": "./",
   "scope": "./",
   "display": "standalone",
   "orientation": "portrait",

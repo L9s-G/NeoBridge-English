@@ -62,10 +62,13 @@ export function buildLegacyHtml(modernHtml) {
     '<script src="./legacy.js"></script>',
     'module script',
   );
-  // 标题栏右侧的经典图标：潮流版指向 legacy.html（经典版），经典版里反过来指回潮流版
+  // 标题栏右侧的经典图标：潮流版指向 legacy.html（经典版），经典版里反过来指回潮流版。
+  // 回潮流版一律用根路径 "./"，**不要写 ./index.html** —— 边缘（Cloudflare auto-traffic）
+  // 会把 .html 307 到无扩展名路径，而 SW 里导航请求的 redirect mode 是 manual，
+  // 拿到 opaqueredirect 会被浏览器判成网络错误（整页白屏）。根路径各服务器都直接 200。
   swap(
     /class="classic-link" href="\.\/legacy\.html" title="[^"]*" aria-label="[^"]*"/,
-    'class="classic-link" href="./index.html" title="潮流版" aria-label="潮流版入口"',
+    'class="classic-link" href="./" title="潮流版" aria-label="潮流版入口"',
     'classic-link 双入口图标',
   );
   return html;

@@ -363,6 +363,24 @@ iOS 12（Safari 12）上整页白屏的真凶是 **`?.` / `??` 语法**（Safari
   manifest ⇒ `app.js` 的 `IS_LEGACY` 为真 ⇒ **不注册 SW、整块隐藏「下载全部发音」卡**
   （发音只在线播，卡片正面 🔊 直接指向同源 mp3）。小电视图标在经典版里由构建
   改写为指回潮流版（href + title + aria-label 一并改写）。
+- **入口 URL 一律不带 `.html`**：经典版回潮流版的 href 是 `./`，`manifest` 的
+  `start_url` 也是 `./`。原因在边缘 —— Cloudflare Workers Static Assets 的
+  `html_handling` 默认 `auto-traffic`，会把 `/index.html` **307 重写**到 `/`、
+  把 `/legacy.html` 307 到 `/legacy`（所以经典版的真实地址是 `/legacy`）。
+  少一跳就少一个坑；`tests/legacy.test.js` 有断言盯着（`start_url` 与两个 href）。
+  `tests/legacy.test.js` 有断言盯着（`start_url` 与两个入口的 href）。
+- **SW 导航兜底 `asNavigation()`**：跳转本身不致命，致命的是被跳转**污染过的缓存**。
+  导航请求的 redirect mode 是 `manual`，浏览器规定：响应只要带 `redirected` 标志就判成
+  网络错误，整页白屏，console 报
+  `The FetchEvent for "…" resulted in a network error response: a redirected response
+  was used for a request whose redirect mode is not "follow"`。
+  而 `installAll()` 里 `addAll(['./index.html'])` 跟过 307 之后，缓存里那条
+  `/index.html` 就带着这个标志，之后每次导航命中它都白屏（`/index.html` 是重灾区；
+  `/legacy.html` 没进预缓存清单，只是运行时才可能中招）。反过来，
+  `fetch(request)` 拿到的 `opaqueredirect` 是**合法**的，浏览器会自己去跟跳转。
+  所以 `handle()` 三个返回点（缓存命中 / 网络结果 / 离线兜底）都过一遍
+  `asNavigation()`：导航请求 + `redirected` 响应就重建成干净的副本。
+  以后换任何服务器（防火墙、网关、别的静态托管）来 3xx 都不会再白屏。
 - **构建**：`npm run build:legacy` 用 esbuild 把 `js/app.js` 整棵模块图打成
   `legacy.js`（iife、`target=safari12`，`?.`/`??` 机械降级），`legacy.html` 由
   `index.html` 派生。**产物入库，Cloudflare 照旧零构建部署**；data/audio 不复制，

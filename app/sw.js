@@ -12,14 +12,16 @@
  * 所以 SW 缓存过期最多少拿一次，不会读到损坏数据。
  */
 
-const SHELL_CACHE = 'neobridge-shell-v20';   // ← 发版时改这里（v20：llm 开发测试页不进缓存）
+const SHELL_CACHE = 'neobridge-shell-v21';   // ← 发版时改这里（v21：入口/PWA 启动改用根路径 / + 导航响应洗掉 redirected 标志）
 const PACK_CACHE_PREFIX = 'neobridge-pack-';
 // 与 app/js/ui/audio-download.js 里的 AUDIO_CACHE 保持一致（sw.js 是经典脚本，不能 import）
 const AUDIO_CACHE = 'neobridge-audio-v1';
 
+// 预缓存清单：**只列规范 URL**。入口一律是根路径 `/`，不要再加 './index.html'
+// —— 那份是同一页面的重复条目，而且边缘若对 .html 回 3xx，addAll 跟过去存下的
+// 响应带 redirected 标志，会给导航埋雷（见下面 asNavigation 的注释）。
 const SHELL = [
   './',
-  './index.html',
   './app.css',
   './manifest.webmanifest',
   './icon.svg',
@@ -100,7 +102,7 @@ async function handle(request) {
   if (isDataUrl(request.url)) return networkFirst(request);
 
   const hit = await caches.match(request, { ignoreSearch: true });
-  if (hit) return hit;
+  if (hit) return asNavigation(request, hit);
 
   try {
     const res = await fetch(request);
@@ -109,15 +111,36 @@ async function handle(request) {
       const cache = await caches.open(isAudioUrl(request.url) ? AUDIO_CACHE : SHELL_CACHE);
       await cache.put(request, res.clone());
     }
-    return res;
+    // 导航请求拿到的是 opaqueredirect —— 合法，浏览器会自己去跟这个跳转。
+    // asNavigation 主要救的是下面这条：缓存里存着跟过 3xx 的响应（redirected=true）。
+    return asNavigation(request, res);
   } catch (err) {
-    // 离线导航兜底到外壳
+    // 离线导航兜底到外壳（清单里只有规范 URL 这一个入口页）
     if (request.mode === 'navigate') {
-      const shell = await caches.match('./index.html');
-      if (shell) return shell;
+      const shell = await caches.match('./');
+      if (shell) return asNavigation(request, shell);
     }
     throw err;
   }
+}
+
+/**
+ * 给导航请求用的响应「洗掉」redirected 标志。
+ *
+ * 导航请求的 redirect mode 是 manual，浏览器规定：响应只要带 redirected 标志，
+ * 就判成网络错误 —— 白屏，console 报
+ *   The FetchEvent for "…" resulted in a network error response: a redirected
+ *   response was used for a request whose redirect mode is not "follow".
+ * 边缘（Cloudflare auto-traffic 会把 /index.html 307 到 /、/legacy.html 307 到
+ * /legacy；某些防火墙/网关也会 3xx）随时可能给路径回跳转。凡是**跟着 3xx 存进缓存**
+ * 的响应都带着这个标志（install 的 addAll、运行时 cache.put 都会），之后导航命中
+ * 它就白屏。所以这里把响应重建成一个干净的（redirected=false）副本 —— 入口本身用
+ * 规范 URL（`./`）是第一道防线，这一层是第二道。
+ * 非导航请求原样返回（子资源用 manual 之外的 redirect mode 不受影响）。
+ */
+function asNavigation(request, res) {
+  if (request.mode !== 'navigate' || !res.redirected) return res;
+  return new Response(res.body, { status: res.status, statusText: res.statusText, headers: res.headers });
 }
 
 async function networkFirst(request) {

@@ -41,11 +41,21 @@ SMOKE_PATH=legacy.html npm run smoke   # 冒烟旧版入口
 5. **双入口语义别破坏**：`app.js` 里 `IS_LEGACY = !document.querySelector('link[rel="manifest"]')`。
    legacy.html 不带 manifest ⇒ 不注册 SW、隐藏「下载全部发音」卡（发音只在线播）。
    不要给 legacy.html 加 manifest，也不要让它注册 SW；标题栏的双入口互跳图标（`.classic-link`）别删
-   （新版指向 legacy.html，`build:legacy` 会把旧版页面里的 href 改写为指回 index.html）。
+   （新版指向 legacy.html，`build:legacy` 会把旧版页面里的 href 改写为根路径 `./`）。
 6. **发音缓存名两处手工同步**：`app/js/ui/audio-download.js` 的 `AUDIO_CACHE` 与
    `app/sw.js` 的 `AUDIO_CACHE`（sw.js 是经典脚本不能 import，只能人肉一致）。
 7. **动文件前先重读 / `git diff`**：本仓库常有人工并发编辑（品牌名、缓存前缀之类），
    别基于过期的文件内容做编辑。
+8. **入口 URL 不写 `.html`**：经典版回潮流版用 `./`，`manifest.webmanifest` 的
+   `start_url` 也用 `./`。Cloudflare 的 `html_handling` 默认 `auto-traffic` 会把
+   `/index.html` 307 到 `/`、`/legacy.html` 307 到 `/legacy`。`tests/legacy.test.js`
+   有断言盯着，别把它改回 `index.html`。
+9. **SW 里给导航用的响应必须过 `asNavigation()`**：跳转本身不致命（`opaqueredirect`
+   是合法的，浏览器自己会跟），致命的是**跟过 3xx 才存进缓存的响应** —— 它带
+   `redirected` 标志，而导航请求 redirect mode 是 `manual`，浏览器一律判成网络错误
+   整页白屏（console：*redirected response … redirect mode is not "follow"*）。
+   `handle()` 的三个返回点（缓存命中 / 网络结果 / 离线兜底）都要过这一层；新增返回点
+   时别漏，否则 3xx 一来就白屏（`addAll` 预缓存过的 URL 是重灾区）。
 
 ## iOS 12 / Safari 12 兼容红线
 

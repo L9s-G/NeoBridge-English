@@ -44,8 +44,8 @@ test('legacy.html 由 index.html 正确派生', () => {
   assert.ok(!/type="module"/.test(html), 'legacy.html 不能用 module script');
   assert.ok(/<script src="\.\/legacy\.js"><\/script>/.test(html), '应加载经典脚本 legacy.js');
   assert.ok(!/js\/app\.js/.test(html), '不应引用模块版 app.js');
-  assert.ok(/href="\.\/index\.html"/.test(html), '应有回新版入口的链接');
-  assert.ok(/class="classic-link" href="\.\/index\.html"/.test(html), '标题栏经典图标应指回 index.html');
+  assert.ok(/class="classic-link" href="\.\/"/.test(html), '标题栏经典图标应指回根路径（写 ./index.html 会被边缘 307 + SW 判成网络错误）');
+  assert.ok(!/href="\.\/index\.html"/.test(html), '入口链接不要写 index.html：边缘会 307 重写，导航请求在 SW 里是 manual redirect');
   assert.ok(/class="classic-link" href="\.\/legacy\.html"/.test(modern), 'index.html 标题栏应有进旧版的经典图标');
 
   // 派生关系：除既定替换外，其余必须与 index.html 逐字一致
@@ -67,4 +67,15 @@ test('legacy.html 与 index.html 标题/品牌一致', () => {
     modern.match(/<h1 class="title">(.*?)<\/h1>/)[1],
     '品牌名（h1）应与 index.html 一致',
   );
+});
+
+test('入口 URL 不带 .html：边缘会重写，SW 导航会判成网络错误', () => {
+  const manifest = JSON.parse(readFileSync(join(APP, 'manifest.webmanifest'), 'utf8'));
+  assert.equal(manifest.start_url, './', 'start_url 用根路径：Cloudflare auto-traffic 把 .html 307 掉，SW 拿到 opaqueredirect 会白屏');
+  assert.equal(manifest.scope, './', 'scope 保持根路径，两个入口都在范围内');
+
+  for (const file of ['index.html', 'legacy.html']) {
+    const html = readFileSync(join(APP, file), 'utf8');
+    assert.ok(!/href="\.\/index\.html"/.test(html), `${file} 里不要出现 ./index.html 链接`);
+  }
 });
