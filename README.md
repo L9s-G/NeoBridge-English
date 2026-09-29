@@ -19,6 +19,9 @@
 │   ├── evp-lib.mjs           共享：字段映射、entry 归一化、SQLite 写入
 │   ├── audio-lib.mjs         共享：音频表翻页、名称归一、并发下载
 │   ├── report-evp.mjs        词库查询 / 抽查工具
+│   ├── gen-ext.mjs           LLM 生成词扩展（共享管线：生成 → 校验 → 定向修复 → 重试）
+│   ├── build-ext.mjs         扩展数据 → app/data/ext.v1.json + manifest（词源剥离开关）
+│   ├── audit-ext.mjs         LLM 背靠背核查扩展数据（pass/fail/error 落盘，断点续跑）
 │   ├── build-legacy.mjs      生成旧版入口 legacy.html + legacy.js（esbuild safari12）
 │   ├── smoke.mjs             Playwright 冒烟（SMOKE_PATH=legacy.html 跑旧版入口）
 │   └── serve.mjs             零依赖静态服务器（npm start）
@@ -31,7 +34,11 @@
 │   ├── index.html          外壳（新版入口，带 manifest → 注册 SW）
 │   ├── legacy.html         旧版入口（`npm run build:legacy` 生成，无 manifest → 不注册 SW）
 │   ├── legacy.js           旧版入口的打包产物（esbuild target=safari12，勿手改）
-│   ├── app.css / icon.svg / manifest.webmanifest
+│   ├── llm-test.html       人机协同生成 / 核查词扩展的工作台（开发页，SW 旁路）
+│   ├── app.css / manifest.webmanifest
+│   ├── favicon.ico / apple-touch-icon.png
+│   ├── icon-192.png / icon-512.png
+│   ├── icon-192-maskable.png / icon-512-maskable.png
 │   ├── sw.js               Service Worker：外壳缓存 + 词包缓存 + 发音缓存
 │   ├── wrangler.jsonc      Cloudflare Workers 部署配置（Root directory = app）
 │   ├── _headers / .assetsignore  部署缓存头规则 / 上传排除清单
@@ -47,20 +54,25 @@
 │   │   │   ├── scheduler.js    抽一个词：去重 → 分池 → 配额 → 加权随机
 │   │   │   ├── queue.js        抽一整轮：预抽题队列（session 内不重复）
 │   │   │   ├── day.js          日历工具：dayKey / lastDays / relDay（7 天卡片）
+│   │   │   ├── dict.js         词典查询：只匹配词形，精确 > 前缀 > 包含
 │   │   │   └── sha256.js       纯 JS SHA-256（crypto.subtle 不可用时的校验兜底）
 │   │   ├── ui/             答题界面
 │   │   │   ├── session.js      状态与流程：作答 → 落库 → 重画
 │   │   │   ├── views.js        只把状态画成 DOM，无状态判断（replaceChildren 兼容实现 + fitWord 宽度自适应）
 │   │   │   ├── audio-download.js 发音：缓存下载、进度、正面 🔊 播放
-│   │   │   └── lists.js        首页清单：7 天卡片 + 错词名单（一键复练）+ 一键复制
-│   │   └── db/             本地存储与 DLC 管理
-│   │       ├── idb.js          IndexedDB 的 Promise 封装
-│   │       ├── stores.js       库结构 + 读写接口
-│   │       └── importer.js     下载 / 校验 / 启动自愈 / 删除
+│   │   │   └── lists.js        首页清单：7 天卡片 + 错词名单（一键复练）+ 一键复制 + 词典检索列表
+│   │   ├── db/             本地存储与 DLC 管理
+│   │   │   ├── idb.js          IndexedDB 的 Promise 封装
+│   │   │   ├── stores.js       库结构 + 读写接口
+│   │   │   ├── importer.js     下载 / 校验 / 启动自愈 / 删除
+│   │   │   └── ext-loader.js   词级扩展数据：manifest sha 增量更新 + 离线兜底
+│   │   └── llm/            LLM 管线（client / prompts / validate / pipeline，脚本与测试页共用）
 │   └── data/
 │       ├── manifest.json   DLC 包描述（sha256 / 字数 / 版本）
-│       └── words.v2.json   ★ DLC 词包正文
-├── tests/                  npm test（node --test，72 项）
+│       ├── words.v2.json   ★ DLC 词包正文
+│       ├── manifest-ext.json 词级扩展数据描述（sha256 / 字数，客户端更新依据）
+│       └── ext.v1.json     词级扩展数据正文（3645 个单词条目）
+├── tests/                  npm test（node --test，全量）
 │   ├── _rng.js             固定种子随机数
 │   ├── scheduler.test.js   调度引擎 + 错词恢复规则单测
 │   ├── queue.test.js       题队列单测
@@ -97,11 +109,13 @@ npm run scrape:audio       # 抓官网音频表（34 页 / 约 18 秒）→ data
 npm run audio              # 下载发音 mp3 → app/audio/（3701 个 / 23 MB，可续传）
 npm run rebuild            # 不联网，从 checkpoint 重建 DB 并跑校验
 npm run build:pack         # 打 DLC 词包 → app/data/（含 25 项校验）
+npm run build:ext          # 构建词级扩展数据 → app/data/ext.v1.json + manifest（改了 word-ext.json 后跑）
+node scripts/audit-ext.mjs --limit 50   # LLM 背靠背核查扩展数据（断点续跑，见「词级扩展数据」）
 npm run report             # 查看总量与等级分布
 npm start                  # http://localhost:1080，同时监听 0.0.0.0（局域网可访问）
 npm run build:legacy       # 重新生成 app/legacy.{html,js}（改了 app/js 之后必须跑）
-npm test                   # 72 项：调度引擎 + 题队列 + 日历 + 词包 + 发音 + SHA256 + legacy 产物 + 全量模拟
-SMOKE_PATH=legacy.html npm run smoke   # 冒烟跑旧版入口（默认跑 /）
+npm test                   # 全量单测：纯函数 + 数据校验 + 产物防漂移 + 全量模拟
+npm run smoke              # 冒烟新版入口（先 npm start；SMOKE_PATH=legacy.html 跑旧版入口）
 node scripts/report-evp.mjs --level B1 --search abandon
 node scripts/report-evp.mjs --entry account  # 按词头查整个词条族
 node scripts/report-evp.mjs --entry ID_00003010
@@ -261,6 +275,39 @@ guideword、topic 填充率偏低是源数据本身如此——只有多义词/�
 
 **进度主键用 `k` 而非行号**：日后发 C2 包，B1/B2 的进度自动继承，新词天然是"未见过"。
 
+### 词级扩展数据（`ext.v1.json`）
+
+官方词包只放事实；**中文详解 / 家族词 / 词源是 LLM 扩展出来的**，单独一份数据、
+单独一条更新通道 —— 混进词包会把 3 MB 正文和更新节奏捆死（改句中文就要整包重下）。
+
+```
+data/raw/word-ext.json   源数据（3645 个单词条目：zh / family / etymology）
+    │  LLM 管线生成：llm-test.html（人机协同工作台）+ gen-ext.mjs（断点补跑）
+    │  共享管线在 js/llm/（生成 → 校验 → 定向修复 → 带反馈重试，不整词蛮力重来）
+    │  audit-ext.mjs 背靠背核查（verdict 落盘 word-ext.audit.json，断点续跑）
+    ▼
+npm run build:ext  →  app/data/ext.v1.json       正文（紧凑 JSON）
+                      app/data/manifest-ext.json sha256 / bytes / count
+```
+
+- **首发剥掉词源**：`build-ext.mjs` 里 `STRIP_ETYMOLOGY = true` —— 核查显示
+  `origin`/`path`/`story` 是编造重灾区，首发整块留空不发布（**源数据一个字不动**）。
+  恢复：改 `false` → rebuild → push → 客户端按 sha 静默拉新，词源行与演变故事
+  会自己长回 UI（渲染按字段有无决定画不画，不认开关）。
+- **空字段整块不渲染**：卡背折叠区的 summary 按实际内容拼
+  （`扩展信息 · 中文详解 / 家族`），词源留空时不虚报不存在的东西。
+- **更新走 sha 比对，不占外壳缓存**：`db/ext-loader.js` 每次启动网络优先拉
+  `manifest-ext.json`，`sha256` 与本地 `neobridge-ext` 缓存一致就零流量用缓存，
+  变了才拉正文（按 manifest 的 sha256 校验后整份替换）。缓存独立命名 ——
+  bump `SHELL_CACHE` 不连坐清这 4 MB；SW 对正文**直通不落 shell**
+  （cache-first + `caches.match` 跨缓存搜索会把新数据锁成旧的）。
+  断网退回本地旧数据；彻底没有则返回 `null`，扩展区整块隐藏，词包照常工作。
+- **发 ext 不需要 bump `SHELL_CACHE`**：shell 管代码、ext 管数据，两条通道。
+  push 后用户下次打开 PWA 即拿到新数据。
+
+键集 = 词包里的 3645 个单词（短语没有扩展数据）；`tests/ext-pack.test.js`
+盯 manifest 与正文一致、键集不缺不多、剥离策略不回潮。
+
 ### 例句清洗
 
 例句里的方括号是 Cambridge 编辑对学习者原文错误的修正标记：
@@ -284,6 +331,8 @@ clean : On Wednesday morning ... to see the Vatican.
 
 零依赖的浏览器端三层：`idb.js` 是 IndexedDB 的 Promise 封装，
 `stores.js` 定义库结构与读写接口，`importer.js` 管下载 / 校验 / 自愈 / 删除。
+词级扩展数据不进 IndexedDB —— `ext-loader.js` 管它（manifest sha 增量更新 + 离线兜底，
+机制见上一节「词级扩展数据」）。
 
 ### 五个对象仓库（`DB_VERSION = 2`）
 
@@ -345,6 +394,29 @@ clean : On Wednesday morning ... to see the Vatican.
   并重启浏览器；另外 Windows 防火墙要放行 1080 入站（默认无 node 规则会被拦）。
 - `file://` 打不开 —— Service Worker 与 `crypto.subtle` 都要求安全上下文，
   本地必须走 `http://localhost`（或加白名单的局域网 IP）。
+
+### 图标
+
+蓝紫渐变圆角方块 + 白色「NB」字标，设计稿整套放在仓库根的 `icons/`
+（`icons/web/` 是本项目要用的，`icons/android/` 是给原生壳的，不部署也不引用；
+`play_store_512.png` 与 `icon-512-maskable.png` 字节相同，别当两份维护）。
+
+| 文件 | 用途 |
+|---|---|
+| `app/favicon.ico`（16+32） | 浏览器标签页（HTML 里 `rel="icon"`） |
+| `app/apple-touch-icon.png`（180） | iOS「添加到主屏幕」 |
+| `app/icon-192.png` / `icon-512.png` | manifest 里的常规图标 |
+| `app/icon-192-maskable.png` / `icon-512-maskable.png` | Android 自适应图标（满幅，logo 内缩在安全区） |
+
+两个刻意的地方：
+
+- **manifest 里不放 `favicon.ico`**。部分 Android 启动器会挑 manifest 里「最小的
+  合适图标」，塞个 32px 进去桌面图标就糊了；ICO 只给标签页用。
+- **图标不进 SW 预缓存**（6 个文件约 610 KB）。标签页和「添加到主屏幕」都是浏览器
+  自己去取 manifest 里的图，离线场景用不到它们；`SHELL` 里只留页面真正要的文件。
+
+设计稿没有矢量源，所以项目里**没有 `icon.svg`**（早期那版深蓝拱形图标已随本次替换
+删除，别再引回来）。
 
 ### 旧版入口（iOS 12 / Safari 12）
 
@@ -447,7 +519,7 @@ iOS 12（Safari 12）上整页白屏的真凶是 **`?.` / `??` 语法**（Safari
 
 决定"下一个出哪个词"。**纯函数、无 IO**，`words` / `states` / `coverage` /
 `sessionSeen` / `rng` / `now` 全部由调用方注入，所以 `npm test` 能直接在
-Node 里跑单测与全量模拟（全 72 项）。
+Node 里跑单测与全量模拟。
 
 ### 抽一个词的四步
 
@@ -605,6 +677,21 @@ isWrongWord(state, params) = state.wrongs > 0 && state.rightStreak < params.reco
 - 「复练全部」的题数 = 名单长度、队列只从名单里抽；**抽题顺序仍由调度器加权随机**，
   不是列表顺序（列表顺序只是"从谁开始/阅读顺序"）
 - 恢复后该词**仍留在 7 天卡片里**——卡片记录事实，名单只反映「现在该不该重练」
+
+### 词典（底部第 2 个 tab）
+
+`core/dict.js` 的 `searchWords(words, query)` 是纯函数，规则：
+
+- **只匹配词形**（`w`），不搜中文释义；全量 5008 条含短语
+- 大小写不敏感，首尾与内部空白折叠（`TAKE   off` = `take off`）
+- 排序：**完全相同 > 前缀 > 包含**；同级词短的在前，再按字母序
+- 结果显示上限 50（`DICT_LIMIT`），超出只报数
+
+列表行由 `lists.js renderDictList` 渲染（词 + 音标 + 词性 + 各义项一行），
+**整行可点**（`role=button`，Enter / 空格同效）→ `app.js openDictDetail` 画
+只读单词卡（`views.js detailView`：正面 🔊 + 背面义项 + 折叠扩展区，无作答按钮），
+返回时查询与结果原样保留。详情开着时 `refresh()` 只重画详情；
+换包后词不在新包里则**自纠**回列表，不报错。
 
 ### 题队列为什么一次抽完
 

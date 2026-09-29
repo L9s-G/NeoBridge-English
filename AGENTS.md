@@ -14,7 +14,7 @@ push 即部署**（Cloudflare Workers Static Assets，Root directory = `app/`）
 ```bash
 npm install                      # 首次
 npm start                        # 静态服务 http://localhost:1080（SMOKE/手测都先起这个）
-npm test                         # node --test，72 项 —— 任何改动后必跑
+npm test                         # node --test 全量 —— 任何改动后必跑
 npm run build:legacy             # 重新生成 app/legacy.{html,js}（必跑条件见纪律 1）
 npm run smoke                    # Playwright 冒烟新版入口（需本机 Chrome）
 SMOKE_PATH=legacy.html npm run smoke   # 冒烟旧版入口
@@ -87,7 +87,7 @@ esbuild 的保守数据会认为 Safari 12 不支持解构、直接报错，实�
 
 ## 发版 SOP（按序执行）
 
-1. 改代码 → `npm test` 绿（72 项）
+1. 改代码 → `npm test` 绿
 2. 动过 `app/js` / `index.html` → `npm run build:legacy`
 3. bump `SHELL_CACHE` 版本号（改 `app/sw.js`）
 4. `npm start` 起服务 → `npm run smoke` 与 `SMOKE_PATH=legacy.html npm run smoke` 双双 `errors: none`
@@ -102,10 +102,13 @@ esbuild 的保守数据会认为 Safari 12 不支持解构、直接报错，实�
 | 文件 | 干什么 |
 |---|---|
 | `scripts/build-legacy.mjs` | 旧版入口构建（BUILD_OPTIONS / 派生 legacy.html / 产物入库） |
+| `scripts/build-ext.mjs` | 扩展数据发行构建（`STRIP_ETYMOLOGY` 词源剥离开关，产物 ext.v1.json + manifest-ext.json） |
+| `app/js/db/ext-loader.js` | 扩展数据 manifest sha 增量更新（发 ext 数据**不用** bump `SHELL_CACHE`） |
+| `app/js/core/dict.js` | 词典查询：只匹配词形，精确 > 前缀 > 包含（纯函数） |
 | `app/js/app.js` | `IS_LEGACY` 信号、SW 注册 gate、启动流程 |
 | `app/sw.js` | `SHELL_CACHE` 版本号、SHELL 预缓存清单、`AUDIO_CACHE` |
 | `tests/legacy.test.js` | 产物防漂移 + 旧语法扫描 + legacy.html 派生一致性 |
 | `tests/sha256.test.js` | 纯 JS SHA-256 对拍（NIST 向量 + crypto.subtle） |
-| `scripts/smoke.mjs` | 双入口冒烟（`SMOKE_PATH` 选入口，断言 sw 注册数 / 发音卡可见性） |
+| `scripts/smoke.mjs` | 双入口冒烟（`SMOKE_PATH` 选入口，断言 sw 注册 / 发音卡 / 词典检索与详情） |
 | `app/app.css` 文件末尾 | iOS 12 flex gap 兜底块（新增带 gap 的选择器要同步补 margin） |
 | `README.md` | 项目背景、数据流水线、旧版入口原理详解 |
