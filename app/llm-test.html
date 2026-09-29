@@ -36,8 +36,11 @@
     border-radius: .75rem; padding: .8rem 1rem;
   }
   .panel h2 { margin: 0 0 .5rem; font-size: .95rem; color: var(--text-dim); font-weight: 600; }
+  .panel h2 .hint { font-weight: 400; font-size: .78rem; color: var(--text-dim); opacity: .75; }
+  .panel > details > summary { margin-bottom: .5rem; font-size: .95rem; color: var(--text-dim); font-weight: 600; }
+  .panel > details[open] > summary { margin-bottom: .7rem; }
 
-  textarea, input[type=text], input[type=url], input[type=password] {
+  textarea, input[type=text], input[type=url], input[type=password], select {
     width: 100%; box-sizing: border-box;
     background: var(--bg); color: var(--text); border: 1px solid var(--border-strong);
     border-radius: .5rem; padding: .5rem .6rem; font: inherit;
@@ -49,6 +52,7 @@
   .row + .row { margin-top: .55rem; }
   label.opt { color: var(--text-dim); font-size: .85rem; display: inline-flex; align-items: center; gap: .3rem; }
   .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: .5rem .7rem; }
+  .grid2[hidden] { display: none; } /* 覆盖 display:grid，否则 hidden 属性无效 */
   .grid2 label { display: flex; flex-direction: column; gap: .2rem; color: var(--text-dim); font-size: .8rem; }
   .dim { color: var(--text-dim); font-size: .82rem; }
   .tag {
@@ -107,23 +111,39 @@
 <div class="shell">
   <div class="left">
     <section class="panel">
-      <h2>词单</h2>
+      <h2>词单 <span class="hint">可直接粘贴复制来的词单</span></h2>
       <textarea id="words" spellcheck="false" placeholder="用分号分隔，与进度一键复制一致">account; tear; row; lie</textarea>
       <div class="row" style="margin-top:.55rem">
         <span class="tag" id="wc">4 词</span>
         <label class="opt"><input type="checkbox" id="withPhrases" checked> 注入官方短语家族</label>
-        <span class="dim">可直接粘贴复制来的词单</span>
       </div>
     </section>
 
     <section class="panel">
-      <h2>配置</h2>
-      <div class="grid2">
-        <label>端点 <input type="url" id="baseUrl" class="mono" value="/llm/v1" spellcheck="false"></label>
-        <label>model <input type="text" id="model" value="agnes-3.0-flash" spellcheck="false"></label>
-        <label>key <input type="password" id="apiKey" class="mono" value="PROXY_MANAGED" spellcheck="false"></label>
-        <label>限速间隔 ms <input type="text" id="minGap" class="mono" value="6500" spellcheck="false"></label>
-      </div>
+      <details id="cfgBox">
+        <summary>配置</summary>
+        <div class="grid2">
+          <label>端点 <input type="url" id="baseUrl" class="mono" value="/llm/v1" spellcheck="false"></label>
+          <label>model <input type="text" id="model" value="agnes-3.0-flash" spellcheck="false"></label>
+          <label>key <input type="password" id="apiKey" class="mono" value="PROXY_MANAGED" spellcheck="false"></label>
+          <label>限速间隔 ms <input type="text" id="minGap" class="mono" value="6500" spellcheck="false"></label>
+        </div>
+        <div class="row" style="margin-top:.7rem">
+          <label class="opt">模式
+            <select id="mode" style="width:auto">
+              <option value="pipe">管线（生成→修复→核查）</option>
+              <option value="pipe-nv">管线（生成→修复→重试）</option>
+              <option value="single">单发（看原始质量）</option>
+            </select>
+          </label>
+          <span class="dim">管线 = gen-ext 同一实现；不含核查的模式只用生成端点</span>
+        </div>
+        <div class="grid2" style="margin-top:.55rem" id="verifyRow">
+          <label>核查端点 <input type="url" id="vBase" class="mono" placeholder="留空 = 同生成端点" spellcheck="false"></label>
+          <label>核查 model <input type="text" id="vModel" placeholder="留空 = 同生成 model"></label>
+          <label>核查 key <input type="password" id="vKey" class="mono" placeholder="留空 = 同生成 key" spellcheck="false"></label>
+        </div>
+      </details>
       <div class="row" style="margin-top:.7rem">
         <button id="run" class="primary">生成整单</button>
         <button id="stop" disabled>停止</button>
@@ -147,6 +167,7 @@
 
 <script type="module">
 import { chat, LlmError } from './js/llm/client.js';
+import { runWordPipeline } from './js/llm/pipeline.js';
 import { buildWordExtPrompt, parseWordExt, PROMPT_VERSION } from './js/llm/prompts.js';
 import { validateWordExt } from './js/llm/validate.js';
 import { createQueue } from './js/llm/ratelimit.js';
@@ -199,6 +220,25 @@ function cfg() {
   };
 }
 
+/** 核查端点：留空逐项回落生成端点（换模型时只填 model 即可） */
+function vcfg() {
+  const g = cfg();
+  return {
+    baseUrl: $('vBase').value.trim() || g.baseUrl,
+    model: $('vModel').value.trim() || g.model,
+    apiKey: $('vKey').value.trim() || g.apiKey,
+  };
+}
+
+const STAGE_CN = { gen: '生成', repair: '修复', verify: '核查' };
+
+function syncMode() {
+  // 只有"含核查"的管线才需要第二模型输入；生成-修复-重试与单发都只用生成端点
+  $('verifyRow').hidden = $('mode').value !== 'pipe';
+}
+$('mode').addEventListener('change', syncMode);
+syncMode();
+
 async function loadPack() {
   if (pack) return pack;
   const res = await fetch('./data/words.v2.json');
@@ -236,9 +276,12 @@ function el(tag, cls, text) {
 function makeCard(key) {
   const card = el('article', 'card');
   card.dataset.state = 'run';
+  const trace = el('details', 'trace');
+  trace.append(el('summary', null, '管线轨迹'), el('pre'));
   card.append(
     el('div', 'card-head', null),
     el('p', 'zh', '生成中…'),
+    trace,
   );
   const head = card.firstChild;
   head.append(el('b', null, key), el('span', 'tag run', '排队中'));
@@ -248,58 +291,112 @@ function makeCard(key) {
   return card;
 }
 
-function fillCard(card, key, stats, result, raw, failMsg) {
+/** 管线事件 → 卡内轨迹（实时追加） */
+function traceLine(card, ev) {
+  const pre = card.querySelector('.trace pre');
+  if (!pre) return;
+  const cn = STAGE_CN[ev.stage] || ev.stage;
+  let line = '';
+  if (ev.type === 'round') line = `—— ${cn}轮 ${ev.round} ——\n`;
+  else if (ev.type === 'result') line = ev.ok
+    ? `[${cn}#${ev.round}] ✓ ${(ev.costMs / 1000).toFixed(1)}s\n`
+    : `[${cn}#${ev.round}] ✗ ${ev.error}\n`;
+  else if (ev.type === 'checked') {
+    if (ev.ok) line = ev.stage === 'repair' ? '复验通过 ✓\n' : '本地校验 ✓\n';
+    else {
+      const lines = [
+        ...ev.fatal.map(f => `✗ ${f}`),
+        ...ev.flagged.map(d => `− ${d.w}：${d.why}`),
+      ];
+      line = lines.map(s => s + '\n').join('');
+    }
+  } else if (ev.type === 'verdict') {
+    line = ev.pass ? '核查 ✓\n'
+      : ev.issues.map(i => `核查 ✗ ${i.field}: ${i.problem}\n`).join('');
+  } else if (ev.type === 'done') {
+    line = ev.ok ? '—— 完成 ——\n' : `—— 不合格：${ev.error} ——\n`;
+  }
+  if (line) {
+    pre.textContent += line;
+    pre.scrollTop = pre.scrollHeight;
+  }
+}
+
+/** 管线轨迹 rounds → 「问题与修复」摘要行 */
+function pipelineNotes(rounds) {
+  const lines = [];
+  for (const r of rounds || []) {
+    if (r.stage === 'gen') {
+      if (r.error) lines.push(`生成轮${r.round} ✗ ${r.error}`);
+      for (const f of r.fatal || []) lines.push(`生成轮${r.round} ✗ ${f}`);
+      for (const d of r.flagged || []) lines.push(`生成轮${r.round} − ${d.w}：${d.why}`);
+    } else if (r.stage === 'repair') {
+      if (r.error) lines.push(`修复${r.round} ✗ ${r.error}`);
+      else if (r.still && r.still.length) lines.push(`修复${r.round} 仍不合格：${r.still.map(d => `${d.w}（${d.why}）`).join('；')}`);
+      else lines.push(`修复${r.round} ✓ 复验通过`);
+    } else if (r.stage === 'verify' && !r.pass) {
+      lines.push(`核查${r.round} ✗ ${(r.issues || []).map(i => `${i.field}: ${i.problem}`).join('；')}`);
+    }
+  }
+  return lines;
+}
+
+/**
+ * 终态填充。cleaned 为 null 时按失败处理（failMsg 必填）。
+ * notes: 问题摘要行（details 展示）；raw: 最近一版生成输出；trace 留在卡尾。
+ */
+function fillCard(card, key, statsText, cleaned, raw, notes, failMsg) {
   const head = card.firstChild;
   const tag = head.querySelector('.tag');
   const zhP = card.querySelector('.zh');
+  const traceBox = card.querySelector('.trace');
 
   if (failMsg) {
     card.dataset.state = 'fail';
     tag.className = 'tag bad';
-    tag.textContent = '失败';
+    tag.textContent = statsText || '失败';
     zhP.textContent = failMsg;
-    return;
-  }
-
-  const c = result.cleaned;
-  card.dataset.state = 'ok';
-  tag.className = 'tag ok';
-  tag.textContent = stats;
-  zhP.textContent = c.zh;
-
-  const fam = el('div', 'fam');
-  if (c.family.length) {
-    for (const f of c.family) {
-      const chip = el('span', 'chip');
-      chip.append(el('b', null, f.w), ` ${f.zh}`);
-      fam.appendChild(chip);
-    }
   } else {
-    fam.appendChild(el('span', 'dim', 'family：[]（没有合适的家族词，不硬拗）'));
+    card.dataset.state = 'ok';
+    tag.className = 'tag ok';
+    tag.textContent = statsText;
+    zhP.textContent = cleaned.zh;
+
+    const fam = el('div', 'fam');
+    if (cleaned.family.length) {
+      for (const f of cleaned.family) {
+        const chip = el('span', 'chip');
+        chip.append(el('b', null, f.w), ` ${f.zh}`);
+        fam.appendChild(chip);
+      }
+    } else {
+      fam.appendChild(el('span', 'dim', 'family：[]（没有合适的家族词，不硬拗）'));
+    }
+    card.appendChild(fam);
+
+    card.appendChild(el('p', 'origin', `词源：${cleaned.etymology.origin || '（无）'}`));
+    card.appendChild(el('p', 'path', cleaned.etymology.path.map(p => `${p.form}（${p.lang}·${p.meaning}）`).join(' → ')));
+
+    if (cleaned.etymology.story) {
+      const d = el('details');
+      d.append(el('summary', null, `演变故事 · ${cleaned.etymology.story.length} 字（点开）`), el('p', 'zh', cleaned.etymology.story));
+      card.appendChild(d);
+    }
   }
-  card.appendChild(fam);
 
-  const origin = el('p', 'origin', `词源：${c.etymology.origin || '（无）'}`);
-  card.appendChild(origin);
-  card.appendChild(el('p', 'path', c.etymology.path.map(p => `${p.form}（${p.lang}·${p.meaning}）`).join(' → ')));
-
-  if (c.etymology.story) {
-    const d = el('details');
-    d.append(el('summary', null, `演变故事 · ${c.etymology.story.length} 字（点开）`), el('p', 'zh', c.etymology.story));
-    card.appendChild(d);
+  if (raw) {
+    const dRaw = el('details');
+    dRaw.append(el('summary', null, '原始输出（最近一版生成）'), el('pre', null, raw));
+    card.appendChild(dRaw);
   }
-
-  const dRaw = el('details');
-  dRaw.append(el('summary', null, '原始输出'), el('pre', null, raw));
-  card.appendChild(dRaw);
-
-  const notes = [];
-  if (result.errors.length) notes.push(`校验错误：${result.errors.join('；')}`);
-  if (result.dropped.length) notes.push(`剔除：${result.dropped.map(d => `${d.w}（${d.why}）`).join('；')}`);
-  if (notes.length) {
+  if (notes && notes.length) {
     const dNote = el('details');
-    dNote.append(el('summary', null, '清洗与校验'), el('pre', null, notes.join('\n')));
+    dNote.append(el('summary', null, '问题与修复'), el('pre', null, notes.join('\n')));
     card.appendChild(dNote);
+  }
+  if (traceBox) {
+    if (traceBox.querySelector('pre').textContent) card.appendChild(traceBox);
+    else traceBox.remove();
   }
 }
 
@@ -325,12 +422,14 @@ $('run').onclick = async () => {
   $('run').disabled = true;
   $('stop').disabled = false;
 
+  const mode = $('mode').value;
+  const modeLabel = $('mode').selectedOptions[0].textContent;
   const gapMs = Number($('minGap').value) || 6500;
   const t00 = Date.now();
-  let ok = 0, fail = 0;
+  let ok = 0, fail = 0, totalCalls = 0;
 
   try {
-    log(`▶ 整单 ${keys.length} 词 · 限速 ${gapMs}ms · promptV ${PROMPT_VERSION}`);
+    log(`▶ 整单 ${keys.length} 词 · 限速 ${gapMs}ms · promptV ${PROMPT_VERSION} · ${modeLabel}`);
     const p = await loadPack();
     const push = createQueue({ minIntervalMs: gapMs });
 
@@ -343,13 +442,64 @@ $('run').onclick = async () => {
       if (!word) {
         fail += 1;
         const card = makeCard(key);
-        fillCard(card, key, '', null, '', `词包里没有 "${key}"（wordKey，小写；短语带空格也算）`);
+        fillCard(card, key, '', null, '', [], `词包里没有 "${key}"（wordKey，小写；短语带空格也算）`);
         log(`[${i + 1}/${keys.length}] ${key} ✗ 词包无此词`, 'err');
         continue;
       }
 
       const card = makeCard(key);
       const phrases = $('withPhrases').checked ? p.phrasesOf(word.k) : [];
+      log(`[${i + 1}/${keys.length}] ${key} …`);
+
+      if (mode !== 'single') {
+        /* ---- 管线模式：与 gen-ext 同一实现（runWordPipeline） ---- */
+        let lastGen = '';
+        const onEvent = (ev) => {
+          traceLine(card, ev);
+          if (ev.type === 'result' && ev.ok && ev.stage === 'gen') lastGen = ev.content;
+          if (ev.type === 'call') setStatus(`管线 ${i + 1}/${keys.length} · ${STAGE_CN[ev.stage]}`, 'run');
+          if (ev.type === 'result') {
+            const sec = (ev.costMs / 1000).toFixed(1);
+            log(ev.ok ? `  [${STAGE_CN[ev.stage]}#${ev.round}] ✓ ${sec}s` : `  [${STAGE_CN[ev.stage]}#${ev.round}] ✗ ${ev.error}`, ev.ok ? undefined : 'err');
+          } else if (ev.type === 'checked') {
+            if (ev.ok && ev.stage === 'repair') log('  修复 ✓ 复验通过', 'ok');
+            ev.fatal.forEach(f => log(`  ✗ ${f}`, 'err'));
+            ev.flagged.forEach(d => log(`  − ${d.w}：${d.why}`, 'gap'));
+          } else if (ev.type === 'verdict') {
+            if (ev.pass) log('  核查 ✓', 'ok');
+            else ev.issues.forEach(it => log(`  核查 ✗ ${it.field}: ${it.problem}`, 'err'));
+          }
+        };
+        try {
+          const res = await runWordPipeline(word, phrases, {
+            push, genCfg: cfg(), verifyCfg: vcfg(), skipVerify: mode === 'pipe-nv', onEvent,
+          });
+          totalCalls += res.stats.calls;
+          if (res.ok) {
+            ok += 1;
+            const cost = (res.stats.costMs / 1000).toFixed(1);
+            const tag = `✓ ${cost}s · ${res.stats.calls} 次调用${mode === 'pipe-nv' ? '' : ' · 核查✓'}`;
+            fillCard(card, key, tag, res.data, lastGen, pipelineNotes(res.rounds), null);
+            log(`[${i + 1}/${keys.length}] ${key} ✓ zh ${res.data.zh.length} 字 · family ${res.data.family.length} · ${res.stats.calls} 次调用 · ${cost}s`, 'ok');
+          } else {
+            fail += 1;
+            fillCard(card, key, `失败 · ${res.stats.calls} 次调用`, null, lastGen, pipelineNotes(res.rounds), res.error);
+            log(`[${i + 1}/${keys.length}] ${key} ✗ ${res.error}`, 'err');
+          }
+        } catch (err) {
+          fail += 1;
+          const code = err instanceof LlmError ? `[${err.code}] ` : '';
+          fillCard(card, key, '失败', null, lastGen, pipelineNotes([]), `${code}${err.message}`);
+          log(`[${i + 1}/${keys.length}] ${key} ✗ ${code}${err.message}`, 'err');
+          if (err instanceof LlmError && err.code === 'NETWORK') {
+            log('  网络/反代不通，后面不再试', 'err');
+            break;
+          }
+        }
+        continue;
+      }
+
+      /* ---- 单发模式：一发看原始质量（不修复、不核查） ---- */
       let started = 0;
       try {
         // 队列在内部保证两次发起的间隔 ≥ 限速（等够再发），这里只量请求本身
@@ -360,16 +510,19 @@ $('run').onclick = async () => {
         const cost = ((Date.now() - started) / 1000).toFixed(1);
         const result = validateWordExt(parseWordExt(content), word.k);
         if (result.ok) ok += 1; else fail += 1;
-        const stats = `✓ ${cost}s${result.ok ? '' : ' · 校验未过'}`;
-        fillCard(card, key, stats, result, content, null);
-        log(`[${i + 1}/${keys.length}] ${key} ✓ ${cost}s${result.ok ? '' : ` · 校验未过：${result.errors.join('；')}`}`, result.ok ? 'ok' : 'err');
-        if (result.dropped.length) {
-          result.dropped.forEach(d => log(`  − 剔除 ${d.w}：${d.why}`));
-        }
+        const parts = [`✓ ${cost}s`];
+        if (!result.ok) parts.push('校验未过');
+        if (result.dropped.length) parts.push(`${result.dropped.length} 项待修复`);
+        const notes = [];
+        if (result.errors.length) notes.push(`校验错误：${result.errors.join('；')}`);
+        if (result.dropped.length) notes.push(`剔除（管线模式会触发修复/重试）：${result.dropped.map(d => `${d.w}（${d.why}）`).join('；')}`);
+        fillCard(card, key, parts.join(' · '), result.cleaned, content, notes, null);
+        log(`[${i + 1}/${keys.length}] ${key} ${parts.join(' · ')}${result.ok ? '' : ` · ${result.errors.join('；')}`}`, result.ok ? 'ok' : 'err');
+        if (result.dropped.length) result.dropped.forEach(d => log(`  − ${d.w}：${d.why}`));
       } catch (err) {
         fail += 1;
         const code = err instanceof LlmError ? `[${err.code}] ` : '';
-        fillCard(card, key, '', null, '', `${code}${err.message}`);
+        fillCard(card, key, '', null, '', [], `${code}${err.message}`);
         log(`[${i + 1}/${keys.length}] ${key} ✗ ${code}${err.message}`, 'err');
         if (err instanceof LlmError && err.code === 'NETWORK') {
           log('  网络/反代不通，后面不再试', 'err');
@@ -379,7 +532,8 @@ $('run').onclick = async () => {
     }
 
     const total = ((Date.now() - t00) / 1000).toFixed(0);
-    log(`── 完成 ✓${ok} ✗${fail} · 总耗时 ${total}s ──`, fail ? 'err' : 'ok');
+    const callsPart = totalCalls ? ` · 总调用 ${totalCalls} 次` : '';
+    log(`── 完成 ✓${ok} ✗${fail} · 总耗时 ${total}s${callsPart} ──`, fail ? 'err' : 'ok');
     setStatus(stopFlag ? `已停止 ✓${ok} ✗${fail}` : `完成 ✓${ok} ✗${fail}`, fail ? 'bad' : 'ok');
   } catch (err) {
     log(`✗ ${err.message}`, 'err');

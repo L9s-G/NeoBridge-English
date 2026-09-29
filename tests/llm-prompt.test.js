@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import { test } from 'node:test';
 
-import { buildWordExtPrompt, FAMILY_POS, parseWordExt, PROMPT_VERSION } from '../app/js/llm/prompts.js';
+import { buildRepairPrompt, buildVerifyPrompt, buildWordExtPrompt, FAMILY_POS, parseRepairItems, parseVerifyVerdict, parseWordExt, PROMPT_VERSION, VERIFY_PROMPT_VERSION } from '../app/js/llm/prompts.js';
 import { validateWordExt } from '../app/js/llm/validate.js';
 
 const ACCOUNT = {
@@ -123,18 +123,24 @@ test('validateWordExt：zh 过短 / 无中文 → 整条不合格', () => {
   assert.ok(r2.errors.some(e => /不含中文/.test(e)));
 });
 
-test('validateWordExt：story 空串 → 合法（可选项），非空才查长度', () => {
+test('validateWordExt：story 可选项 —— 空、短都合法，只有上限', () => {
   const none = JSON.parse(JSON.stringify(GOOD));
   none.etymology.story = '';
   const r = validateWordExt(none, 'account');
   assert.equal(r.ok, true, r.errors.join('; '));
   assert.equal(r.cleaned.etymology.story, '');
 
-  const tooShort = JSON.parse(JSON.stringify(GOOD));
-  tooShort.etymology.story = '来自拉丁语。';
-  const r2 = validateWordExt(tooShort, 'account');
-  assert.equal(r2.ok, false);
-  assert.ok(r2.errors.some(e => /story 过短/.test(e)));
+  // 短而有信息的 story 不设下限：空都合法，没道理毙短的
+  const short = JSON.parse(JSON.stringify(GOOD));
+  short.etymology.story = '来自拉丁语，本义"清醒"，后来反转为"虚弱"。';
+  const r2 = validateWordExt(short, 'account');
+  assert.equal(r2.ok, true, r2.errors.join('; '));
+
+  const tooLong = JSON.parse(JSON.stringify(GOOD));
+  tooLong.etymology.story = '注'.repeat(601);
+  const r3 = validateWordExt(tooLong, 'account');
+  assert.equal(r3.ok, false);
+  assert.ok(r3.errors.some(e => /story 过长/.test(e)));
 });
 
 test('validateWordExt：family 空数组 → 合法', () => {
@@ -154,6 +160,11 @@ test('validateWordExt：Markdown 装饰符号被剥掉（不触发重试）', ()
   assert.ok(!/\*\*/.test(r.cleaned.zh));
   assert.ok(!/\*\*/.test(r.cleaned.etymology.story));
   assert.equal(r.cleaned.zh, GOOD.zh, '只剥符号不动正文');
+
+  // 单星号斜体也剥（核查员会把残留星号当 Markdown 报）
+  const it = JSON.parse(JSON.stringify(GOOD));
+  it.zh = `*${it.zh}*`;
+  assert.equal(validateWordExt(it, 'account').cleaned.zh, GOOD.zh);
 });
 
 test('validateWordExt：family 项的自标注（应删/无关）整条剔除', () => {
@@ -202,4 +213,67 @@ test('validateWordExt：family 截断到 8 项', () => {
   }
   const r = validateWordExt(many, 'account');
   assert.equal(r.cleaned.family.length, 8);
+});
+
+test('validateWordExt：family zh 宽容带 —— 30 字过、31 字剔进 dropped（prompt 目标 20 / 硬线 30）', () => {
+  const c = JSON.parse(JSON.stringify(GOOD));
+  c.family = [
+    { w: 'eggplant', rel: 'sibling', pos: 'noun', zh: '注'.repeat(30) },
+    { w: 'tomato', rel: 'sibling', pos: 'noun', zh: '注'.repeat(31) },
+  ];
+  const r = validateWordExt(c, 'aubergine');
+  assert.equal(r.ok, true, r.errors.join('; '));
+  assert.equal(r.cleaned.family.length, 1, '30 字保留');
+  assert.equal(r.dropped.length, 1, '31 字剔除');
+  assert.match(r.dropped[0].why, /超长/);
+});
+
+/* ---------------- 定向修复 ---------------- */
+
+test('buildRepairPrompt：system+user，带目标词与问题条目', () => {
+  const msgs = buildRepairPrompt({ k: 'aubergine', w: 'aubergine' }, [
+    { w: 'eggplant', rel: 'sibling', pos: 'noun', zh: '注'.repeat(31), why: 'zh 超长（>30）' },
+  ]);
+  assert.equal(msgs.length, 2);
+  assert.match(msgs[1].content, /aubergine/);
+  assert.match(msgs[1].content, /eggplant/);
+  assert.match(msgs[0].content, /20 字/);
+  assert.match(msgs[0].content, /省略/); // 修不了就省略，不硬凑
+});
+
+test('parseRepairItems：数组解析、非对象剔除、非数组抛错', () => {
+  assert.deepEqual(parseRepairItems('[{"w":"a"},{"w":"b"}]').length, 2);
+  assert.equal(parseRepairItems('[null, 3, {"w":"b"}]').length, 1);
+  assert.throws(() => parseRepairItems('{"w":"a"}'), /不是 JSON 数组/);
+});
+
+/* ---------------- 背靠背核查 ---------------- */
+
+test('buildVerifyPrompt：只给义项+数据，不带生成 prompt', () => {
+  const msgs = buildVerifyPrompt(ACCOUNT, { zh: 'x', family: [], etymology: {} });
+  assert.equal(msgs.length, 2);
+  assert.match(msgs[1].content, /BANK/);            // 官方义项在
+  assert.match(msgs[1].content, /待核查数据/);
+  assert.ok(!msgs[0].content.includes('牛B词典'), '核查员拿不到生成者 prompt');
+  assert.match(msgs[0].content, /背靠背/);
+  assert.equal(typeof VERIFY_PROMPT_VERSION, 'number');
+});
+
+test('parseVerifyVerdict：pass/issues 归一化', () => {
+  assert.deepEqual(parseVerifyVerdict('{"pass":true,"issues":[]}'), { pass: true, issues: [] });
+
+  const bad = parseVerifyVerdict('{"pass":false,"issues":[{"field":"family[0].zh","problem":"注释不对应"}]}');
+  assert.equal(bad.pass, false);
+  assert.equal(bad.issues[0].field, 'family[0].zh');
+
+  // 矛盾输出（pass:true 却有问题项）→ 一律判不过
+  const contra = parseVerifyVerdict('{"pass":true,"issues":[{"field":"zh","problem":"编造义项"}]}');
+  assert.equal(contra.pass, false);
+
+  // 缺 field/problem 的脏 issue 丢弃；全丢则 issues 为空
+  const dirty = parseVerifyVerdict('{"pass":false,"issues":[{"problem":""},{"nope":1}]}');
+  assert.deepEqual(dirty.issues, []);
+
+  assert.throws(() => parseVerifyVerdict('没结论'), /找不到 JSON 起始符/);
+  assert.throws(() => parseVerifyVerdict('{"foo":1}'), /缺 pass\/issues/);
 });

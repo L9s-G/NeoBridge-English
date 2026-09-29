@@ -4,12 +4,14 @@
  * 只做**结构与形态**断言，不做语义断言（语义靠 prompt grounding）：
  *   zh         中文、长度区间
  *   family     单 token 形态、rel 枚举、pos 白名单、zh 简短、去重截断
- *   etymology  story 非空时才查中文且长度区间（story 是可选项，空串合法）
+ *   etymology  story 非空时才查中文与上限（story 是可选项：空、短都合法）
  *   全局       无 URL / 无 Markdown 链接
  *
  * 失败分两档：
  *   · 整条不合格（zh/story 缺失或超限、出现 URL）→ ok:false，调用方重试
  *   · 局部不合格（个别 family 项形态/pos 不对）→ 剔除该项，ok 仍为 true
+ * 注意 dropped 只是**分析结果**，不是"静默丢弃许可"：词级管线（pipeline.js）
+ * 把 dropped 非空视为整条不合格，走定向修复 → 反馈重试，修不好才进人工清单。
  *
  * 纯函数，Node 与浏览器共用。
  */
@@ -19,16 +21,16 @@ import { FAMILY_POS } from './prompts.js';
 const CJK = /[一-鿿]/;
 const FAMILY_W = /^[A-Za-z][A-Za-z0-9'-]{0,30}$/;
 const URLISH = /(https?:\/\/|www\.|\bwww\b|\[.*?\]\(.*?\))/i;
-// Markdown 装饰符号（**加粗** / `代码` / ~~删除线）：纯排版非语义，剥掉即可，
+// Markdown 装饰符号（**加粗** / *斜体* / `代码` / ~~删除线）：纯排版非语义，剥掉即可，
 // 不判错误——模型偶尔冒出来（v2 实测 2/20），为它重试不值一次限速间隔
-const stripDecor = s => String(s).replace(/\*\*|__|~~|`/g, '');
+const stripDecor = s => String(s).replace(/\*\*?|__|~~|`/g, '');
 // family 项的自我标注（模型硬拗出一条后又在 zh 里写"应删"之类）：整条剔除
 const SELF_NOTE = /应删|示例错误|待核|不相关|无关|疑似|不确定|明显错误/;
 
 const LIMITS = {
   zh: [100, 800],
-  familyZh: 20,
-  story: [80, 600],
+  familyZh: 30, // prompt 要求 ≤20，硬线 30：与 zh/story 一样的"目标窄、硬线宽"宽容带
+  storyMax: 600, // story 是可选项：空合法、短也合法（有信息就行），只有上限防注水
   familyMax: 8,
 };
 
@@ -56,12 +58,10 @@ export function validateWordExt(input, wordK) {
   if (zhLen < LIMITS.zh[0]) errors.push(`zh 过短（${zhLen} < ${LIMITS.zh[0]}）`);
   if (zhLen > LIMITS.zh[1]) errors.push(`zh 过长（${zhLen} > ${LIMITS.zh[1]}）`);
 
-  // story 是可选项：空串直接合法，非空才查中文与长度
+  // story 是可选项：空、短都合法（短而有信息 > 空；空 > 硬凑），非空只防超长与非中文
   if (story) {
-    const storyLen = len(story);
     if (!hasZh(story)) errors.push('story 不含中文');
-    if (storyLen < LIMITS.story[0]) errors.push(`story 过短（${storyLen} < ${LIMITS.story[0]}）`);
-    if (storyLen > LIMITS.story[1]) errors.push(`story 过长（${storyLen} > ${LIMITS.story[1]}）`);
+    if (len(story) > LIMITS.storyMax) errors.push(`story 过长（${len(story)} > ${LIMITS.storyMax}）`);
   }
 
   // family 局部清洗：只剔坏项，不判整条死刑
@@ -81,7 +81,7 @@ export function validateWordExt(input, wordK) {
       : len(item.zh) > LIMITS.familyZh ? `zh 超长（>${LIMITS.familyZh}）`
       : null;
     if (why) {
-      dropped.push({ w, why });
+      dropped.push({ w, why, item }); // item 原样带给修复轮（要原 zh 才能压缩重写）
       continue;
     }
     seen.add(w.toLowerCase());
