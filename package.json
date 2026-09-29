@@ -14,7 +14,8 @@
     "start": "node scripts/serve.mjs",
     "smoke": "node scripts/smoke.mjs",
     "build:legacy": "node scripts/build-legacy.mjs",
-    "test": "node --test"
+    "test": "node --test",
+    "build:ext": "node scripts/build-ext.mjs"
   },
   "dependencies": {
     "playwright-core": "^1.63.0"
