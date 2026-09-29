@@ -36,6 +36,35 @@ try {
   console.log('[after dl] packs =', await packs());
   console.log('[after dl] status =', (await page.textContent('#status')).trim());
 
+  // 词典 tab：前缀查询有命中 → 点进单词卡详情 → 返回列表；无匹配/清空给正确提示
+  await page.click('#tabs .tab[data-tab="dict"]');
+  await page.fill('#dict-q', 'abil');
+  console.log('[dict]     hint =', (await page.textContent('#dict-hint')).trim());
+  console.log('[dict]     top3 =', await page.evaluate(() =>
+    [...document.querySelectorAll('#dict-list .dict-word')].slice(0, 3).map(el => el.textContent)));
+
+  await page.click('#dict-list li');
+  await page.waitForTimeout(300);
+  console.log('[dict]     detail =', await page.evaluate(() => ({
+    listHidden: document.getElementById('dict-card').hidden,
+    back: !!document.querySelector('#dict-detail .dict-back'),
+    word: (document.querySelector('#dict-detail .q-word') || {}).textContent || null,
+    senses: document.querySelectorAll('#dict-detail .sense').length,
+    ext: !!document.querySelector('#dict-detail .q-ext'),
+  })));
+  await page.click('#dict-detail .dict-back');
+  await page.waitForTimeout(200);
+  console.log('[dict]     back =', await page.evaluate(() => ({
+    detailHidden: document.getElementById('dict-detail').hidden,
+    listShown: !document.getElementById('dict-card').hidden,
+    n: document.querySelectorAll('#dict-list li').length,
+  })));
+
+  await page.fill('#dict-q', 'zzzqqq');
+  console.log('[dict]     miss =', (await page.textContent('#dict-hint')).trim());
+  await page.fill('#dict-q', '');
+  console.log('[dict]     empty =', (await page.textContent('#dict-hint')).trim());
+
   // 2) 模拟"老词包"：往 IndexedDB 塞一个 v1（没有 a 字段）并激活
   const seeded = await page.evaluate(async () => {
     const stores = await import('/js/db/stores.js');

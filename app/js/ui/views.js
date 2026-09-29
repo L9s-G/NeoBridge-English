@@ -166,6 +166,16 @@ export function questionView({ word, baseUrl, flipped, onFlip, onAnswer, onPlay,
 }
 
 /**
+ * 只读单词卡（词典点进去看详情用）：正面 + 背面（义项 + 扩展区），没有作答按钮。
+ * 正面 🔊 同题卡 —— 有本地发音调 onPlay，没有回落 YouGlish 外链。
+ */
+export function detailView(word, baseUrl, ext, onPlay) {
+  const root = h('div', { class: 'q' }, front(word, onPlay));
+  root.append(back(word, baseUrl, ext));
+  return root;
+}
+
+/**
  * 让正面词按卡片可用宽度缩到单行：先回到 CSS 的档位封顶，量出自然宽度，
  * 超出可用宽度就按比例缩小（只缩不放大，永不越过封顶）。
  * 必须在元素已入 DOM 后调用 —— 要靠布局量宽；session.js 在 append 的同一帧

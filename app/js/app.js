@@ -8,16 +8,17 @@
  */
 
 import { lastDays } from './core/day.js';
+import { searchWords } from './core/dict.js';
 import { withParams } from './core/params.js';
 import { coverageOf } from './core/progress.js';
 import { isWrongWord } from './core/pools.js';
 import { downloadPack, removePack, restorePacks, setActivePackId } from './db/importer.js';
 import { loadExt } from './db/ext-loader.js';
 import { getActivePackId, loadDaily, loadProgress, openStore } from './db/stores.js';
-import { audioNamesOf, countCached, downloadAudio } from './ui/audio-download.js';
-import { renderWeek, renderWrongList } from './ui/lists.js';
+import { audioNamesOf, countCached, downloadAudio, playAudio } from './ui/audio-download.js';
+import { renderDictList, renderWeek, renderWrongList } from './ui/lists.js';
 import { openSession } from './ui/session.js';
-import { replaceChildren } from './ui/views.js';
+import { detailView, h, replaceChildren } from './ui/views.js';
 
 const BUNDLED_BASE = './data/';
 const params = withParams();
@@ -206,6 +207,85 @@ async function renderLists() {
   renderWrongList($('wrong-card'), entries, byKey, () => startSession(order.length, order));
 }
 
+/* ---------------- 词典 ---------------- */
+
+const DICT_LIMIT = 50;
+
+/** 详情开着时记 wordKey（换包刷新时按 k 重新解析，词没了就自纠回列表） */
+let dictDetailKey = null;
+
+/** 按输入框当前内容重画词典；查询串原样保留（刷新不会清掉用户正在打的字） */
+function drawDictResults() {
+  const list = $('dict-list');
+  const hint = $('dict-hint');
+  if (!view.payload) return;
+
+  const q = $('dict-q').value;
+  if (!q.trim()) {
+    replaceChildren(list);
+    hint.textContent = `${view.payload.words.length} 词 · 输入英文开始查询（大小写不敏感，含短语）`;
+    return;
+  }
+
+  const hits = searchWords(view.payload.words, q);
+  if (!hits.length) {
+    replaceChildren(list);
+    hint.textContent = `没有匹配「${q.trim()}」的词`;
+    return;
+  }
+
+  hint.textContent = hits.length > DICT_LIMIT
+    ? `${hits.length} 个匹配 · 显示前 ${DICT_LIMIT}`
+    : `${hits.length} 个匹配`;
+  renderDictList(list, hits.slice(0, DICT_LIMIT), openDictDetail);
+}
+
+/**
+ * 单词卡详情（只读）：正面 + 背面（义项 + 扩展区）+ 返回按钮。
+ * key 为空 / 词已不在当前词包 → 自纠关详情、回列表，不报错。
+ */
+function renderDictDetail() {
+  const card = $('dict-detail');
+  const word = view.payload && view.payload.words.find(w => w.k === dictDetailKey);
+  if (!word) {
+    dictDetailKey = null;
+    card.hidden = true;
+    $('dict-card').hidden = !view.payload;
+    if (view.payload) drawDictResults();
+    return;
+  }
+  replaceChildren(card,
+    h('button', { class: 'btn ghost dict-back', onclick: closeDictDetail }, '← 返回列表'),
+    detailView(
+      word,
+      view.payload.baseUrl,
+      view.ext ? view.ext.map.get(word.k) : null,
+      playAudio,
+    ),
+  );
+  card.hidden = false;
+  $('dict-card').hidden = true;
+}
+
+function openDictDetail(word) {
+  dictDetailKey = word.k;
+  renderDictDetail();
+  window.scrollTo(0, 0);
+}
+
+function closeDictDetail() {
+  dictDetailKey = null;
+  renderDictDetail();
+}
+
+function renderDict() {
+  // 详情开着时不动列表（只重画详情或自纠关闭），避免刷新把画面切回去
+  if (dictDetailKey) { renderDictDetail(); return; }
+  $('dict-detail').hidden = true;
+  $('dict-card').hidden = !view.payload;
+  if (view.payload) drawDictResults();
+}
+
 /* ---------------- 主流程 ---------------- */
 
 /** 有词包才能开一轮 */
@@ -268,6 +348,7 @@ async function refresh() {
   renderStart();
   renderPacks();
   renderStats();
+  renderDict();
   await renderLists();
 
   setStatus(
@@ -362,6 +443,8 @@ $('tabs').addEventListener('click', e => {
   const btn = e.target.closest('.tab');
   if (btn) showPane(btn.dataset.tab);
 });
+
+$('dict-q').addEventListener('input', drawDictResults);
 
 $('btn-start').onclick = () => {
   // 题数只有一个来源：HTML 的 <select id="size">（selected 那项即默认）。

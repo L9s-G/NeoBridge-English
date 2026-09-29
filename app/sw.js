@@ -12,7 +12,7 @@
  * 所以 SW 缓存过期最多少拿一次，不会读到损坏数据。
  */
 
-const SHELL_CACHE = 'neobridge-shell-v22';   // ← 发版时改这里（v22：新增卡背扩展区 + 扩展数据加载器 ext-loader）
+const SHELL_CACHE = 'neobridge-shell-v23';   // ← 发版时改这里（v23：新增词典 tab + 单词卡详情）
 const PACK_CACHE_PREFIX = 'neobridge-pack-';
 // 与 app/js/ui/audio-download.js 里的 AUDIO_CACHE 保持一致（sw.js 是经典脚本，不能 import）
 const AUDIO_CACHE = 'neobridge-audio-v1';
@@ -35,6 +35,7 @@ const SHELL = [
   './js/core/scheduler.js',
   './js/core/queue.js',
   './js/core/day.js',
+  './js/core/dict.js',
   './js/db/idb.js',
   './js/db/stores.js',
   './js/db/importer.js',

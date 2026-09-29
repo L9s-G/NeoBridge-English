@@ -28,6 +28,7 @@
     <div id="home">
       <nav id="tabs" aria-label="功能分区">
         <button class="tab on" data-tab="review" type="button">复习</button>
+        <button class="tab" data-tab="dict" type="button">词典</button>
         <button class="tab" data-tab="progress" type="button">进度</button>
         <button class="tab" data-tab="packs" type="button">设置</button>
       </nav>
@@ -47,6 +48,18 @@
             </label>
             <button id="btn-start" class="primary">开始</button>
           </div>
+        </section>
+      </div>
+
+      <div class="pane" id="pane-dict" hidden>
+        <section id="dict-detail" class="card" hidden></section>
+
+        <section id="dict-card" class="card" hidden>
+          <h2>词典</h2>
+          <input id="dict-q" type="search" placeholder="输入英文，前缀优先…"
+                 autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false">
+          <p id="dict-hint" class="start-hint"></p>
+          <ul id="dict-list"></ul>
         </section>
       </div>
 

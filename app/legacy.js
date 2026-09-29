@@ -27,6 +27,27 @@
     return "".concat(diff, " \u5929\u524D");
   }
 
+  // app/js/core/dict.js
+  function normalize(text) {
+    return String(text == null ? "" : text).trim().toLowerCase().replace(/\s+/g, " ");
+  }
+  function searchWords(words, query) {
+    const q = normalize(query);
+    if (!q) return [];
+    const hits = [];
+    for (const w of words || []) {
+      const form = normalize(w.w);
+      if (!form) continue;
+      let rank = -1;
+      if (form === q) rank = 0;
+      else if (form.indexOf(q) === 0) rank = 1;
+      else if (form.indexOf(q) > 0) rank = 2;
+      if (rank >= 0) hits.push({ w, form, rank });
+    }
+    hits.sort((a, b) => a.rank - b.rank || a.form.length - b.form.length || (a.form < b.form ? -1 : a.form > b.form ? 1 : 0));
+    return hits.map((x) => x.w);
+  }
+
   // app/js/core/params.js
   var DEFAULT_PARAMS = {
     /** 等级权重：B2 出现得更频繁 */
@@ -951,6 +972,11 @@
     ));
     return root;
   }
+  function detailView(word, baseUrl, ext, onPlay) {
+    const root = h("div", { class: "q" }, front(word, onPlay));
+    root.append(back(word, baseUrl, ext));
+    return root;
+  }
   function fitWord(root) {
     const el = root.querySelector(".q-word");
     if (!el) return;
@@ -1122,6 +1148,43 @@
     ) : h("p", { class: "day-empty" }, "\u6682\u65E0");
     if (entries.length) title.append(collapsible(head, body));
     replaceChildren(card, head, body);
+  }
+  function dictEntry(word, onSelect) {
+    const ipa = word.senses.map((s) => s.ipa).filter(Boolean)[0] || null;
+    const open = () => onSelect(word);
+    return h(
+      "li",
+      {
+        class: "dict-hit",
+        role: "button",
+        tabindex: "0",
+        onclick: open,
+        onkeydown: (e) => {
+          if (e.key === "Enter" || e.key === " ") {
+            e.preventDefault();
+            open();
+          }
+        }
+      },
+      h(
+        "p",
+        { class: "dict-head" },
+        h("strong", { class: "dict-word" }, word.w),
+        ipa ? h("span", { class: "dict-ipa" }, "/".concat(ipa, "/")) : null,
+        distinctPos(word).map((pos) => h("span", { class: "tag", title: posTitle(pos) }, pos)),
+        h("span", { class: "dict-go", "aria-hidden": "true" }, "\u203A")
+      ),
+      word.senses.map((s) => h(
+        "p",
+        { class: "dict-sense" },
+        h("span", { class: "lvl" }, s.level),
+        s.guide ? h("span", { class: "dict-guide" }, s.guide) : null,
+        s.def
+      ))
+    );
+  }
+  function renderDictList(listEl, hits, onSelect) {
+    replaceChildren(listEl, ...hits.map((w) => dictEntry(w, onSelect)));
   }
 
   // app/js/core/weight.js
@@ -1455,6 +1518,68 @@
     const order = entries.map((e) => byKey.get(e.k));
     renderWrongList($("wrong-card"), entries, byKey, () => startSession(order.length, order));
   }
+  var DICT_LIMIT = 50;
+  var dictDetailKey = null;
+  function drawDictResults() {
+    const list = $("dict-list");
+    const hint = $("dict-hint");
+    if (!view.payload) return;
+    const q = $("dict-q").value;
+    if (!q.trim()) {
+      replaceChildren(list);
+      hint.textContent = "".concat(view.payload.words.length, " \u8BCD \xB7 \u8F93\u5165\u82F1\u6587\u5F00\u59CB\u67E5\u8BE2\uFF08\u5927\u5C0F\u5199\u4E0D\u654F\u611F\uFF0C\u542B\u77ED\u8BED\uFF09");
+      return;
+    }
+    const hits = searchWords(view.payload.words, q);
+    if (!hits.length) {
+      replaceChildren(list);
+      hint.textContent = "\u6CA1\u6709\u5339\u914D\u300C".concat(q.trim(), "\u300D\u7684\u8BCD");
+      return;
+    }
+    hint.textContent = hits.length > DICT_LIMIT ? "".concat(hits.length, " \u4E2A\u5339\u914D \xB7 \u663E\u793A\u524D ").concat(DICT_LIMIT) : "".concat(hits.length, " \u4E2A\u5339\u914D");
+    renderDictList(list, hits.slice(0, DICT_LIMIT), openDictDetail);
+  }
+  function renderDictDetail() {
+    const card = $("dict-detail");
+    const word = view.payload && view.payload.words.find((w) => w.k === dictDetailKey);
+    if (!word) {
+      dictDetailKey = null;
+      card.hidden = true;
+      $("dict-card").hidden = !view.payload;
+      if (view.payload) drawDictResults();
+      return;
+    }
+    replaceChildren(
+      card,
+      h("button", { class: "btn ghost dict-back", onclick: closeDictDetail }, "\u2190 \u8FD4\u56DE\u5217\u8868"),
+      detailView(
+        word,
+        view.payload.baseUrl,
+        view.ext ? view.ext.map.get(word.k) : null,
+        playAudio
+      )
+    );
+    card.hidden = false;
+    $("dict-card").hidden = true;
+  }
+  function openDictDetail(word) {
+    dictDetailKey = word.k;
+    renderDictDetail();
+    window.scrollTo(0, 0);
+  }
+  function closeDictDetail() {
+    dictDetailKey = null;
+    renderDictDetail();
+  }
+  function renderDict() {
+    if (dictDetailKey) {
+      renderDictDetail();
+      return;
+    }
+    $("dict-detail").hidden = true;
+    $("dict-card").hidden = !view.payload;
+    if (view.payload) drawDictResults();
+  }
   function renderStart() {
     $("start-card").hidden = !view.payload;
   }
@@ -1499,6 +1624,7 @@
     renderStart();
     renderPacks();
     renderStats();
+    renderDict();
     await renderLists();
     setStatus(
       packs.length ? "\u5C31\u7EEA \xB7 ".concat(packs.length, " \u4E2A\u8BCD\u5305") : "\u6CA1\u6709\u53EF\u7528\u8BCD\u5305\uFF0C\u53BB\u8BBE\u7F6E\u533A\u4E0B\u8F7D",
@@ -1581,6 +1707,7 @@
     const btn = e.target.closest(".tab");
     if (btn) showPane(btn.dataset.tab);
   });
+  $("dict-q").addEventListener("input", drawDictResults);
   $("btn-start").onclick = () => {
     const sel = $("size");
     const size = Number(sel.value) || Number(sel.options[0] && sel.options[0].value) || 0;

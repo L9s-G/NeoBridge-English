@@ -5,6 +5,7 @@
  */
 
 import { dayKey, dayLabel, relDay } from '../core/day.js';
+import { distinctPos, posTitle } from './card-info.js';
 import { h, replaceChildren } from './views.js';
 
 const WEEK_DAYS = 7;
@@ -152,4 +153,42 @@ export function renderWrongList(card, entries, byKey, onPractice) {
   if (entries.length) title.append(collapsible(head, body));
 
   replaceChildren(card, head, body);
+}
+
+/* ---------------- 词典 ---------------- */
+
+/**
+ * 一个检索命中：词头行（词 + 音标 + 词性 + ›）+ 每义项一行（等级 · 提示 · 释义）。
+ * 整行可点 → onSelect(word) 打开只读单词卡（更多内容：例句外链、扩展区）。
+ * li 不是原生可交互元素，补 role/tabindex，键盘 Enter/空格 同样能进。
+ */
+function dictEntry(word, onSelect) {
+  const ipa = word.senses.map(s => s.ipa).filter(Boolean)[0] || null;
+  const open = () => onSelect(word);
+  return h('li', {
+    class: 'dict-hit', role: 'button', tabindex: '0',
+    onclick: open,
+    onkeydown: e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); open(); } },
+  },
+    h('p', { class: 'dict-head' },
+      h('strong', { class: 'dict-word' }, word.w),
+      ipa ? h('span', { class: 'dict-ipa' }, `/${ipa}/`) : null,
+      distinctPos(word).map(pos => h('span', { class: 'tag', title: posTitle(pos) }, pos)),
+      h('span', { class: 'dict-go', 'aria-hidden': 'true' }, '›'),
+    ),
+    word.senses.map(s => h('p', { class: 'dict-sense' },
+      h('span', { class: 'lvl' }, s.level),
+      s.guide ? h('span', { class: 'dict-guide' }, s.guide) : null,
+      s.def,
+    )),
+  );
+}
+
+/**
+ * @param {object}  listEl   #dict-list
+ * @param {Array}   hits     searchWords() 结果（调用方已截断到显示上限）
+ * @param {Function onSelect 点一条 → 打开该词的只读单词卡
+ */
+export function renderDictList(listEl, hits, onSelect) {
+  replaceChildren(listEl, ...hits.map(w => dictEntry(w, onSelect)));
 }

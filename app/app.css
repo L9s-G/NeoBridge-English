@@ -240,6 +240,42 @@ select {
   border-radius: 8px;
 }
 
+/* ---------------- 词典 ---------------- */
+
+#dict-q {
+  width: 100%;
+  padding: .5rem .7rem;
+  font: inherit;
+  font-size: 1rem;
+  color: var(--text);
+  background: var(--bg);
+  border: 1px solid var(--border-strong);
+  border-radius: 8px;
+}
+#dict-q:focus { border-color: var(--accent); }
+
+/* 词典行是多行文本（词头 + 各义项），必须覆盖全局 li 的 flex 单行布局；
+   覆盖成 block 后也就没有 flex gap 的 iOS 12 问题。整行可点进单词卡详情。 */
+.dict-hit { display: block; padding: .55rem 0; cursor: pointer; }
+
+.dict-head { margin: 0; position: relative; padding-right: 1.2rem; }
+.dict-word { font-size: 1.05rem; }
+.dict-ipa { margin-left: .5rem; color: var(--text-dim); font-size: .85rem; }
+.dict-head .tag { margin-left: .45rem; }
+.dict-go { position: absolute; right: 0; top: 0; color: var(--text-dim); font-weight: 400; }
+
+.dict-sense {
+  margin: .3rem 0 0;
+  color: var(--text);
+  font-size: .9rem;
+  line-height: 1.55;
+}
+.dict-sense .lvl { margin-right: .4rem; }
+.dict-guide { margin-right: .45rem; color: var(--accent); font-size: .8rem; }
+
+/* 详情卡（词典点进去的只读单词卡）：返回按钮独占一行，下面是题卡同款正/背面 */
+.dict-back { display: block; margin-bottom: .75rem; }
+
 /* ---------------- ??? ---------------- */
 
 .session-head {
