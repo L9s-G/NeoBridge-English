@@ -1,6 +1,0 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="NeoBridge English">
-  <rect width="512" height="512" rx="112" fill="#0f1420"/>
-  <path d="M128 352h256" stroke="#1e2a3d" stroke-width="32" stroke-linecap="round"/>
-  <path d="M168 352V224a88 88 0 0 1 176 0v128" fill="none" stroke="#5eead4" stroke-width="40" stroke-linecap="round"/>
-  <circle cx="256" cy="176" r="26" fill="#5eead4"/>
-</svg>

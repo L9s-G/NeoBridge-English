@@ -12,7 +12,7 @@
  * 所以 SW 缓存过期最多少拿一次，不会读到损坏数据。
  */
 
-const SHELL_CACHE = 'neobridge-shell-v23';   // ← 发版时改这里（v23：新增词典 tab + 单词卡详情）
+const SHELL_CACHE = 'neobridge-shell-v24';   // ← 发版时改这里（v24：图标换成设计好的 PNG/ICO 套件）
 const PACK_CACHE_PREFIX = 'neobridge-pack-';
 // 与 app/js/ui/audio-download.js 里的 AUDIO_CACHE 保持一致（sw.js 是经典脚本，不能 import）
 const AUDIO_CACHE = 'neobridge-audio-v1';
@@ -20,11 +20,12 @@ const AUDIO_CACHE = 'neobridge-audio-v1';
 // 预缓存清单：**只列规范 URL**。入口一律是根路径 `/`，不要再加 './index.html'
 // —— 那份是同一页面的重复条目，而且边缘若对 .html 回 3xx，addAll 跟过去存下的
 // 响应带 redirected 标志，会给导航埋雷（见下面 asNavigation 的注释）。
+// 图标（favicon.ico / apple-touch-icon.png / icon-*.png，共约 610 KB）**不预缓存**：
+// 标签页和「添加到主屏幕」都是浏览器自己去取 manifest 里的图，离线用不到。
 const SHELL = [
   './',
   './app.css',
   './manifest.webmanifest',
-  './icon.svg',
   './js/app.js',
   './js/core/params.js',
   './js/core/mastery.js',
