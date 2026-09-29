@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>LLM 词库扩展测试台 · NeoBridge</title>
+<link rel="stylesheet" href="./app.css">
+<style>
+  /* 开发页自带的排版：面板 / 日志 / 结果三段，复用 app.css 的色板 */
+  .panel { background: var(--bg-card); border: 1px solid var(--border); border-radius: .75rem; padding: .9rem 1rem; margin-bottom: 1rem; }
+  .row { display: flex; flex-wrap: wrap; align-items: center; gap: .5rem; }
+  .row + .row { margin-top: .6rem; }
+  label { color: var(--text-dim); font-size: .9rem; }
+  input[type=text], input[type=url], input[type=password], select {
+    background: var(--bg); color: var(--text); border: 1px solid var(--border-strong);
+    border-radius: .5rem; padding: .45rem .6rem; font: inherit;
+  }
+  input[type=text] { width: 11rem; }
+  input.grow { flex: 1 1 14rem; }
+  button { font: inherit; padding: .45rem .9rem; border-radius: .5rem; border: 1px solid var(--border-strong); background: var(--bg); color: var(--text); cursor: pointer; }
+  button.primary { background: var(--accent); border-color: var(--accent); color: var(--bg); font-weight: 600; }
+  button:disabled { opacity: .5; cursor: default; }
+  #log { font: 13px/1.7 ui-monospace, Consolas, monospace; white-space: pre-wrap; word-break: break-all; max-height: 14rem; overflow: auto; color: var(--text-dim); margin: 0; }
+  #log .ok { color: var(--accent); }
+  #log .err { color: var(--danger); }
+  pre { font: 13px/1.6 ui-monospace, Consolas, monospace; white-space: pre-wrap; word-break: break-all; margin: .5rem 0 0; overflow: auto; max-height: 22rem; }
+  .tag { display: inline-block; padding: .1rem .5rem; border-radius: 999px; font-size: .78rem; border: 1px solid var(--border-strong); color: var(--text-dim); }
+  .tag.ok { border-color: var(--accent); color: var(--accent); }
+  .tag.bad { border-color: var(--danger); color: var(--danger); }
+  h2 { font-size: 1.05rem; margin: 0 0 .5rem; }
+  .dim { color: var(--text-dim); font-size: .88rem; }
+  .stack { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+  @media (max-width: 720px) { .stack { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+<div class="page">
+  <header>
+    <h1 class="title">LLM 测试台</h1>
+    <a class="classic-link" href="./index.html" title="回主站">🏠</a>
+  </header>
+  <p class="dim">开发专用（不部署）。走 <code>serve.mjs</code> 的 <code>/llm/*</code> 同源反代，验证
+    <code>app/js/llm/</code> 这条链路：prompt 构建 → chat → 解析 → 校验。</p>
+
+  <div class="panel">
+    <div class="row">
+      <label for="word">单词</label>
+      <input type="text" id="word" value="account" spellcheck="false">
+      <label><input type="checkbox" id="withPhrases" checked> 注入官方短语家族</label>
+      <button id="run" class="primary">生成一轮</button>
+      <button id="clear">清空日志</button>
+      <span id="status" class="tag">待命</span>
+    </div>
+    <div class="row">
+      <label for="baseUrl">端点</label>
+      <input type="url" id="baseUrl" class="grow" value="/llm/v1" spellcheck="false">
+      <label for="model">model</label>
+      <input type="text" id="model" value="agnes-3.0-flash" spellcheck="false">
+      <label for="apiKey">key</label>
+      <input type="password" id="apiKey" value="PROXY_MANAGED" spellcheck="false">
+    </div>
+    <div class="row">
+      <label for="minGap">限速间隔 ms</label>
+      <input type="text" id="minGap" value="6500" style="width:6rem" spellcheck="false">
+      <span class="dim">本地代理 RPM 10；点「生成一轮」是单发，排队器只在多发时生效</span>
+    </div>
+  </div>
+
+  <div class="panel">
+    <h2>日志</h2>
+    <pre id="log"></pre>
+  </div>
+
+  <div class="stack">
+    <div class="panel">
+      <h2>原始输出 <span id="rawTag" class="tag">—</span></h2>
+      <pre id="raw">（还没跑）</pre>
+    </div>
+    <div class="panel">
+      <h2>清洗后 <span id="cleanTag" class="tag">—</span></h2>
+      <pre id="clean">（还没跑）</pre>
+    </div>
+  </div>
+</div>
+
+<script type="module">
+import { chat, LlmError } from './js/llm/client.js';
+import { buildWordExtPrompt, parseWordExt, PROMPT_VERSION } from './js/llm/prompts.js';
+import { validateWordExt } from './js/llm/validate.js';
+
+const $ = id => document.getElementById(id);
+const logEl = $('log');
+let pack = null;
+let busy = false;
+
+function log(line, cls) {
+  const span = document.createElement('span');
+  if (cls) span.className = cls;
+  span.textContent = line + '\n';
+  logEl.appendChild(span);
+  logEl.scrollTop = logEl.scrollHeight;
+}
+
+function setStatus(text, cls) {
+  const el = $('status');
+  el.textContent = text;
+  el.className = 'tag' + (cls ? ` ${cls}` : '');
+}
+
+async function loadPack() {
+  if (pack) return pack;
+  const res = await fetch('./data/words.v2.json');
+  if (!res.ok) throw new Error(`词包加载失败 HTTP ${res.status}`);
+  pack = await res.json();
+  const byKey = new Map(pack.words.map(w => [w.k, w]));
+  const members = new Map();
+  for (const w of pack.words) {
+    for (const e of w.entries || []) {
+      if (!members.has(e)) members.set(e, []);
+      members.get(e).push(w.k);
+    }
+  }
+  pack.byKey = byKey;
+  pack.phrasesOf = k => {
+    const out = new Set();
+    const word = byKey.get(k);
+    for (const e of (word && word.entries) || []) {
+      for (const m of members.get(e) || []) if (m !== k) out.add(m);
+    }
+    return [...out].sort();
+  };
+  return pack;
+}
+
+$('clear').onclick = () => { logEl.textContent = ''; };
+
+$('run').onclick = async () => {
+  if (busy) return;
+  busy = true;
+  $('run').disabled = true;
+  const t0 = Date.now();
+  try {
+    setStatus('加载词包…');
+    const p = await loadPack();
+    const key = $('word').value.trim().toLowerCase();
+    const word = p.byKey.get(key);
+    if (!word) throw new Error(`词包里没有 "${key}"（键必须小写，且是 wordKey 不是显示词形）`);
+    const phrases = $('withPhrases').checked ? p.phrasesOf(word.k) : [];
+    log(`▶ ${word.w}（义项 ${word.senses.length}，短语家族 ${phrases.length}）`);
+
+    setStatus('生成中…');
+    const messages = buildWordExtPrompt(word, phrases);
+    log(`  system ${messages[0].content.length} 字 / user ${messages[1].content.length} 字`);
+
+    const content = await chat(messages, {
+      baseUrl: $('baseUrl').value.trim(),
+      model: $('model').value.trim(),
+      apiKey: $('apiKey').value.trim(),
+    }, { json: true, timeoutMs: 90000 });
+
+    $('raw').textContent = content;
+    $('rawTag').textContent = '收到';
+    $('rawTag').className = 'tag ok';
+
+    setStatus('解析…');
+    const parsed = parseWordExt(content);
+    const result = validateWordExt(parsed, word.k);
+
+    $('clean').textContent = JSON.stringify(result.cleaned, null, 1);
+    if (result.ok) {
+      setStatus(`OK · ${((Date.now() - t0) / 1000).toFixed(1)}s`, 'ok');
+      $('cleanTag').textContent = '校验通过';
+      $('cleanTag').className = 'tag ok';
+      log(`  ✓ zh ${result.cleaned.zh.length} 字 / family ${result.cleaned.family.length} / path ${result.cleaned.etymology.path.length}`, 'ok');
+    } else {
+      setStatus('校验未过', 'bad');
+      $('cleanTag').textContent = `失败：${result.errors.join('；')}`;
+      $('cleanTag').className = 'tag bad';
+      result.errors.forEach(e => log(`  ✗ ${e}`, 'err'));
+    }
+    if (result.dropped.length) {
+      result.dropped.forEach(d => log(`  − 剔除 ${d.w}：${d.why}`));
+    }
+    log(`  全程 ${((Date.now() - t0) / 1000).toFixed(1)}s，promptV ${PROMPT_VERSION}`);
+  } catch (err) {
+    const code = err instanceof LlmError ? `[${err.code}] ` : '';
+    setStatus('失败', 'bad');
+    $('cleanTag').textContent = '未产出';
+    $('cleanTag').className = 'tag bad';
+    log(`  ✗ ${code}${err.message}`, 'err');
+    if (err instanceof LlmError && err.code === 'NETWORK') {
+      log('  提示：确认 npm start 起的 serve.mjs 在跑，且 LLM 上游已启动（LLM_UPSTREAM 可改地址）');
+    }
+  } finally {
+    busy = false;
+    $('run').disabled = false;
+  }
+};
+</script>
+</body>
+</html>

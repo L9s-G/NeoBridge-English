@@ -12,7 +12,7 @@
  * 所以 SW 缓存过期最多少拿一次，不会读到损坏数据。
  */
 
-const SHELL_CACHE = 'neobridge-shell-v19';   // ← 发版时改这里（v19：正面词字号按卡片宽度自适应、单行不换行）
+const SHELL_CACHE = 'neobridge-shell-v20';   // ← 发版时改这里（v20：llm 开发测试页不进缓存）
 const PACK_CACHE_PREFIX = 'neobridge-pack-';
 // 与 app/js/ui/audio-download.js 里的 AUDIO_CACHE 保持一致（sw.js 是经典脚本，不能 import）
 const AUDIO_CACHE = 'neobridge-audio-v1';
@@ -87,6 +87,10 @@ self.addEventListener('fetch', event => {
   const { request } = event;
   if (request.method !== 'GET') return;
   if (new URL(request.url).origin !== self.location.origin) return;
+  // 开发专用：llm 测试页（未部署）与 /llm 反代直连网络，不落 shell 缓存，
+  // 否则 cache-first 会把改动锁在旧版本里
+  const path = new URL(request.url).pathname;
+  if (path.endsWith('/llm-test.html') || path.indexOf('/llm/') > -1) return;
   event.respondWith(handle(request));
 });
 
