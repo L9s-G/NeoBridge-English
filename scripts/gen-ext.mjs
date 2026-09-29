@@ -2,8 +2,9 @@
 /**
  * 词级扩展信息（中文详解 / 家族词 / 词源）试点批量生成。
  *
- *   node scripts/gen-ext.mjs                 # 内置 20 个试点词（正式跑法）
- *   node scripts/gen-ext.mjs --words a,b,c   # 只跑这些词并**覆盖产物**（快速试 prompt 用）
+ *   node scripts/gen-ext.mjs                 # 内置 20 个试点词 → word-ext.pilot.json
+ *   node scripts/gen-ext.mjs --all           # 全部单单词（3645，短语除外）→ word-ext.json
+ *   node scripts/gen-ext.mjs --words a,b,c   # 只跑这些词（补齐进产物，已有且成功的跳过）
  *   LLM_BASE_URL=http://127.0.0.1:15721/v1 node scripts/gen-ext.mjs
  *
  * 路径：词包读 grounding → buildWordExtPrompt → 限速队列 → chat(json)
@@ -12,11 +13,14 @@
  * prompt / 解析 / 校验全部 import app/js/llm/ —— 与浏览器测试页
  * llm-test.html 走同一套代码，这就是本轮要验证的"路径可靠性"。
  *
- * 每次运行都是全量重新生成、直接覆盖产物（开发阶段不留 checkpoint 历史）。
- * 输出：data/raw/word-ext.pilot.json（不进 app/data/，不碰词包）
+ * 产物文件本身就是断点：每词落盘一次，重跑时同 promptV 且成功的条目直接跳过，
+ * 失败的自动补跑——全量批跑（~14 小时）中断不用归零，也不需要单独的 checkpoint。
+ * 换了 PROMPT_VERSION 的旧条目视为过期，全部重新生成（不留历史）。
+ *
+ * 输出：data/raw/word-ext.pilot.json（试点）/ data/raw/word-ext.json（全量），不进 app/data/。
  */
 
-import { mkdirSync, readFileSync, writeFileSync } from 'node:fs';
+import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
@@ -28,7 +32,8 @@ import { validateWordExt } from '../app/js/llm/validate.js';
 const ROOT = dirname(dirname(fileURLToPath(import.meta.url)));
 const PACK_PATH = join(ROOT, 'app', 'data', 'words.v2.json');
 const RAW_DIR = join(ROOT, 'data', 'raw');
-const OUTPUT = join(RAW_DIR, 'word-ext.pilot.json');
+const OUTPUT_PILOT = join(RAW_DIR, 'word-ext.pilot.json');
+const OUTPUT_ALL = join(RAW_DIR, 'word-ext.json');
 
 /** 试点词单：多义 / 同形异义 / 长短混合 / 带短语家族（词必须在 B1/B2 词包里） */
 const PILOT_WORDS = [
@@ -103,34 +108,67 @@ async function generateOne(word, phrases, push) {
 
 /* ---------------- main ---------------- */
 
-async function main() {
-  const argIdx = process.argv.indexOf('--words');
-  const words = argIdx >= 0 && process.argv[argIdx + 1]
-    ? process.argv[argIdx + 1].split(',').map(s => s.trim()).filter(Boolean)
-    : PILOT_WORDS;
+/** 产物即断点：只认同 promptV 且成功的条目（失败的补跑，换版本的重跑） */
+function loadPrior(file) {
+  if (!existsSync(file)) return {};
+  try {
+    const data = JSON.parse(readFileSync(file, 'utf8'));
+    if (data.promptV !== PROMPT_VERSION) {
+      console.log(`  产物是 promptV ${data.promptV}（当前 ${PROMPT_VERSION}），全部重新生成`);
+      return {};
+    }
+    const prior = {};
+    for (const w of data.words || []) if (w && !w.error) prior[w.k] = w;
+    return prior;
+  } catch {
+    console.warn('  产物解析失败，全部重新生成');
+    return {};
+  }
+}
 
+async function main() {
   console.log(`[1/3] 读词包 ${PACK_PATH}`);
   const { byKey, phrasesOf } = loadPack();
 
+  const allMode = process.argv.includes('--all');
+  const argIdx = process.argv.indexOf('--words');
+  let keys;
+  if (allMode) {
+    keys = [...byKey.keys()].filter(k => !/\s/.test(k)); // 短语不扩展（词源/家族词对短语无意义）
+  } else if (argIdx >= 0 && process.argv[argIdx + 1]) {
+    keys = process.argv[argIdx + 1].split(',').map(s => s.trim()).filter(Boolean);
+  } else {
+    keys = PILOT_WORDS;
+  }
+
   const targets = [];
-  for (const k of words) {
+  for (const k of keys) {
     const word = byKey.get(k);
     if (!word) { console.warn(`  跳过：词包里没有 "${k}"`); continue; }
     targets.push(word);
   }
   if (!targets.length) { console.error('没有可生成的词'); process.exit(1); }
 
-  console.log(`[2/3] 全量重新生成 ${targets.length} 词（promptV ${PROMPT_VERSION}）`);
+  const outputFile = allMode ? OUTPUT_ALL : OUTPUT_PILOT;
+  const prior = loadPrior(outputFile);
+  const pending = targets.filter(w => !prior[w.k]);
+  console.log(`[2/3] 共 ${targets.length} 词，产物已有 ${targets.length - pending.length}，待生成 ${pending.length}（promptV ${PROMPT_VERSION}）`);
+  if (!pending.length) {
+    console.log('[3/3] 全部已完成');
+    writeOutput(prior, {}, targets, outputFile);
+    return;
+  }
 
   // RPM 10 → 默认 6.5s 间隔；环境变量可调快（比如上游放开限速时）
   const push = createQueue({ minIntervalMs: Number(process.env.LLM_MIN_INTERVAL || 6500) });
 
   const results = {};
   let failed = 0;
-  for (let i = 0; i < targets.length; i += 1) {
-    const word = targets[i];
+  const t0Run = Date.now();
+  for (let i = 0; i < pending.length; i += 1) {
+    const word = pending[i];
     const t0 = Date.now();
-    console.log(`[${i + 1}/${targets.length}] ${word.w} …`);
+    console.log(`[${targets.length - pending.length + i + 1}/${targets.length}] ${word.w} …`);
     try {
       const result = await generateOne(word, phrasesOf(word.k), push);
       results[word.k] = {
@@ -149,19 +187,29 @@ async function main() {
         console.log(`  ✗ ${result.error}`);
       }
     } catch (err) {
-      console.error(`  ✗ 中断：${err.message}（开发阶段直接重跑即可，无断点）`);
+      console.error(`  ✗ 中断：${err.message}`);
+      console.error('  进度已写入产物文件，重跑同一命令自动续上');
       process.exit(2);
+    }
+    // 每词落盘：14 小时的批跑随时可断
+    writeOutput(prior, results, targets, outputFile, { quiet: true });
+    if ((i + 1) % 20 === 0) {
+      const elapsed = Date.now() - t0Run;
+      const perWord = elapsed / (i + 1);
+      const remainMin = Math.round((pending.length - i - 1) * perWord / 60000);
+      const usedMin = Math.round(elapsed / 60000);
+      console.log(`  ── 进度 ${targets.length - pending.length + i + 1}/${targets.length} · 本轮已用 ${usedMin} 分钟 · 预计还需 ${remainMin} 分钟 ──`);
     }
   }
 
-  console.log(`[3/3] 成功 ${targets.length - failed}，失败 ${failed}`);
-  writeOutput(results, targets);
+  console.log(`[3/3] 本轮成功 ${pending.length - failed}，失败 ${failed}；产物可用 ${targets.length - failed}/${targets.length}`);
+  writeOutput(prior, results, targets, outputFile);
   if (failed) process.exitCode = 3;
 }
 
-function writeOutput(results, targets) {
+function writeOutput(prior, results, targets, file, { quiet = false } = {}) {
   const words = targets
-    .map(w => results[w.k])
+    .map(w => results[w.k] || prior[w.k])
     .filter(Boolean)
     .map(({ ok, attempts, dropped, ...entry }) => entry); // 失败的留 error，成功的不带内部字段
 
@@ -174,8 +222,8 @@ function writeOutput(results, targets) {
     words,
   };
   mkdirSync(RAW_DIR, { recursive: true });
-  writeFileSync(OUTPUT, JSON.stringify(payload, null, 1));
-  console.log(`  → ${OUTPUT}（${words.filter(w => !w.error).length}/${words.length} 可用）`);
+  writeFileSync(file, JSON.stringify(payload, null, 1));
+  if (!quiet) console.log(`  → ${file}（${words.filter(w => !w.error).length}/${words.length} 可用）`);
 }
 
 main().catch(err => {

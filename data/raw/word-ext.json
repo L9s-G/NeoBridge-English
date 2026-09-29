@@ -1,0 +1,3147 @@
+{
+ "kind": "word-ext",
+ "promptV": 3,
+ "model": "agnes-3.0-flash",
+ "generatedAt": "2026-09-29T02:37:08.079Z",
+ "count": 79,
+ "words": [
+  {
+   "k": "abandon",
+   "w": "abandon",
+   "promptV": 3,
+   "model": "agnes-3.0-flash",
+   "generatedAt": "2026-09-29T02:10:43.392Z",
+   "zh": "核心场景是“彻底放弃、丢下不管”，比普通的 leave 或 forget 要决绝得多。通常指因为危险、无用或情感割舍而主动离开某物或某人，且往往暗示不再回头。比如船要沉了，水手选择 abandon ship 弃船逃生；或者在感情破裂时，一方彻底 cut off 联系，也可称作 abandon the relationship。注意区分 leave（中性，只是暂时不在场，可能回来）和 abandon（决绝，带着无奈或冷酷的主动遗弃感）。常见搭配有 abandon hope（绝望）、abandon a plan（中止计划）。容易误用的地方在于：它很少用于指“离开某个具体位置去另一个地方”这种物理移动，那是 move 或 go 的活儿；abandon 强调的是“关系/控制/责任”的断裂。如果说你只是忘了拿钥匙而离开家门，那叫 left，绝不能说 abandoned your house，除非你打算把房子彻底扔给流浪汉住，再也不回来了。",
+   "family": [
+    {
+     "w": "abandoner",
+     "rel": "derived",
+     "pos": "noun",
+     "zh": "实施遗弃的人或物"
+    }
+   ],
+   "etymology": {
+    "origin": "古法语 abandonner，源自拉丁语 ab- (远离) + handen (控制/指挥)",
+    "story": "这个词的字面原意其实很诗意：放弃对某人的“掌控”或“命令权”。在13世纪，它并不一定指坏意的遗弃，有时甚至指“放手让某人做他想做的事”，有一种信任的意味。但随着时间推移，这种“不再负责”的语义逐渐阴暗化，变成了彻底丢下不管，尤其用于指抛弃亲人或资产。从“交出控制权”到“残酷的遗弃”，中间经历了漫长的语用沉淀。",
+    "path": [
+     {
+      "form": "abhanden",
+      "lang": "Old High German",
+      "meaning": "放手，失去"
+     },
+     {
+      "form": "abandonner",
+      "lang": "Old French",
+      "meaning": "放弃控制，遗弃"
+     }
+    ]
+   }
+  },
+  {
+   "k": "abandoned",
+   "w": "abandoned",
+   "promptV": 3,
+   "model": "agnes-3.0-flash",
+   "generatedAt": "2026-09-29T02:10:51.775Z",
+   "zh": "abandoned 是 abandon 的过去分词，作形容词时核心意象是“被彻底抛弃、连影子都不剩了”。\n\nEMPTY：侧重“物”的废弃。指建筑、工厂、车辆因被主人放弃维护而闲置破败，常译为“荒废的、废弃的”。注意它比普通词 empty（空的）更重，强调“无人问津的颓败感”，比如 an abandoned house 不只是空房子，而是那种杂草丛生、门窗破损的阴森空屋。\n\nLEFT SOMEWHERE：侧重“人”的抛弃。指婴儿、宠物甚至被遗弃的爱人被主动丢在某个地方，带有强烈的道德谴责色彩。在“abandoned baby”里，重点不是“丢”这个动作，而是“被狠心留在原地”的悲剧状态。\n\n易混点：别和 absent（缺席）混，absent 只是人没在，abandoned 是连“归属感”都被斩断了。毒舌提醒：看到这个词脑补恐怖片开场，通常没人会用它来形容整洁的仓库。",
+   "family": [
+    {
+     "w": "abandon",
+     "rel": "sibling",
+     "pos": "verb",
+     "zh": "抛弃，放弃（原型动词）"
+    },
+    {
+     "w": "abandonment",
+     "rel": "derived",
+     "pos": "noun",
+     "zh": "抛弃，遗弃（行为或状态）"
+    }
+   ],
+   "etymology": {
+    "origin": "源自拉丁语 abandonare，意为“让…自由，放开”",
+    "story": "",
+    "path": [
+     {
+      "form": "abandonare",
+      "lang": "Latin",
+      "meaning": "放手，使自由"
+     },
+     {
+      "form": "abandoner",
+      "lang": "Old French",
+      "meaning": "放弃，抛弃"
+     },
+     {
+      "form": "abandon",
+      "lang": "Middle English",
+      "meaning": "失去控制，彻底放弃"
+     }
+    ]
+   }
+  },
+  {
+   "k": "ability",
+   "w": "ability",
+   "promptV": 3,
+   "model": "agnes-3.0-flash",
+   "generatedAt": "2026-09-29T02:10:59.339Z",
+   "zh": "能力；本领。核心场景：MENTAL/PHYSICAL SKILL，指完成某事所需的智力、体力或特定技艺。常用于‘have the ability to do sth’结构，强调主体具备某种潜能或专长。注意与capability（侧重实际运作能力、系统效能）区分：ability更偏向个人资质或先天潜能，capability常指机器、组织或系统在受控条件下能达到的状态。易错点：ability是不可数名词时通常加冠词或物主代词，但表示‘各种能力’时可数。毒舌提醒：别把‘我能做’直接翻译成I have ability，加上the或my才地道，否则像在朗诵课文。",
+   "family": [
+    {
+     "w": "able",
+     "rel": "sibling",
+     "pos": "adjective",
+     "zh": "有能力的，能够的"
+    },
+    {
+     "w": "inability",
+     "rel": "derived",
+     "pos": "noun",
+     "zh": "无能，没有能力"
+    },
+    {
+     "w": "capable",
+     "rel": "sibling",
+     "pos": "adjective",
+     "zh": "有能力的，胜任的"
+    }
+   ],
+   "etymology": {
+    "origin": "拉丁语 abilitas，来自 bene（好）+ facere（做），意为‘做得好的能力’。",
+    "story": "源自拉丁语 bene（好地）和 facere（做），组合成 bene facere，即‘做好事/做得好’。后来衍生出名词 abilitas，强调从‘良好’到‘有效’的过程。进入英语后，词义逐渐从‘道德上的良善’转向‘功能上的胜任’。值得注意的是，其近亲 capable 来自 caput（头/捕捉），侧重‘抓住’任务的能力，而 ability 更侧重内在的‘好’与‘通’，因此比 skill（技巧）更抽象，比 capacity（容量/潜力）更具体。",
+    "path": [
+     {
+      "form": "bene facere",
+      "lang": "Latin",
+      "meaning": "做好"
+     },
+     {
+      "form": "abilitas",
+      "lang": "Latin",
+      "meaning": "能力"
+     },
+     {
+      "form": "ability",
+      "lang": "English",
+      "meaning": "能力"
+     }
+    ]
+   }
+  },
+  {
+   "k": "abolish",
+   "w": "abolish",
+   "promptV": 3,
+   "model": "agnes-3.0-flash",
+   "generatedAt": "2026-09-29T02:11:11.294Z",
+   "zh": "核心义项：正式废除、废止，通常指通过法律或官方手段彻底取消某种制度、法律或习俗。场景：POLITICS & LAW；常用于描述政府推翻不合理的旧制度，如废除奴隶制或死刑，强调动作的‘官方性’与‘终结性’。场景：HABITS & CUSTOMS；也可用于比喻彻底根除不好的习惯或思维定势，例如‘abolish excuses’。易混点：不要与‘cancel’混淆，cancel 多用于预约、订单等具体事务，而 abolish 语气更重，对象往往是大型、长期的系统或观念。记忆小贴士：ab-（离开/远离）+ olire（滋养/维持），字面意思是从‘滋养状态’中抽离，即让某事物失去支持而消亡。记住这个词的‘狠劲’：它不是简单的‘停下’，而是彻底的‘销毁’。",
+   "family": [
+    {
+     "w": "abolition",
+     "rel": "derived",
+     "pos": "noun",
+     "zh": "废除，废除奴隶制的历史名词"
+    },
+    {
+     "w": "abolitionist",
+     "rel": "derived",
+     "pos": "noun",
+     "zh": "废除主义者，历史语境中指反奴隶制人士"
+    }
+   ],
+   "etymology": {
+    "origin": "源自拉丁语 abolere，意为‘毁掉、抹去’（ab- 远离 + ole/ere 维持）",
+    "story": "在拉丁语中，abolere 原指将某物从根基处移除或彻底销毁。进入法语 aboli 后，被英语吸收为 abolish。历史上最显著的应用场景是19世纪的废奴运动，abolitionist（废奴主义者）一词由此诞生，使该词带上强烈的道德与政治色彩，从此‘abolish’不再仅是中性术语，常隐含‘纠正历史错误’的正义意味。",
+    "path": [
+     {
+      "form": "abolere",
+      "lang": "Latin",
+      "meaning": "毁掉，消除"
+     },
+     {
+      "form": "abolir",
+      "lang": "French",
+      "meaning": "废除"
+     }
+    ]
+   }
+  },
+  {
+   "k": "about",
+   "w": "about",
+   "promptV": 3,
+   "model": "agnes-3.0-flash",
+   "generatedAt": "2026-09-29T02:11:15.958Z",
+   "zh": "虽然常作介词或代词，但在 B2 阶段重点掌握其副词用法。关于 DIRECTION 方向/移动：当它作副词时，形容没有目的、随意或在某个范围内徘徊的状态。例如 'walk about' 指漫无目的地闲逛，'move about' 指在房间内各处移动或身体某部位移动。这种用法常暗示动作的随意性或不定性，不是从 A 到 B 的定向移动。常见易混点：别把 'about' 当作 'approximately'（大约）来理解这个义项，这里强调的是空间的动态变化而非数值或时间的近似。记住它是“到处转”，而不是“大概”。",
+   "family": [],
+   "etymology": {
+    "origin": "古英语 on butan，意为在…之前",
+    "story": "",
+    "path": [
+     {
+      "form": "on butan",
+      "lang": "Old English",
+      "meaning": "在…之前"
+     },
+     {
+      "form": "upon butan",
+      "lang": "Middle English",
+      "meaning": "关于，面对"
+     }
+    ]
+   }
+  },
+  {
+   "k": "above",
+   "w": "above",
+   "promptV": 3,
+   "model": "agnes-3.0-flash",
+   "generatedAt": "2026-09-29T02:11:31.533Z",
+   "zh": "above 是一个非常有层次感的词，核心感念是“位置或等级高于某物”。\n\n指代场景：当你说 something above，通常指“在上方”或“前面提到的内容”，例如 the above diagram（上面的图表）。注意，这里指代的是空间上的高位或文档中的前文，而非单纯的时间先后。\n\n比较场景：它常用于表示“高于”某个标准或水平，比如 above average（高于平均水平）。在这里，它带有“超出基准线”的意味，比 merely 'high' 更精确。\n\n抽象场景：在等级、社会地位或抽象概念中，above 暗示一种超越或优先。例如 above board（光明正大），意思是“坦坦荡荡，无暗箱操作”，这是因为它源自“在桌面上方”可见的意象。\n\n易混点：别和 over 搞混。over 强调覆盖、跨越或翻转（如 put a jacket over me, drive over the bridge）；而 above 强调相对高度或位置在...之上，且不一定接触（如 The sun is above the tree）。另外，above 很少用于表示“经过”某地点，那是 over 或 across 的领域。\n\n毒舌提醒：别把 above 当成万能“高”，在涉及“覆盖”或“越过”动作时，请去求 over 帮忙。",
+   "family": [],
+   "etymology": {
+    "origin": "古英语 of þæm up, 由 of (由/来自) + up (向上/高处) 构成",
+    "story": "在中古英语中，'of' 和 'up' 逐渐融合。最初 strictly 表示“从...高处/在...上方”。随着时间推移，'of' 的介词含义弱化，语源上 'up' 的高处概念被强化，使得 above 逐渐从“来源”（of + up）演变为纯粹的“位置高于”（up over）。这一演变清晰地展示了英语如何从组合式表达向单一词汇浓缩方向发展的典型路径，也解释了为何它既可用于具体空间，也可用于抽象等级（如 'above one's rank'），因为“高处”在认知语言学中天然映射为“高地位”。",
+    "path": [
+     {
+      "form": "of þæm up",
+      "lang": "Old English",
+      "meaning": "from the height/above"
+     },
+     {
+      "form": "aboven",
+      "lang": "Middle English",
+      "meaning": "higher than, superior to"
+     },
+     {
+      "form": "above",
+      "lang": "Modern English",
+      "meaning": "in a higher place; superior to"
+     }
+    ]
+   }
+  },
+  {
+   "k": "abroad",
+   "w": "abroad",
+   "promptV": 3,
+   "model": "agnes-3.0-flash",
+   "generatedAt": "2026-09-29T02:11:38.340Z",
+   "zh": "核心义：在外国/到国外。作副词，强调“不在本国”的状态或动作。场景：旅行/出差：常用于指长期在外或短期访问，如 'staying abroad for summer'（暑假在国外待着）；'working abroad'（在海外工作）。易混点：与 overseas 的区别。abroad 更泛指任何外国，而 overseas 特指隔海相望的国家（常暗示需要坐船/飞机跨越海洋），但现代英语中 overseas 也常泛指国外。用法陷阱：abroad 是副词，前面不能加介词 to。错误：go to abroad；正确：go abroad。同样， abroad 也不能直接接宾语，不能说 'abroad China'，要说 'in China' 或 'abroad in China' (后者较少见，通常用 in China abroad)。口语化提醒：想表达“出国”就用 go abroad，别啰嗦成 go to the abroad，副词没有形容词形式加 the。",
+   "family": [],
+   "etymology": {
+    "origin": "Old French 'aburo' 源自 'ab' (away) + 'buro' (over there)",
+    "story": "",
+    "path": [
+     {
+      "form": "ab",
+      "lang": "Latin/French",
+      "meaning": "away"
+     },
+     {
+      "form": "buro",
+      "lang": "French",
+      "meaning": "over there"
+     }
+    ]
+   }
+  },
+  {
+   "k": "absence",
+   "w": "absence",
+   "promptV": 3,
+   "model": "agnes-3.0-flash",
+   "generatedAt": "2026-09-29T02:11:45.248Z",
+   "zh": "absence 的核心概念是“缺席”或“缺失”，即某物不在场或不存在。\n\nNOT PRESENT：指人或物未出现在预期地点。常用于职场或正式场合，如 during his absence（在他缺席期间），强调某人因故未到场，导致事务需他人代理。注意：这里指“人不在”，而非“物品丢失”。\n\nNOT EXISTING：指某种抽象事物的缺乏，如证据、规则、意识等。例如 the absence of proof（缺乏证明），强调本该有的东西没有。若指具体物品不见了，通常用 absence 显得过于正式，口语多说 missing。\n\n易混点：absence 侧重“状态”（不在/没有），而 disappear 侧重“动作”（消失/不见）。若用于描述因故请假或外出，用 absence 比 away 更具书面感和正式感。记住：有 absence 的地方，必有 expected presence（预期在场）的对照，否则无意义。",
+   "family": [
+    {
+     "w": "absent",
+     "rel": "sibling",
+     "pos": "adjective",
+     "zh": "缺席的，不在场的"
+    }
+   ],
+   "etymology": {
+    "origin": "源自拉丁语 absentia，即“不在场”的意思。",
+    "story": "词源由前缀 ab-（离开）与 esse（存在，即 be）构成。古罗马法律中常用此词描述证人未出庭的状态。随着英语演变，它从具体的“人不在家/不在场”引申为抽象概念，如“缺乏”、“缺失”，成为描述某事物“不存在”状态的标准术语。",
+    "path": [
+     {
+      "form": "absentia",
+      "lang": "Latin",
+      "meaning": "absence, not being present"
+     },
+     {
+      "form": "absent",
+      "lang": "French",
+      "meaning": "absent"
+     }
+    ]
+   }
+  },
+  {
+   "k": "absent",
+   "w": "absent",
+   "promptV": 3,
+   "model": "agnes-3.0-flash",
+   "generatedAt": "2026-09-29T02:12:05.689Z",
+   "zh": "这个形容词最核心的意思就是“不在该在的地方”，通常特指缺席、旷课或旷工。场景一：学校或职场，比如你翘课或者没来上班，直接说 was absent，后面常接 from，表示从某地缺席。场景二：心理或注意力状态，引申为“心不在焉”或“茫然”，形容人在现场但脑子没在这儿，比如 absent-minded。最容易混淆的是 absent 和 absent-minded，前者侧重物理上的“不在场”，后者侧重精神上的“走神”。千万别把 absent 当名词用，除非你是在玩脑筋急转弯。记住，它是个形容词，别把它当成动词去“缺席”某个会议，你只能“处于缺席状态”或“因缺席而未到场”。",
+   "family": [
+    {
+     "w": "absenteeism",
+     "rel": "derived",
+     "pos": "noun",
+     "zh": "旷工率；缺席现象"
+    },
+    {
+     "w": "absent-minded",
+     "rel": "derived",
+     "pos": "adjective",
+     "zh": "心不在焉的"
+    }
+   ],
+   "etymology": {
+    "origin": "源自古法语 absent，来自拉丁语 ab（离开）+ sentire（感知、意识到），原义为‘未感知到’或‘不在场’。",
+    "story": "拉丁语中 'ab' 是方向介词，'sentire' 是感受。古人认为如果一个人离开了那个场所，他就不再‘感知’那个地方的事务了。从中世纪开始，这个词就专门用来描述人不在指定位置的状态，后来引申出‘精神不在场’的含义。",
+    "path": [
+     {
+      "form": "absent",
+      "lang": "Old French",
+      "meaning": "缺席的"
+     },
+     {
+      "form": "ab",
+      "lang": "Latin",
+      "meaning": "离开"
+     },
+     {
+      "form": "sentire",
+      "lang": "Latin",
+      "meaning": "感知，感觉"
+     }
+    ]
+   }
+  },
+  {
+   "k": "absolute",
+   "w": "absolute",
+   "promptV": 3,
+   "model": "agnes-3.0-flash",
+   "generatedAt": "2026-09-29T02:12:20.866Z",
+   "zh": "absolute 的核心是“绝对的、彻底的”，常用来形容没有任何例外或保留的状态。在政治或权力语境中，它常指不受限制的掌控，比如 absolute power 意味着至高无上的权力，这种用法往往带有警示意味，暗示着危险。在日常描述程度时，它表示“完全的、彻底的”，例如 absolute silence 形容连针掉下来的声音都能听见的寂静，与 relative（相对的）形成鲜明对比。还有一个容易混淆的点：它不单纯等于“大的”，而是强调“没有余地、没有杂质”，所以不要用 absolute good news 这种别扭表达，虽然语法上说得通，但地道表达里我们更多说 absolute certainty（绝对的确信）。记住，这个词自带一种不容置疑的重量感，用得太轻会显得不伦不类，用得太重则可能让人觉得你性格有些独断。",
+   "family": [
+    {
+     "w": "absolutely",
+     "rel": "derived",
+     "pos": "adverb",
+     "zh": "绝对地，完全地；（口语）没错，千真万确"
+    },
+    {
+     "w": "absoluteness",
+     "rel": "derived",
+     "pos": "noun",
+     "zh": "绝对性，彻底"
+    },
+    {
+     "w": "absolutism",
+     "rel": "sibling",
+     "pos": "noun",
+     "zh": "绝对主义；君主专制"
+    }
+   ],
+   "etymology": {
+    "origin": "拉丁语 absolutus，意为“解除束缚的、独立的”",
+    "story": "词源上它并非指“强大”，而是指“被切断、分离的状态”。前缀 ab-（远离）加上 solvere（解开、释放），最初在罗马法律中指一个人从债务或奴役中被彻底解放，成为自由独立的个体。后来神学中借用了这个概念，形容上帝是完全自足、不依赖任何外因存在的。到了18世纪哲学与数学领域，它演变为“不受相对性约束”的状态，最终形成现代英语中“无条件的、彻底的”含义。",
+    "path": [
+     {
+      "form": "solvere",
+      "lang": "Latin",
+      "meaning": "解开，释放"
+     },
+     {
+      "form": "absolutus",
+      "lang": "Latin",
+      "meaning": "被切断的，独立的"
+     },
+     {
+      "form": "absolu",
+      "lang": "Middle French",
+      "meaning": "绝对的，独立的"
+     }
+    ]
+   }
+  },
+  {
+   "k": "absolutely",
+   "w": "absolutely",
+   "promptV": 3,
+   "model": "agnes-3.0-flash",
+   "generatedAt": "2026-09-29T02:12:31.564Z",
+   "zh": "这个词的核心场景是 COMPLETELY，即“完全地、绝对地”，用来加强语气，把程度推到顶点。比如形容食物好吃到爆，或者某件事错得离谱，加个 absolutely 就能表达“毫无保留、百分之百”的强烈感受。它和 totally 很像，但在正式场合（如商务邮件或学术写作）里，absolutely 显得更庄重、更有分量；而 totally 更偏口语和年轻俚语，显得随意些。注意别把它误用成“当然可以”（absolutely yes 虽可，但单独用 absolutely 有时会被误解为对前文的强烈确认或否定，需看语境）。还有一个易混点：很多人以为它只能修饰形容词，其实它常修饰某些动词（如 I absolutely love it）或介词短语，表达极致的喜爱或肯定。毒舌提醒：别在每句话里都塞个 absolutely，否则你的强调就通货膨胀，没人再信你真有“绝对”的底气了。",
+   "family": [
+    {
+     "w": "absolute",
+     "rel": "sibling",
+     "pos": "adjective",
+     "zh": "绝对的，纯粹的"
+    },
+    {
+     "w": "absolutism",
+     "rel": "derived",
+     "pos": "noun",
+     "zh": "专制主义，绝对性"
+    }
+   ],
+   "etymology": {
+    "origin": "源自拉丁语 absolutus，意为“分离的、独立的、完成的”",
+    "story": "这个词的根源在于“切割”或“终结”。拉丁语 absolvere 原意是“使解脱、完成”，引申为“与整体分离、独立存在”。当它加上 -ly 变成副词时，核心语义就从“状态的完成”转向了“程度的极致”——即“完全地、不掺杂任何例外地”。这种从“绝对独立”到“绝对肯定”的语义跳跃，反映了人类思维中对“无限制、无瑕疵”状态的推崇：绝对的自由、绝对的真理，或绝对的正确。",
+    "path": [
+     {
+      "form": "absolutus",
+      "lang": "Latin",
+      "meaning": "分离的，完成的"
+     },
+     {
+      "form": "absolute",
+      "lang": "Middle English",
+      "meaning": "绝对的，纯粹的"
+     },
+     {
+      "form": "absolutely",
+      "lang": "Modern English",
+      "meaning": "完全地，绝对地"
+     }
+    ]
+   }
+  },
+  {
+   "k": "absorb",
+   "w": "absorb",
+   "promptV": 3,
+   "model": "agnes-3.0-flash",
+   "generatedAt": "2026-09-29T02:12:43.480Z",
+   "zh": "absorb 的核心意象是“像海绵吸水”一样把东西吞进去、消化掉，过程通常是渐进的，强调从“外部”到“内部”的转化。\n\nTAKE IN：这是最本义。植物吸收二氧化碳、皮肤吸收阳光，指物质进入生物体并被利用。别忘了，水吸在海绵里叫 absorb，但水漏进杯底叫 leak，别搞混。\n\nATTENTION：引申义，指注意力被完全占据。When you read a thriller, your mind absorbs the plot so much that time flies. 这里不说是“注意”（pay attention），而是说注意力像流体一样被故事“吃”进去了，暗示一种无意识的、深度的沉浸。\n\nFINANCE/EMOTION：更抽象的引申。公司吸收合并（absorb a smaller company），或者情绪被社会体系吸收/缓冲（absorb the shock）。这时候 absorb 带有“消化”、“化解”的意味，强调把冲击或压力内部化处理掉，不再外溢。\n\n易混点：别把 absorb 和 suck 搞混。Suck 是主动用嘴吸，动作很直白；Absorb 是被动地渗透、被接纳，过程更缓慢、更彻底。你 absorb 知识，但你不会 suck 知识（除非你在用吸管喝奶茶）。记住：Absorb 是“消化”，Suck 是“吞咽”。",
+   "family": [
+    {
+     "w": "absorbed",
+     "rel": "derived",
+     "pos": "adjective",
+     "zh": "全神贯注的；被吸收的"
+    },
+    {
+     "w": "absorption",
+     "rel": "derived",
+     "pos": "noun",
+     "zh": "吸收；专注"
+    },
+    {
+     "w": "absorbent",
+     "rel": "derived",
+     "pos": "adjective",
+     "zh": "易吸收的；吸收性的"
+    }
+   ],
+   "etymology": {
+    "origin": "拉丁语 absorbere，abs 意为“远离”，biber 意为“喝”，原义为“喝干、耗尽”。",
+    "story": "词源很有意思：absorptio 本意是“把液体喝干”。从中古法语 auboivre（喝干）进入英语，最初确实多用于液体。后来隐喻化，指“消耗掉、耗尽”（如 absorb all my energy）。17世纪后，生物学用法确立，指植物、身体对物质的物理摄取。再往后，18世纪引申至认知领域，指心智对信息的“摄取与内化”，最终变成我们熟悉的“专注”和“消化”信息。从“喝干水”到“喝干注意力”，一条清晰的液体隐喻线。",
+    "path": [
+     {
+      "form": "absorbere",
+      "lang": "Latin",
+      "meaning": "喝干，耗尽"
+     },
+     {
+      "form": "auboivre",
+      "lang": "Middle French",
+      "meaning": "喝，饮用"
+     },
+     {
+      "form": "absorb",
+      "lang": "English",
+      "meaning": "吸收，专注"
+     }
+    ]
+   }
+  },
+  {
+   "k": "abstract",
+   "w": "abstract",
+   "promptV": 3,
+   "model": "agnes-3.0-flash",
+   "generatedAt": "2026-09-29T02:12:52.744Z",
+   "zh": "抽象这个词在艺术和思维两个领域都有独特用法，但核心逻辑是一致的。在艺术领域（ART），形容词 abstract 专门指代那些不描绘现实物体、仅通过色彩、线条和形状表达情感或概念的作品，比如抽象派绘画（abstract paintings）。这里的关键是“非具象”，与写实主义（realistic）截然相反。在思维领域（IDEAS），它指涉那些看不见摸不着、需要逻辑推演的概念或性质，比如正义、美或数学公式（abstract concepts）。这种用法强调事物脱离了具体的物质形态，上升到了理性层面。最常见的易混点在于与 abstract 的名词义项混淆：名词 abstract 指的是文章或论文的“摘要”，是总结具体内容；而形容词 abstract 指的是“抽象的”，是脱离具体内容的。简而言之，形容词管概念和画风，名词管总结。记住：看画面没具体形象叫 abstract art，想概念想不通叫 abstract idea，读论文先看摘要叫 read the abstract。别把“抽象”理解成“空洞”，它是剥离表象后的本质。",
+   "family": [
+    {
+     "w": "abstraction",
+     "rel": "derived",
+     "pos": "noun",
+     "zh": "抽象；抽象物；摘要"
+    },
+    {
+     "w": "abstractly",
+     "rel": "derived",
+     "pos": "adverb",
+     "zh": "抽象地；概括地"
+    }
+   ],
+   "etymology": {
+    "origin": "拉丁语 abstractus，ex-（抽出）+ trahere（拉），意为“拉出”",
+    "story": "词源本身揭示了“抽象”的本质：原义是“拉出”或“抽出”。中世纪哲学中，指从具体事物中“抽取”出一般性特征，剥离具体细节留下普遍概念。后来在艺术领域，指“抽取”了现实物体的形象，只保留形式。因此，无论是思维中的概念还是画布上的色块，abstract 都意味着一种“分离”和“提纯”的过程，即从具体中抽出核心，丢弃外壳。",
+    "path": [
+     {
+      "form": "abstractus",
+      "lang": "Latin",
+      "meaning": "抽出的"
+     },
+     {
+      "form": "abstraire",
+      "lang": "Middle French",
+      "meaning": "使抽象"
+     },
+     {
+      "form": "abstract",
+      "lang": "English",
+      "meaning": "抽象的；摘要"
+     }
+    ]
+   }
+  },
+  {
+   "k": "absurd",
+   "w": "absurd",
+   "promptV": 3,
+   "model": "agnes-3.0-flash",
+   "generatedAt": "2026-09-29T02:13:07.111Z",
+   "zh": "absurd 的核心义是“荒谬的、不合理的”，指某事在逻辑上站不住脚，或者行为举止可笑到让人无语。它比 silly（傻气）更重，比 ridiculous（荒诞不经）稍正式，常用来评价观点、解释或计划。例如，“What an absurd explanation!” 这里指解释完全不合逻辑，令人难以置信。它不只描述静态的“无意义”，更强调一种“本该如此却偏偏相反”的错位感。易混点：不要把它当纯贬义词随意骂人“你个 absurd 的家伙”，这听起来像指责对方智商下线或行为疯癫，稍显冒犯；形容事没事，形容人要慎重。收尾毒舌：用错 absurd 就像穿着西装跳钢管舞，动作本身不违法，但场合完全不对。",
+   "family": [
+    {
+     "w": "absurdity",
+     "rel": "derived",
+     "pos": "noun",
+     "zh": "荒谬，荒诞性"
+    }
+   ],
+   "etymology": {
+    "origin": "拉丁语 abs + urdus（超出限度之外的）",
+    "story": "源自中世纪拉丁语 absurdus，由 abs-（远离、分离）和 ordus（秩序、排列，即 ordo 的词根）组成。原义是“失去秩序的”、“不合逻辑的”。在中世纪学术语境中，它专门指代那些不符合亚里士多德逻辑或自然法则的命题。后来随着人文主义兴起，这个词从学术圈扩展到日常生活，泛指任何违背常理、令人啼笑皆非的事物。",
+    "path": [
+     {
+      "form": "absurdus",
+      "lang": "Latin",
+      "meaning": "不合秩序的"
+     },
+     {
+      "form": "absurd",
+      "lang": "French",
+      "meaning": "荒谬的"
+     }
+    ]
+   }
+  },
+  {
+   "k": "abuse",
+   "w": "abuse",
+   "promptV": 3,
+   "model": "agnes-3.0-flash",
+   "generatedAt": "2026-09-29T02:13:26.985Z",
+   "zh": "Bad Treatment：核心场景指对人或动物的恶劣对待，常作为复合词出现，如 child abuse, domestic abuse, abuse of power。注意这里 abuse 强调持续的、有意识的伤害行为，而非单次冲突；若涉及身体接触或性侵害，法律上通常升级为 assault 或 rape。\nWrong Use：第二个高频场景是“滥用资源”，特指药物、酒精或职权的使用方式不当或过量。Drug abuse 和 alcohol abuse 是固定搭配，强调成瘾性或非医疗目的的使用。不要与 misuse（一般性错误使用，如 misuse of funds 资金误用）混淆，abuse 更侧重因贪婪或无知导致的过度/有害使用。易混点：很多人误以为 abuse 仅指暴力，其实它涵盖任何违背正当用途的行为，比如 abusing a privilege 滥用特权。",
+   "family": [
+    {
+     "w": "abusive",
+     "rel": "derived",
+     "pos": "adjective",
+     "zh": "辱骂的，滥用的，形容行为或言语"
+    },
+    {
+     "w": "abuser",
+     "rel": "derived",
+     "pos": "noun",
+     "zh": "施虐者，滥用者，通常指施暴方"
+    }
+   ],
+   "etymology": {
+    "origin": "法语 abuser，源自拉丁语 abuti（过度使用、浪费）",
+    "story": "abuse 的词根但来自拉丁语 abuti（buti 的变体），由前缀 ab-（远离、离开）和 utor（使用）组成，字面意思即“使用到偏离正常/耗尽的程度”。中世纪英语借入法语后，词义从“过度使用金钱/资源”逐渐扩展到“对权力的不正当行使”，最终在19世纪随着社工运动兴起，定型为“对弱势群体的残酷对待”。所以理解 abuse 的核心记忆点是：它不是“坏”，而是“用过头了”。",
+    "path": [
+     {
+      "form": "abuti",
+      "lang": "Latin",
+      "meaning": "过度使用，浪费"
+     },
+     {
+      "form": "abuser",
+      "lang": "French",
+      "meaning": "使用者，挥霍者"
+     },
+     {
+      "form": "abuse",
+      "lang": "English",
+      "meaning": "滥用，虐待"
+     }
+    ]
+   }
+  },
+  {
+   "k": "academic",
+   "w": "academic",
+   "promptV": 3,
+   "model": "agnes-3.0-flash",
+   "generatedAt": "2026-09-29T02:13:36.964Z",
+   "zh": "EDUCATION：这是B2学习者最容易望文生义的词。日常口语中，academic 几乎等同于 'theoretical'（理论的）或 'intellectual'（智识的）。\n\n核心用法是区分 'bookish' 与 'practical'。当你说 an academic problem，指的是需要纯逻辑推演、没有现成公式套用的难题；Academic writing 强调严谨的论证结构，而非语法正确与否。\n\n常见误用提醒：中国学生常误以为 academic 只是 '校内的'。其实它更偏向 '非职业的'。比如 'an academic mistake' 不是指你没交作业（那是 procedural error），而是指你的理论推导逻辑错了。如果你说 'He is too academic'，是在夸他书卷气重，但也在吐槽他不懂变通、不善社交。\n\n记忆锚点：Academic 对应的是 Street Smarts（街头智慧），前者是图书馆里的，后者是菜市场里的。",
+   "family": [
+    {
+     "w": "academy",
+     "rel": "sibling",
+     "pos": "noun",
+     "zh": "学院，学术团体"
+    },
+    {
+     "w": "academician",
+     "rel": "derived",
+     "pos": "noun",
+     "zh": "院士，知名学者"
+    }
+   ],
+   "etymology": {
+    "origin": "拉丁语 academia，源自希腊语 Akademeia，意为柏拉图讲学处的花园。",
+    "story": "这个词其实是个地名。公元前4世纪，雅典有个叫阿伽德莫斯（Agathon）的贵族，他的花园叫 Akademeia。花园里住着一群神像，其中最重要的一位是智慧女神雅典娜（Athena），她的名字与 Akademeia 读音相近，因此这片林地被称为“雅典娜之园”。后来，哲学家柏拉图就在这里创办了学园，学生们在橡树下辩论。几百年后，花园虽然荒废了，但 'Akademeia' 这个词已经洗去了泥土气息，变成了 '纯粹理论、严肃思考' 的代名词。所以说 academic，本质上是 '柏拉图在橡树下聊的'。",
+    "path": [
+     {
+      "form": "akademeia",
+      "lang": "Greek",
+      "meaning": "花园，橡树"
+     },
+     {
+      "form": "academia",
+      "lang": "Latin",
+      "meaning": "柏拉图学园"
+     },
+     {
+      "form": "academic",
+      "lang": "English",
+      "meaning": "属于学园的"
+     }
+    ]
+   }
+  },
+  {
+   "k": "accent",
+   "w": "accent",
+   "promptV": 3,
+   "model": "agnes-3.0-flash",
+   "generatedAt": "2026-09-29T02:13:45.481Z",
+   "zh": "Accent 这个词主要有两个核心场景，一个是听得见的，一个是看得见的。在发音（PRONUNCIATION）场景中，它指代地域或社会群体的说话腔调，比如美式英语或英式英语的口音。这里要特别注意，它在日常口语中是个中性词，描述的是说话风格，但如果你在正式场合或强调自己母语身份时，说 'I have no accent' 可能显得有点排斥感，更得体的说法是 'I speak with a local accent'。在符号（MARK）场景中，它指代字母上方用于标示发音或声调的短横线或符号，比如法语中的尖音符或中文拼音中的声调符号（虽然中文通常叫声调，但在语言学定义上也是 accent）。最常见的误用是将 'accent' 和 'stress'（重音）混淆，stress 是节奏上的强弱，而 accent 是发音方式或标记符号。记住它既有‘声音的尾巴’也有‘头顶的小帽子’，就不会搞混了。",
+   "family": [
+    {
+     "w": "accented",
+     "rel": "derived",
+     "pos": "adjective",
+     "zh": "带重音的，有口音的"
+    },
+    {
+     "w": "accentuation",
+     "rel": "derived",
+     "pos": "noun",
+     "zh": "重音规则，语调强调"
+    }
+   ],
+   "etymology": {
+    "origin": "源自拉丁语 accēntus，意为‘音调，节奏’，由 ac-（朝向）+ cantus（歌唱）组成。",
+    "story": "拉丁语 accentus 最初是指‘歌唱方向’，因为古罗马人唱歌时会加重某些音节。后来演变为中世纪拉丁语指‘语调’，再进入法语和英语，衍生出‘发音特征’和‘语音符号’两层意思。",
+    "path": [
+     {
+      "form": "accēnsus",
+      "lang": "Latin",
+      "meaning": "旋律，音高，强调"
+     },
+     {
+      "form": "accent",
+      "lang": "Middle French",
+      "meaning": "语调，口音，重音符号"
+     }
+    ]
+   }
+  },
+  {
+   "k": "accept",
+   "w": "accept",
+   "promptV": 3,
+   "model": "agnes-3.0-flash",
+   "generatedAt": "2026-09-29T02:13:58.948Z",
+   "zh": "accept 是 B1 核心词，核心逻辑是“伸手接过”，引申为心理上的“接纳”。\n\nAGREE TO TAKE：指同意接受某物、邀请、道歉或建议。注意区别：refuse 是拒绝，decline 是婉拒；accept 强调最终结果是你拿走了。例如接受职位、接受礼物，或者接受别人的道歉（虽然心里可能还有点疙瘩，但嘴上说 accept）。\n\nADMIT：指承认某事（通常是令人不悦的事实），即“默认真相”。场景多为接受责任、接受错误、接受现实。例如：He refuses to accept that he's wrong（他不肯承认自己错了）。这里不是物理上的“拿”，而是心理上的“认可/信服”。易混点：acknowledge 是公开承认，accept 更侧重于内心接受现实或后果。\n\nALLOW TO JOIN：指机构或团体接纳某人成为成员，常用于大学录取、俱乐部会员。注意主谓搭配：被录取用 be accepted by；主动申请被接受用 accept an application。这里隐含了“筛选后通过”的意思。\n\n毒舌提醒：别把 accept 和 except（除了）搞混，发音和意思都天壤之别；也别用它来代替“接收”信号，那是 receive 的活。",
+   "family": [
+    {
+     "w": "acceptable",
+     "rel": "derived",
+     "pos": "adjective",
+     "zh": "可接受的，合理的"
+    },
+    {
+     "w": "acceptance",
+     "rel": "derived",
+     "pos": "noun",
+     "zh": "接受，采纳，入学通知"
+    },
+    {
+     "w": "inacceptable",
+     "rel": "derived",
+     "pos": "adjective",
+     "zh": "不可接受的"
+    }
+   ],
+   "etymology": {
+    "origin": "拉丁语 acceptare，意为“计算、接收”，由 ac-（向）+ capere（拿）组成。",
+    "story": "源自拉丁语，本意是“伸手去拿”（capere 即 grab）。古时交易或传递物品时，用手“接住”就是 accept。后来引申为精神层面：既然手接住了，心理上也就“认领”了，于是产生了“承认事实”、“接纳身份”（如入会）的含义。词根 cap- 还衍生出 capacity（容量）、capture（捕捉）、capable（有能力）等词，核心动作都是“抓住/接纳”。",
+    "path": [
+     {
+      "form": "accipere",
+      "lang": "Latin",
+      "meaning": "取，拿，接受"
+     },
+     {
+      "form": " accepter",
+      "lang": "Old French",
+      "meaning": "接受者"
+     }
+    ]
+   }
+  },
+  {
+   "k": "acceptable",
+   "w": "acceptable",
+   "promptV": 3,
+   "model": "agnes-3.0-flash",
+   "generatedAt": "2026-09-29T02:14:06.561Z",
+   "zh": "核心义：足够好、可接受的。注意，这个词的语气比 'good' 弱，比 'bad' 强，特指达到了最低标准，没毛病但也没惊艳。场景分界：GOOD ENOUGH：用于评价质量、结果或行为是否达标，比如 'The food was edible but not particularly tasty, just acceptable.' 重点在于‘勉强过关’。它常修饰 standard, level, solution, price 等抽象名词。易混点：别把它当成 'excellent' 或 'great' 的近义词，说 'This is an acceptable performance' 其实是在委婉地说‘你也就这样吧’。在商务或学术语境中，它代表‘没有重大错误’的中性评价。如果对方对你作品的评价停留在 acceptable，那离 praise 还差得远呢。",
+   "family": [
+    {
+     "w": "accept",
+     "rel": "sibling",
+     "pos": "verb",
+     "zh": "接受，容纳"
+    },
+    {
+     "w": "acceptability",
+     "rel": "derived",
+     "pos": "noun",
+     "zh": "可接受性"
+    },
+    {
+     "w": "unacceptable",
+     "rel": "derived",
+     "pos": "adjective",
+     "zh": "不可接受的"
+    }
+   ],
+   "etymology": {
+    "origin": "拉丁语 acceptare，源自 accipere，意为接受、取得",
+    "story": "词根 capere 有“抓取”之意，加上前缀 ad 表示“向”，变成“抓到手”即接受。从主动的“接受”引申出被动语态的“被接受的”，再加上形容词后缀 -able，就成了 acceptable。逻辑很顺：能被你接受的东西，就是够格的。",
+    "path": [
+     {
+      "form": "accipere",
+      "lang": "Latin",
+      "meaning": "取得，抓住"
+     },
+     {
+      "form": "accept",
+      "lang": "English",
+      "meaning": "接受"
+     },
+     {
+      "form": "acceptable",
+      "lang": "English",
+      "meaning": "可接受的"
+     }
+    ]
+   }
+  },
+  {
+   "k": "access",
+   "w": "access",
+   "promptV": 3,
+   "model": "agnes-3.0-flash",
+   "generatedAt": "2026-09-29T02:14:29.288Z",
+   "zh": "access 的核心意象是“通路”，既指物理上的通道，也指数字世界的权限。METHOD场景：指进入某地的路径或方式，特指无障碍设计或物理入口，如 disabled access（无障碍通道）；这里只谈“怎么进去”，不涉及使用权限。RIGHT/OPPORTUNITY场景：指“获得使用权”或“接触的机会”，常用搭配 Internet access（联网权限）、access to data（数据访问权）；它强调的是“有没有资格看/用”，而不仅是“物理距离有多近”。VERB场景：动词用法特指“通过技术途径获取信息”，如 access files（读取文件）、access data（调取数据）；这是最容易被误用的点：access 动词不能用于获取实物（不能说 access the keys，要用 get 或 retrieve），它专属于信息、系统或抽象资源。\n\n易混提醒：entry 侧重“进入的动作”，access 侧重“可进入的状态或权限”；在口语中，别把 access 当成万能“获取”动词，它有个电子/行政光环。",
+   "family": [],
+   "etymology": {
+    "origin": "古法语 acess (源自拉丁语 accessus，意为接近)",
+    "story": "中世纪法语中，accessus 指‘走近、接近’的生理动作。随着技术发展，该词从‘物理距离的接近’演变为‘系统权限的开放’——现代英语中，能 access 你的数据意味着你被允许‘接近’其信息边界。",
+    "path": [
+     {
+      "form": "accessus",
+      "lang": "Latin",
+      "meaning": "接近、到达"
+     },
+     {
+      "form": "acess",
+      "lang": "Old French",
+      "meaning": "通道、进入"
+     }
+    ]
+   }
+  },
+  {
+   "k": "accessible",
+   "w": "accessible",
+   "promptV": 3,
+   "model": "agnes-3.0-flash",
+   "generatedAt": "2026-09-29T02:15:16.120Z",
+   "zh": "这个词主要解决“够得着”的问题，分两个层面理解。第一层是物理空间：指某物容易到达、接近或进入，比如交通便捷的地方、低楼层的房间或开放的网络资源。常用搭配有 easily accessible（易到达）、accessible by road（可经公路抵达）。注意与 reachable 的区别：reachable 侧重最终能到达，accessible 更强调过程的无障碍和方便性。\n第二层是抽象包容：特指为残障人士或弱势群体提供无障碍环境的设计，如无障碍通道（accessible entrance）、轮椅友好设施。这是现代英语的高频考点，常出现在政府文件或城市规划中。\n易混点：不要把它当成“可接受的”（acceptable），前者关乎物理或社会障碍的消除，后者关乎主观喜好或合规性。记住核心意象是“伸手就能碰到”，没有台阶或门槛。",
+   "family": [
+    {
+     "w": "access",
+     "rel": "sibling",
+     "pos": "noun",
+     "zh": "入口；使用权；通路"
+    },
+    {
+     "w": "inaccessibility",
+     "rel": "derived",
+     "pos": "noun",
+     "zh": "难以接近；隔绝"
+    }
+   ],
+   "etymology": {
+    "origin": "源自拉丁语 accessibilis，意为“可进入的”。",
+    "story": "词根 accessus 由 ad（朝向）和 capere（抓/取）组成，本义是“靠近并抓住”。从物理上“能走进去”引申为信息或内容上“能看懂”，再延伸到社会设计上“对所有人友好”。演变路径清晰：从空间可达，到认知可及，最后成为包容性设计的代名词。",
+    "path": [
+     {
+      "form": "accedere",
+      "lang": "Latin",
+      "meaning": "接近"
+     },
+     {
+      "form": "accessibilis",
+      "lang": "Latin",
+      "meaning": "可接近的"
+     }
+    ]
+   }
+  },
+  {
+   "k": "accidental",
+   "w": "accidental",
+   "promptV": 3,
+   "model": "agnes-3.0-flash",
+   "generatedAt": "2026-09-29T02:15:33.605Z",
+   "zh": "这个词在保险和日常生活中非常高频，核心含义是‘非故意的、偶然的’。场景通常分为两类：一是物理损伤，比如‘accidental damage’（意外损坏），这是汽车保险里的专有名词，指交通事故或第三方造成的损坏，不包括自然磨损或机械故障；二是事件性质，指某事是意外发生的而非预谋。这里有个易混点：别把它当成名词‘accident’的形容词简单对应，它强调的是‘非人为故意’的结果，而非仅仅‘发生了事故’。在医疗或法律语境中，它常用来撇清主观责任，暗示事情的发生纯属运气不好或疏忽，而非蓄意。如果你说某人的行为是 accidental，通常带有‘抱歉但非恶意’的暗示。",
+   "family": [
+    {
+     "w": "accident",
+     "rel": "derived",
+     "pos": "noun",
+     "zh": "意外事故，偶然事件"
+    },
+    {
+     "w": "accidentally",
+     "rel": "derived",
+     "pos": "adverb",
+     "zh": "意外地，偶然地"
+    }
+   ],
+   "etymology": {
+    "origin": "中世纪英语 accidental，源自拉丁语 accidental- (accidens)，意为‘附带物、偶然事件’",
+    "story": "词根 cadere 意为‘落下’。古拉丁语中，incident 或 accidens 指的是‘落在事件之外的额外因素’，即那些没有计划、‘掉落’到事情进程中的意外插曲。从中世纪的逻辑学和哲学开始，accidental 被用来描述不固定、不必然存在、只是偶然附加在事物上的属性，与 essential（本质的、固有的）相对立。到了现代英语，它简化为日常生活中的‘非故意’，既指物理上的碰撞落下（事故），也指计划之外的巧合（偶然）",
+    "path": [
+     {
+      "form": "cadere",
+      "lang": "Latin",
+      "meaning": "落下"
+     },
+     {
+      "form": "accidens",
+      "lang": "Latin",
+      "meaning": "偶然事件，附带物"
+     }
+    ]
+   }
+  },
+  {
+   "k": "accidentally",
+   "w": "accidentally",
+   "promptV": 3,
+   "model": "agnes-3.0-flash",
+   "generatedAt": "2026-09-29T02:15:38.713Z",
+   "zh": "这个词专指“意外”或“出错”，强调计划外的巧合或手误。核心场景是动作失误：比如走路踢到腿、删错文件、说错话，强调结果非本意。衍生场景是状态巧合：比如偶遇、误入某地，侧重“没安排到”的随机性。易混点：别和 intentionally 搞混，一个是手滑，一个是蓄谋。毒舌提醒：别用这个词甩锅，说“我 accidentally 忘了交报告”，老板只会觉得你连记性都靠运气。",
+   "family": [],
+   "etymology": {
+    "origin": "拉丁语 accidentalis，源自 accident，本义为“意外降临之物”",
+    "story": "源自古典哲学中的“意外事件”概念，指非本质、非必然发生的事。早期英语中 accident 既指事故也指巧合，副词形式后加 -ally 构成，词义从“物理碰撞”逐渐泛化至所有非预设的结果，保留着“偏离轨道”的核心意象。",
+    "path": [
+     {
+      "form": "accidens",
+      "lang": "Latin",
+      "meaning": "意外事故，巧合"
+     },
+     {
+      "form": "accident",
+      "lang": "Middle English",
+      "meaning": "意外事件，事故"
+     },
+     {
+      "form": "accidentally",
+      "lang": "Modern English",
+      "meaning": "意外地，偶然地"
+     }
+    ]
+   }
+  },
+  {
+   "k": "accommodation",
+   "w": "accommodation",
+   "promptV": 3,
+   "model": "agnes-3.0-flash",
+   "generatedAt": "2026-09-29T02:17:27.372Z",
+   "zh": "这个词的核心是“调和、容纳”，在日常生活里主要指“住处”或“住宿安排”。场景一：旅游与租赁。当你预订酒店、租房或寻找临时住所时，常用 rented accommodation（租赁住宿）或 self-catering accommodation（自炊公寓）来描述你住的物理空间及设施条件。注意它不可数，别写成 an accommodation，除非特指某处具体的房子，但通常直接说 a place to stay 更自然。场景二：大学与学生生活。在英国高校语境中，它特指学生的宿舍或校内住房，申请时常用 apply for student accommodation。场景三：无障碍设施。指为残障人士设计的便利设施，如 accessible accommodation，这里强调的是环境的“适配性”。易混点：别把它和 accommodate（动词，容纳/提供住宿）搞混，accommodation 是名词，强调“结果”或“状态”；而 adapt 侧重“适应”，adjust 侧重“调整”。记住它的双写 o 和双写 m，这是为了保持音节清晰，写错会显得很不专业。",
+   "family": [
+    {
+     "w": "accommodate",
+     "rel": "sibling",
+     "pos": "verb",
+     "zh": "容纳，提供住宿，调解"
+    },
+    {
+     "w": "accommadable",
+     "rel": "derived",
+     "pos": "adjective",
+     "zh": "可容纳的，可调节的"
+    }
+   ],
+   "etymology": {
+    "origin": "源自拉丁语 accommodare，意为“使适合”或“调整匹配”。",
+    "story": "从“调整使合适”的本义出发，逻辑上先引申为“为某人提供合适的空间/物品”，即“容纳、接待”；进而指“提供居住场所”（住宿）；再抽象为“为了达成一致而做出的让步或妥协”（调解、折中方案）。这解释了为什么它既可以是旅馆，也可以是外交上的“协定”。",
+    "path": [
+     {
+      "form": "accommodare",
+      "lang": "Latin",
+      "meaning": "使适合，调整"
+     },
+     {
+      "form": "accommodation",
+      "lang": "Old French",
+      "meaning": "适应，协调"
+     },
+     {
+      "form": "accommodation",
+      "lang": "Middle English",
+      "meaning": "住处，让步"
+     }
+    ]
+   }
+  },
+  {
+   "k": "accompany",
+   "w": "accompany",
+   "promptV": 3,
+   "model": "agnes-3.0-flash",
+   "generatedAt": "2026-09-29T02:17:53.266Z",
+   "zh": "accompany的核心感是'陪着走'，即伴随、陪伴。GO WITH场景：最常用义，指陪同某人去某地，强调一路相随。注意：'accompany someone to a place'是标准搭配，不说accompany someone for a place；也不说accompany someone to go to...，简洁为accompany sb. to + 地点。比如送孩子上学、陪老人看病、陪客户参观，都用它。语气比send off更正式、更强调'全程陪伴'而非只是'送'。HAPPEN TOGETHER场景：引申义，指两件事物同时出现、相伴发生。比如'新书附带四张CD'、'疼痛伴随着发烧出现'，强调伴随关系而非因果关系。这个义项常见于产品描述、医学叙述或音乐领域（如piano accompanying the singer）。易混提醒：别把accompany和attach弄混——attach强调物理上的'附上、连接'，accompany强调空间或时间上的'同在、相伴'。一句话毒舌：把accompany当'跟随'用没问题，但'跟随某人去做某事'时，它只负责'陪'，不负责'替'。",
+   "family": [
+    {
+     "w": "companion",
+     "rel": "sibling",
+     "pos": "noun",
+     "zh": "同伴，伙伴"
+    },
+    {
+     "w": "compliance",
+     "rel": "sibling",
+     "pos": "noun",
+     "zh": "合规，服从"
+    },
+    {
+     "w": "concomitant",
+     "rel": "sibling",
+     "pos": "adjective",
+     "zh": "相伴发生的"
+    }
+   ],
+   "etymology": {
+    "origin": "拉丁语com + capere，原义'一起带走'",
+    "story": "com-（共同）+ capere（拿、带），合起来就是'一起拿走'。中世纪英语里演变成accompanien（陪同），强调'伴随出行'。后来语义泛化，从'人陪人'扩展到'事物相伴'，比如音乐里的伴奏（accompanying instrument），或产品附带配件（accompanied by accessories）。现代英语保留了'空间伴随'和'时间共现'两层意思，但核心仍是'一起'。",
+    "path": [
+     {
+      "form": "com capere",
+      "lang": "Latin",
+      "meaning": "一起拿/带走"
+     },
+     {
+      "form": "accompanier",
+      "lang": "Old French",
+      "meaning": "陪同"
+     },
+     {
+      "form": "accompany",
+      "lang": "Middle English",
+      "meaning": "陪伴，伴随"
+     }
+    ]
+   }
+  },
+  {
+   "k": "account",
+   "w": "account",
+   "promptV": 3,
+   "model": "agnes-3.0-flash",
+   "generatedAt": "2026-09-29T02:18:09.033Z",
+   "zh": "account 的核心义是“把零散的条目汇总成一个整体”。在 BANK 场景下，指银行里记录收支明细的账户，强调资金的进出与余额核对；在 REPORT 场景下，指对事件经过的连贯叙述或记录，侧重“如实汇报”或“详细陈述”，如 giving an account of events。易混点：account for 解释原因或占据比例，take into account 考虑因素。别把 account 当成纯抽象名词，它总带着“计算、核对、交代”的底层逻辑，无论是钱还是事，都得算得清、说得明。",
+   "family": [
+    {
+     "w": "recount",
+     "rel": "derived",
+     "pos": "verb",
+     "zh": "详细叙述，回顾"
+    },
+    {
+     "w": "accountable",
+     "rel": "derived",
+     "pos": "adjective",
+     "zh": "可问责的，需负责任的"
+    },
+    {
+     "w": "accounting",
+     "rel": "derived",
+     "pos": "noun",
+     "zh": "会计，记账工作"
+    }
+   ],
+   "etymology": {
+    "origin": "源自拉丁语 computare，意为计算、结算",
+    "story": "12世纪进入英语，原指“把零散数字凑成总数”的核算行为。后来引申为“为某事承担计算责任”，即“负责/解释”，这就是 accountable 的词源。再进一步，因为账本要逐笔记录，account 也发展出“详细叙述”义，从算账到叙事，逻辑一脉相承。",
+    "path": [
+     {
+      "form": "computare",
+      "lang": "Latin",
+      "meaning": "计算，结算"
+     },
+     {
+      "form": "compter",
+      "lang": "Old French",
+      "meaning": "核算，交代"
+     },
+     {
+      "form": "account",
+      "lang": "Middle English",
+      "meaning": "账目，叙述"
+     }
+    ]
+   }
+  },
+  {
+   "k": "accountant",
+   "w": "accountant",
+   "promptV": 3,
+   "model": "agnes-3.0-flash",
+   "generatedAt": "2026-09-29T02:18:15.437Z",
+   "zh": "会计人员，专指从事财务记录、审计或税务申报的专业人士。核心场景是 MONEY 和 OFFICE：在商业语境中，accountant 是负责“记账”和“查账”的人，与只负责出纳的 cashier 不同，也不同于更高阶的 controller。常见搭配有 audit accounts（审计账目）或 file taxes（报税）。易混点：别把 accountant 和 auditor 完全混同，虽然会计师可以审计，但审计师（auditor）特指独立第三方，而会计师往往是企业内部员工。口语中，如果有人说“my accountant is crazy”，通常不是指这个人疯了，而是指他/她在税务策略上太激进，让人担心会惹麻烦。",
+   "family": [
+    {
+     "w": "account",
+     "rel": "sibling",
+     "pos": "noun",
+     "zh": "账户；账目"
+    },
+    {
+     "w": "accountability",
+     "rel": "derived",
+     "pos": "noun",
+     "zh": "问责制；责任"
+    },
+    {
+     "w": "recount",
+     "rel": "sibling",
+     "pos": "verb",
+     "zh": "重新计算；重述"
+    }
+   ],
+   "etymology": {
+    "origin": "古法语 acompter，源自拉丁语 computare，意为“计算”",
+    "story": "",
+    "path": [
+     {
+      "form": "computare",
+      "lang": "Latin",
+      "meaning": "计算"
+     },
+     {
+      "form": "acompter",
+      "lang": "Old French",
+      "meaning": "结账，核算"
+     }
+    ]
+   }
+  },
+  {
+   "k": "accuracy",
+   "w": "accuracy",
+   "promptV": 3,
+   "model": "agnes-3.0-flash",
+   "generatedAt": "2026-09-29T02:18:41.432Z",
+   "zh": "Accuracy 是 B2 阶段必须拿下的核心抽象名词，源自形容词 accurate。它指的是一种‘精准度’或‘精确性’，衡量的是结果与真相、标准或目标之间有多接近。\n\n在学术与职场场景中，accuracy 常用来形容数据、测量或预测的质量。比如，说某款软件有 high accuracy，意思就是它的计算结果极少出错，非常可靠。这和 precision 有个微妙的区别：precision 侧重于‘稳定性’（每次测量结果都一样，哪怕都偏了），而 accuracy 侧重于‘正确性’（结果真的准）。简单说，precision 是‘打靶全集中在一个小坑里’，accuracy 是‘全打在靶心上’。\n\n此外，accuracy 也用于描述信息或陈述的可信度。在新闻报道或历史记录中，提到 historical accuracy，就是指细节经得起考证，没有瞎编乱造。如果你把 inaccurate 和 inaccurate 搞混了，那才是真的 inaccurate。\n\n记住：Accuracy 是一种对‘偏差’的零容忍态度。用它来形容某人的观点时，通常暗示对方在事实核查上做得很到位，而非单纯表达‘观点正确’。",
+   "family": [
+    {
+     "w": "accurate",
+     "rel": "sibling",
+     "pos": "adjective",
+     "zh": "精确的，准确的"
+    },
+    {
+     "w": "accurately",
+     "rel": "derived",
+     "pos": "adverb",
+     "zh": "精确地，准确地"
+    },
+    {
+     "w": "inaccuracy",
+     "rel": "derived",
+     "pos": "noun",
+     "zh": "不精确，错误"
+    }
+   ],
+   "etymology": {
+    "origin": "源自中古英语，借自古法语 accuratesse，最终追溯至拉丁语 accuratus（精确的、勤勉的）。",
+    "story": "词根 ac 是 ad（朝向）的鼻音同化变体，curare 意为‘照料、关注’（即现代 cure 的词源）。组合起来，原义是‘全神贯注地照料细节’。这种对细节的极致关注，在科学测量和信息传递领域逐渐演变为‘符合事实的精确状态’。",
+    "path": [
+     {
+      "form": "ad-currere",
+      "lang": "Latin",
+      "meaning": "全神贯注地对待"
+     },
+     {
+      "form": "accurare",
+      "lang": "Latin",
+      "meaning": "仔细加工，打磨"
+     },
+     {
+      "form": "accuracy",
+      "lang": "Old French",
+      "meaning": "精确性"
+     }
+    ]
+   }
+  },
+  {
+   "k": "accurate",
+   "w": "accurate",
+   "promptV": 3,
+   "model": "agnes-3.0-flash",
+   "generatedAt": "2026-09-29T02:18:51.160Z",
+   "zh": "accurate 的核心语义是“精准无误”，强调结果与事实或标准完全契合，而非仅仅是“差不多”。\n\nSCIENCE/MEASUREMENT：用于描述数据、测量值或仪器读数的精确度。比如说 a scale is accurate 意味着它没有系统性误差，称重多少就是多少。注意区分 accurate（精准，指结果正确）和 precise（精确，指重复性好，哪怕都错得一致）。如果你用一把歪了的尺子量了一万次，结果很 precise 但不 accurate，这是科学实验里最常混淆的概念。\n\nINFO/FACTS：形容信息、报道、记忆或翻译的可靠性。an accurate report 指的是事实核查过、没有谣言的版本。常用于新闻语境，强调“不夸大、不遗漏、不扭曲”。\n\nTECHNICAL/COMPUTING：在编程或技术文档中，指算法或模型输出的结果符合预期标准。但日常口语中较少用 accurate 形容代码风格（那是 clean 的领域），更多指功能实现的正确性。\n\n易混提醒：不要把它和 exact（绝对一致，无近似空间）混用。Exact 强调“分毫不差”，而 accurate 允许在极小误差范围内视为正确。如果说 your guess is accurate，听起来像你的猜测碰巧蒙对了；说 your measurement is accurate 才是正经话。别把 accurate 当成“详细的”（那是 detailed 的活儿），也别把它误用作“精确到小数点后六位”的唯一指标——那叫 precision。",
+   "family": [
+    {
+     "w": "accuracy",
+     "rel": "derived",
+     "pos": "noun",
+     "zh": "精准度，准确性"
+    },
+    {
+     "w": "inaccurate",
+     "rel": "derived",
+     "pos": "adjective",
+     "zh": "不准确的，错误的"
+    }
+   ],
+   "etymology": {
+    "origin": "源自拉丁语 accurate，意为“精心制作的、细致的”（来自 acus，锐利的/尖细的）",
+    "story": "这个词最早不是形容“正确”，而是形容“做工精细”。拉丁语中 acus 指“尖”或“针”，准确的意思是“像针一样细致入微”，强调工匠精神。到了17世纪，随着科学测量和印刷术发展，“细致”逐渐滑向“与事实相符”，因为只有极度细致才能避免错误。因此 accurate 从“工艺精良”演变为“结果正确”，保留了那种对细节极致把控的内涵。",
+    "path": [
+     {
+      "form": "acus",
+      "lang": "Latin",
+      "meaning": "尖，针"
+     },
+     {
+      "form": "accurare",
+      "lang": "Latin",
+      "meaning": "精心制作，细致修饰"
+     }
+    ]
+   }
+  },
+  {
+   "k": "accurately",
+   "w": "accurately",
+   "promptV": 3,
+   "model": "agnes-3.0-flash",
+   "generatedAt": "2026-09-29T02:19:11.712Z",
+   "zh": "accurately 是形容词 accurate 的副词形式，核心含义就是“准确、精确”。\n\n在描述数据、测量或结果时：它强调误差极小、完全符合标准。比如科学家说“measure accurately”（精确测量），或者医生“diagnose accurately”（确诊）。注意，accurately 侧重的是“没出错的精确度”，而不是“快”或者“努力”。\n\n在描述表达或记忆时：它指“如实、不歪曲”。比如记者“report accurately”（如实报道）或者学生“recall the details accurately”（准确回忆细节）。这里强调的是真实性，避免夸大或缩小。\n\n易混点提醒：很多人容易和 precisely 搞混。precisely 更偏向“精确到某个具体数值或界限”（比如精确到毫秒），而 accurately 更偏向“正确、无误”（比如答案是对的，或者操作没翻车）。如果是填空格，看语境是强调“对”还是强调“细”来区分。别把它当成形容词用，后面别直接跟名词，除非你脑子短路了。",
+   "family": [
+    {
+     "w": "accurate",
+     "rel": "derived",
+     "pos": "adjective",
+     "zh": "准确的，精确的"
+    },
+    {
+     "w": "accuracy",
+     "rel": "derived",
+     "pos": "noun",
+     "zh": "准确性，精确度"
+    }
+   ],
+   "etymology": {
+    "origin": "拉丁语 acucuruatus，意为尖锐、敏锐，源自 acus（针/尖）。",
+    "story": "最初的准确不是“对”，而是“尖”。因为针尖很细、很敏锐，所以引申为心思尖锐、判断敏锐，进而演变成“精确、无误”。后来为了区分“敏锐”（acute）和“正确”（accurate），英语逐渐让 accurate 专门指“符合事实、没有误差”，而 acumen 保留了“敏锐度”的含义。",
+    "path": [
+     {
+      "form": "acus",
+      "lang": "Latin",
+      "meaning": "尖，针"
+     },
+     {
+      "form": "accuratus",
+      "lang": "Latin",
+      "meaning": "敏锐，仔细"
+     }
+    ]
+   }
+  },
+  {
+   "k": "accuse",
+   "w": "accuse",
+   "promptV": 3,
+   "model": "agnes-3.0-flash",
+   "generatedAt": "2026-09-29T02:19:19.502Z",
+   "zh": "核心场景是‘指控’或‘责怪’，通常用于正式的法律语境或严厉的责备中。搭配介词 'of' 是关键，例如 'accuse someone of theft'（指控某人盗窃）或 'accuse him of lying'（指责他撒谎）。这里的 'of' 后面必须接名词或动名词，如果接动词原形就是严重的语法错误，这是 B2 阶段最容易踩的坑。虽然日常生活中我们会说 'I accuse you' 来表示生气，但这个词自带一种严肃甚至对抗的色彩，语气比 'blame'（归咎）或 'criticize'（批评）更重，带有‘对方有罪’的预设。在法庭上，'accused' 是正式术语，指被指控的嫌疑人。记住，accuse 强调的是‘提出指控’这个动作本身，而不一定代表指控的事实成立。",
+   "family": [
+    {
+     "w": "accusation",
+     "rel": "derived",
+     "pos": "noun",
+     "zh": "指控，谴责"
+    },
+    {
+     "w": "accuser",
+     "rel": "derived",
+     "pos": "noun",
+     "zh": "指控者，原告"
+    },
+    {
+     "w": "accused",
+     "rel": "derived",
+     "pos": "noun",
+     "zh": "被指控者，被告"
+    }
+   ],
+   "etymology": {
+    "origin": "源自拉丁语 accusare，意为‘使痛苦’或‘起诉’",
+    "story": "",
+    "path": [
+     {
+      "form": "accusare",
+      "lang": "Latin",
+      "meaning": "起诉，谴责"
+     },
+     {
+      "form": "accusatiō",
+      "lang": "Latin",
+      "meaning": "指控"
+     }
+    ]
+   }
+  },
+  {
+   "k": "ache",
+   "w": "ache",
+   "promptV": 3,
+   "model": "agnes-3.0-flash",
+   "generatedAt": "2026-09-29T02:19:46.847Z",
+   "zh": "Ache 专指那种持续时间较长、隐隐作痛但不致命的钝痛，核心场景是身体部位的慢性疼痛。名词用法强调疼痛的区域，如牙痛、背痛或全身酸痛，区别于尖锐短暂的 pain 或剧烈爆发的 hurt。动词用法描述疼痛的状态，主语通常是身体部位，如 'My back aches'，强调这种不舒服是持续存在的背景音，而不是突然发生的剧烈事件。常见易混点是误将急性剧烈疼痛也称作 ache，记住 '持续、钝痛、低强度' 这三个特征就能准确使用。口语中常搭配 'ache for' 表示对某物的强烈渴望，这是其引申义，但基础用法仍聚焦于肉体上的慢痛。",
+   "family": [
+    {
+     "w": "aching",
+     "rel": "derived",
+     "pos": "adjective",
+     "zh": "隐隐作痛的，心痛的"
+    }
+   ],
+   "etymology": {
+    "origin": "古英语 acean，意为“引起疼痛”，与“心”概念早期关联较弱，后演变为泛指疼痛",
+    "story": "最初 aches 主要指心痛或情感上的痛苦（与 Latin cor 'heart' 概念融合），12世纪后范围扩大至任何身体的持续钝痛。其词根 evokes a dull, persistent feeling rather than a sharp stab, 这一语义特征延续至今。",
+    "path": [
+     {
+      "form": "acean",
+      "lang": "Old English",
+      "meaning": "to grieve, cause pain"
+     },
+     {
+      "form": "ache",
+      "lang": "Middle English",
+      "meaning": "dull pain"
+     }
+    ]
+   }
+  },
+  {
+   "k": "achieve",
+   "w": "achieve",
+   "promptV": 3,
+   "model": "agnes-3.0-flash",
+   "generatedAt": "2026-09-29T02:20:12.374Z",
+   "zh": "achieve 的核心场景是 GOAL：指经过努力、付出成本后最终达成某个具体目标或成果，常搭配 ambition, goal, success 等名词。它强调的是一种“结果导向”的完成感，即“做到了”。\n\n与相近词的区分：\nSUCCEED 侧重“成功、没失败”，语气更通用，不一定强调过程艰辛；ACHIEVE 侧重“取得、获得”，暗含了之前的努力与难度，比如 achieve fame 比 succeed at fame 更地道。\nREALIZE 常指“实现（梦想/计划）”，侧重从想象到现实的转化；ACHIEVE 则侧重把抽象的目标变成具体的现实。\n\n易混提醒：千万不要说 achieve a problem，问题是被“解决（solve）”或“处理（handle）”的，目标才是被“achieve”的。把 achieve 当成万能动词乱用，会让你的表达显得词汇量匮乏且逻辑不清，记住它只服务于“正向的、通过努力得来的成果”。",
+   "family": [
+    {
+     "w": "achievement",
+     "rel": "derived",
+     "pos": "noun",
+     "zh": "成就，成绩"
+    },
+    {
+     "w": "achievable",
+     "rel": "derived",
+     "pos": "adjective",
+     "zh": "可实现的"
+    }
+   ],
+   "etymology": {
+    "origin": "古法语 atreindre，来自拉丁语 attingere，意为“触及、到达”",
+    "story": "词源逻辑非常直观：从“用手够到（tongue tip）”引申为“头脑触及（理解）”，再引申为“努力触及（目标）”。中世纪时，英语借用了法语的 achieve，最初指“使结束、完成”，后来逐渐固定为“达到、实现”积极的目标。",
+    "path": [
+     {
+      "form": "attingere",
+      "lang": "Latin",
+      "meaning": "去触碰，到达"
+     },
+     {
+      "form": "atreindre",
+      "lang": "Old French",
+      "meaning": "触及，接触"
+     }
+    ]
+   }
+  },
+  {
+   "k": "achievement",
+   "w": "achievement",
+   "promptV": 3,
+   "model": "agnes-3.0-flash",
+   "generatedAt": "2026-09-29T02:20:20.125Z",
+   "zh": "achievement 专指通过努力获得的显著成就，常带有荣誉感。区别于 accomplishment 侧重任务完成，achievement 更强调结果的价值。学术或体育场景常用，如论文发表或获奖。职场中用于描述重大项目交付或团队突破。注意与 achievement motive（成就动机）心理学术语区分，后者是驱动行为的内在需求。误用点：不用表示小成功，如整理桌面不算 achievement，而是 result 或 outcome。毒舌提醒：别把‘没挂科’吹成 achievement，那是 survival。",
+   "family": [
+    {
+     "w": "achieve",
+     "rel": "derived",
+     "pos": "verb",
+     "zh": "达成，实现目标"
+    }
+   ],
+   "etymology": {
+    "origin": "拉丁语 ad + capere，意为‘抓住、获得’，引申为‘取得成果’",
+    "story": "中世纪拉丁语 adcomptare（计算）演变为旧法语 achier，进入古英语后逐渐固定为现代形式。词义从‘计算、处理’转向‘取得、达成’，强调经过努力后的结果。宗教文献中常见‘achieve salvation’（得救），强化了‘通过努力获得重要价值’的内涵。现代英语中彻底剥离计算义，专指积极成就。",
+    "path": [
+     {
+      "form": "ad + capere",
+      "lang": "Latin",
+      "meaning": "抓住，获得"
+     },
+     {
+      "form": "achier",
+      "lang": "Old French",
+      "meaning": "达成，处理"
+     },
+     {
+      "form": "achieve",
+      "lang": "Middle English",
+      "meaning": "完成，达到"
+     }
+    ]
+   }
+  },
+  {
+   "k": "acid",
+   "w": "acid",
+   "promptV": 3,
+   "model": "agnes-3.0-flash",
+   "generatedAt": "2026-09-29T02:20:28.488Z",
+   "zh": "作为名词，acid核心指酸性液体，能腐蚀或溶解物质。在化学场景中，常特指盐酸、脂肪酸等，强调其腐蚀性和反应性。引申义中，可形容人冷酷、尖刻，或形容幽默风格辛辣、讽刺，如acid tongue。视觉与触觉上，形容酸味刺鼻或酸涩感，柠檬汁就是典型acid液体。易混点：别把acid当acidic（形容词）用，后者描述性质，前者指具体物质；口语中想表达'很酸'（味道）多说sour，而非acid，除非强调化学腐蚀感。用acid形容人时，记得是贬义，暗示其言语如酸液般伤人，别误以为是褒义的'犀利'。",
+   "family": [
+    {
+     "w": "acidic",
+     "rel": "derived",
+     "pos": "adjective",
+     "zh": "酸性的，呈酸味的"
+    },
+    {
+     "w": "acidity",
+     "rel": "derived",
+     "pos": "noun",
+     "zh": "酸性，酸度"
+    }
+   ],
+   "etymology": {
+    "origin": "拉丁语 acidus，意为“酸的，尖刻的”",
+    "story": "源自拉丁语 acidus，原义“酸的”，与 gustus（味觉）相关，引申为“尖刻、讽刺”，因酸味刺激口腔，类比言语刺人。17世纪进入英语，最初仅指味道，后随化学发展专指酸性物质，保留了比喻义。",
+    "path": [
+     {
+      "form": "acidus",
+      "lang": "Latin",
+      "meaning": "酸的，尖刻的"
+     },
+     {
+      "form": "acid",
+      "lang": "Middle English",
+      "meaning": "酸味，尖刻"
+     }
+    ]
+   }
+  },
+  {
+   "k": "acquire",
+   "w": "acquire",
+   "promptV": 3,
+   "model": "agnes-3.0-flash",
+   "generatedAt": "2026-09-29T02:20:38.562Z",
+   "zh": "acquire 的核心是“获得”，但比 get 更有层次，暗示过程或努力。在商业场景下，指公司收购股权或资产，强调所有权转移。在学习场景下，指通过长期积累习得技能或知识，如语言能力，比 learn 更强调自然内化而非刻意记忆。千万别用 acquire 描述“买杯咖啡”这种即时消费，也别用它形容“突然顿悟”，那种瞬间感属于 grasp 或 realize。这个词自带一种稳重、正式的语体色彩，适合写论文或商务邮件，日常闲聊用 get 就够。",
+   "family": [
+    {
+     "w": "acquisition",
+     "rel": "derived",
+     "pos": "noun",
+     "zh": "获取；收购"
+    },
+    {
+     "w": "acquirement",
+     "rel": "derived",
+     "pos": "noun",
+     "zh": "获得（罕见）"
+    }
+   ],
+   "etymology": {
+    "origin": "古法语 acquerir，源自拉丁语 acquirere（adi- 向 + quaerere 寻求）",
+    "story": "从“向某处寻求”演变为“使归为己有”。拉丁语 quaerere 原指费力寻找，加前缀 ad- 后指向目标靠拢。进入英语后，从单纯的“找到”逐渐引申为“获得所有权”或“养成习惯”，保留了原词“寻求+获得”的动态过程感。",
+    "path": [
+     {
+      "form": "quaerere",
+      "lang": "Latin",
+      "meaning": "寻求，费力找"
+     },
+     {
+      "form": "acquirere",
+      "lang": "Latin",
+      "meaning": "获得，赢得"
+     },
+     {
+      "form": "acquérir",
+      "lang": "Old French",
+      "meaning": "获得"
+     }
+    ]
+   }
+  },
+  {
+   "k": "act",
+   "w": "act",
+   "promptV": 3,
+   "model": "agnes-3.0-flash",
+   "generatedAt": "2026-09-29T02:21:03.806Z",
+   "zh": "act 这个词的灵魂在于“表演”与“行动”的双重性。在 BEHAVE（表现）场景下，它指刻意展现出某种行为或假装，比如 act as if 假装；注意和 behave（自然行为）区分，act 往往带点“演”的味道。在 PERFORM（表演）场景，指在戏剧、电影中饰演角色，常与 in 连用，强调舞台上的角色代入。在 THEATRE（戏剧结构）名词场景，专指戏剧或歌剧的“幕”（Act 1, Act 2），这是文学常识，别和 act 动词搞混。在 DO SOMETHING（采取行动）场景，B2 级别重点考察 act on/upon advice 根据建议行事，或 act immediately 立即行动，强调解决问题的决断力。在 THING DONE（行为/事迹）名词场景，指具体的某一次行动或作为，常用于抽象搭配，如 an act of kindness（善举）或 act of violence（暴力行为）。最容易踩的坑是把 act 当普通“做”用，实际上它自带“表演性”或“正式性”色彩，日常琐碎动作别乱用 act，那样显得非常戏剧化。",
+   "family": [
+    {
+     "w": "action",
+     "rel": "derived",
+     "pos": "noun",
+     "zh": "行动，行为；动作片"
+    },
+    {
+     "w": "actor",
+     "rel": "derived",
+     "pos": "noun",
+     "zh": "演员"
+    },
+    {
+     "w": "active",
+     "rel": "derived",
+     "pos": "adjective",
+     "zh": "活跃的，主动的"
+    },
+    {
+     "w": "activation",
+     "rel": "derived",
+     "pos": "noun",
+     "zh": "激活，启用"
+    }
+   ],
+   "etymology": {
+    "origin": "源自拉丁语 actus，意为“行动、行为、结果”。",
+    "story": "",
+    "path": [
+     {
+      "form": "agere",
+      "lang": "Latin",
+      "meaning": "做，驱动"
+     },
+     {
+      "form": "actus",
+      "lang": "Latin",
+      "meaning": "已做，行为"
+     }
+    ]
+   }
+  },
+  {
+   "k": "action",
+   "w": "action",
+   "promptV": 3,
+   "model": "agnes-3.0-flash",
+   "generatedAt": "2026-09-29T02:21:11.363Z",
+   "zh": "Action 的核心逻辑是“主动介入”，而非被动等待。在 ACTIVITY 场景中，它特指电影或事件里紧凑、刺激、高强度的动态场面，比如动作片里的枪战或追逐，强调视觉上的冲击力，区别于单纯的剧情（plot）或对话；而在 DO 场景中，它指的是为了解决问题而采取的具体措施或行为，常与 take action 搭配使用，强调从计划落地到执行的果断性，比做某事（do something）更具目的性和严肃感。易混点在于中文常把 action 统译为“行动”，但英语里 physical action 侧重肢体动作，legal action 侧重法律诉讼，context 决定色彩。别把 thoughtless action（鲁莽行事）当成褒义，有时动得越快错得越离谱。",
+   "family": [
+    {
+     "w": "active",
+     "rel": "sibling",
+     "pos": "adjective",
+     "zh": "活跃的，起作用的"
+    },
+    {
+     "w": "activate",
+     "rel": "sibling",
+     "pos": "verb",
+     "zh": "激活，使活动"
+    },
+    {
+     "w": "reaction",
+     "rel": "derived",
+     "pos": "noun",
+     "zh": "反应，回应"
+    }
+   ],
+   "etymology": {
+    "origin": "源自拉丁语 agere，意为‘做、驱动’。",
+    "story": "",
+    "path": [
+     {
+      "form": "agere",
+      "lang": "Latin",
+      "meaning": "做，驱动"
+     },
+     {
+      "form": "action",
+      "lang": "Latin",
+      "meaning": "行为，诉讼"
+     }
+    ]
+   }
+  },
+  {
+   "k": "active",
+   "w": "active",
+   "promptV": 3,
+   "model": "agnes-3.0-flash",
+   "generatedAt": "2026-09-29T02:21:33.255Z",
+   "zh": "active 的核心画面是‘动起来、别静止’，由此派生出三个主要场景：\nBUSY（忙/活跃）：指身体或精神上不停歇。常用来形容人不懒、爱运动或思维敏捷，如 physically active（身体活跃）或 mentally active（思维活跃）。注意别把它等同于 tired（累）或 just working hard（单纯工作辛苦），active 强调的是‘有活力、在运作’的状态。\nGRAMMAR（语法）：专门指‘主动语态’。判断标准是主语做动作，而非被动作作用于。这是 B2 学习者常混淆的学术概念，记住主动句里主语是‘施动者’，被动句里主语是‘受动者’即可，不必死背公式。\nINVOLVED（参与）：指深度卷入某事，不仅仅是旁观者，而是积极参与。常见搭配是 play an active role（起积极作用）或 take an active part（积极参与）。这里强调的不是‘忙’，而是‘投入度和参与度’。\n易混提醒：别把 active 和 busy 完全画等号。一个人可以 very busy（忙得脚不沾地）但并不 active（比如被动地应对琐事而没有主动推进）；active 更偏向一种积极的、动态的、甚至带有能量感的状态。",
+   "family": [
+    {
+     "w": "activate",
+     "rel": "derived",
+     "pos": "verb",
+     "zh": "激活，使活跃"
+    },
+    {
+     "w": "activation",
+     "rel": "derived",
+     "pos": "noun",
+     "zh": "激活，启动"
+    },
+    {
+     "w": "activity",
+     "rel": "derived",
+     "pos": "noun",
+     "zh": "活动，活性"
+    }
+   ],
+   "etymology": {
+    "origin": "源自拉丁语 actus，agere 的过去分词，原义为‘被推动’或‘行动’。",
+    "story": "词根 ag- 在英语里随处可见，意为‘做、推、动’（agent 代理人，agenda 日程）。Active 最初在拉丁语境中是‘被推动的’，引申为‘有动作的’。到了近代，它逐渐摆脱了‘被动受力’的原始物理感，转而强调主体自身的‘能动性’和‘参与度’，最终成为描述状态（活跃）、语法结构（主动）和社交角色（参与）的多面手。",
+    "path": [
+     {
+      "form": "agere",
+      "lang": "Latin",
+      "meaning": "推，驱动，做"
+     },
+     {
+      "form": "actus",
+      "lang": "Latin",
+      "meaning": "行动，过程，结果"
+     },
+     {
+      "form": "active",
+      "lang": "Middle French",
+      "meaning": "积极的，主动的"
+     }
+    ]
+   }
+  },
+  {
+   "k": "actively",
+   "w": "actively",
+   "promptV": 3,
+   "model": "agnes-3.0-flash",
+   "generatedAt": "2026-09-29T02:23:17.412Z",
+   "zh": "actively 是个高频副词，核心语感是‘积极参与’或‘主动动手’，强调主体不仅知道某事，还正在投入精力或采取行动。在社交与工作场景中，它常修饰参与程度，比如 actively involved 表示深度卷入，而非挂名；actively seeking 则体现迫切的寻找姿态。在身体动作或机械语境下，它描述‘活跃地运作’或‘积极干扰’，例如发动机 actively cooled 或系统 actively interfering with signals。这里有个易混点：别把它等同于 passively 的反义词就完事了，actively 更侧重‘投入度’和‘能动性’，而非简单的‘运动状态’。口语里说 I'm actively looking for a job 比 I'm looking for a job 多了一层‘我正在拼命刷简历、投面试’的紧迫感。记住，这词自带一种‘正在发力’的动态画面，用得太轻描淡写会显得没诚意。",
+   "family": [
+    {
+     "w": "active",
+     "rel": "derived",
+     "pos": "adjective",
+     "zh": "活跃的，起作用的"
+    },
+    {
+     "w": "activeness",
+     "rel": "derived",
+     "pos": "noun",
+     "zh": "积极性，活力"
+    },
+    {
+     "w": "activity",
+     "rel": "derived",
+     "pos": "noun",
+     "zh": "活动，行为"
+    }
+   ],
+   "etymology": {
+    "origin": "源自拉丁语 activus，名词 actus（行为）的派生形容词，意为‘正在做某事的’。",
+    "story": "",
+    "path": [
+     {
+      "form": "act",
+      "lang": "Latin",
+      "meaning": "做，行动"
+     },
+     {
+      "form": "actus",
+      "lang": "Latin",
+      "meaning": "行为，行动"
+     },
+     {
+      "form": "active",
+      "lang": "Old French",
+      "meaning": "活跃的，效力的"
+     }
+    ]
+   }
+  },
+  {
+   "k": "activity",
+   "w": "activity",
+   "promptV": 3,
+   "model": "agnes-3.0-flash",
+   "generatedAt": "2026-09-29T02:23:42.373Z",
+   "zh": "activity 是 activity 的绝对核心词，B2 阶段必须把“动作/活动”和“具体事务”区分开。\n\nECONOMY：这是最高频场景。经济活动、市场活跃度都用 activity。注意搭配 level of economic activity（经济活动水平），不要直译成“经济动作”。低活动度（low activity）常暗示经济低迷，高活动度（high activity）则意味市场火热或忙碌程度高。\n\nWORK：当强调某个组织、团队或个人的“工作性质”或“任务内容”时，用 activity 而非 work。例如 terrorist activity（恐怖主义活动）强调行为本身；industrial activity（工业活动）强调整个产业的运行状态。这里 activity 更抽象，指代“正在做的事情”这一整体概念。\n\nDISTINCTION：易混点是 work vs activity。work 偏向具体的劳动、职业或需要付出努力的成果；activity 偏向动态的过程、行为本身或一系列动作的集合。比如孩子上课时的课间操是 activity（动态过程），而写作业是 work（具体任务）。另注意 physical activity（身体活动）是固定搭配，指锻炼、运动，不要误用 exercise 虽然也能说，但 activity 范围更广，包括游戏、操作等。\n\n误用提醒：不要说“do activity”来表示“做运动”，通常说 engage in physical activity 或 just activity。记住：activity 是“正在发生的事”，不是“结果”。",
+   "family": [
+    {
+     "w": "active",
+     "rel": "sibling",
+     "pos": "adjective",
+     "zh": "积极的，活跃的"
+    },
+    {
+     "w": "activate",
+     "rel": "derived",
+     "pos": "verb",
+     "zh": "启动，激活"
+    },
+    {
+     "w": "activation",
+     "rel": "derived",
+     "pos": "noun",
+     "zh": "激活，启动"
+    }
+   ],
+   "etymology": {
+    "origin": "拉丁语 activitas，源自活动、做某事的状态",
+    "story": "activity 源自拉丁语 actum（做的事）加 -ity（名词后缀）。在古代，act 指行动或行为，activity 则强调“持续行动的状态”。进入现代英语后，它从单纯的身体动作扩展为经济、社会等抽象领域的“活跃度”。17 世纪起，哲学家用 activity 讨论人的自由意志与行动能力；工业革命后，它成为经济统计的标准术语，指代生产、贸易等动态过程。如今，activity 已脱离具体动作，成为描述系统运行、市场波动、组织行为的核心抽象名词，但其词根始终保留着“做事”的本义。",
+    "path": [
+     {
+      "form": "actum",
+      "lang": "Latin",
+      "meaning": "做的事，行为"
+     },
+     {
+      "form": "activitas",
+      "lang": "Latin",
+      "meaning": "活动状态，忙碌"
+     },
+     {
+      "form": "activity",
+      "lang": "English",
+      "meaning": "活动，活力"
+     }
+    ]
+   }
+  },
+  {
+   "k": "actual",
+   "w": "actual",
+   "promptV": 3,
+   "model": "agnes-3.0-flash",
+   "generatedAt": "2026-09-29T02:23:52.659Z",
+   "zh": "REAL：用于指出真实情况，尤其是当它偏离预期、猜测或官方说法时。比如估计300人，实际500人，用 actual 强调那个真实发生的数字，而非脑补的。它核心是对立'想象的/名义上的/估计的'，常修饰名词如 number, cost, owner, cause。注意 actual 不单纯等于 real，而是强调'经核实的那一个真实值'，跟 merely real 有差别。别把 actual 当万能 '真的' 用，在 'actual fact' 里它已固化为副词短语，单用时搭配要自然，别硬凑。误用点：别用它修饰抽象概念如 actual feeling（除非你真的在指某种可量化的真实感受），通常就用 real 或 genuine。说白了，actual 就是'别猜了，看数据'的口头禅。",
+   "family": [
+    {
+     "w": "actually",
+     "rel": "derived",
+     "pos": "adverb",
+     "zh": "实际上，反而（口语转折）"
+    },
+    {
+     "w": "actuality",
+     "rel": "derived",
+     "pos": "noun",
+     "zh": "现实，实际存在"
+    }
+   ],
+   "etymology": {
+    "origin": "Latin actus，past participle of agere，意为'被做、被推动'",
+    "story": "源自拉丁 agere（做、驱动），变成 actus（被做的事、行为），中世纪演变为 '真实的、现存的'，以区别于抽象或潜在状态。旧义含'正在发生的'，现代收窄为'核实后的真实值'，带一点反直觉的强调味。",
+    "path": [
+     {
+      "form": "agere",
+      "lang": "Latin",
+      "meaning": "做，驱动"
+     },
+     {
+      "form": "actus",
+      "lang": "Latin",
+      "meaning": "被做，行动"
+     },
+     {
+      "form": "actuel",
+      "lang": "Old French",
+      "meaning": "当前的，现实的"
+     },
+     {
+      "form": "actual",
+      "lang": "English",
+      "meaning": "真实的，实际的"
+     }
+    ]
+   }
+  },
+  {
+   "k": "actually",
+   "w": "actually",
+   "promptV": 3,
+   "model": "agnes-3.0-flash",
+   "generatedAt": "2026-09-29T02:24:07.336Z",
+   "zh": "这个词是口语里的“真相守护者”，主要用在两个场景。SURPRISE：表示“其实、竟然”，用来揭示一个让人意外的事实或纠正之前的模糊印象。比如你以为他是单身，结果他说他其实已婚，这时候用 actually 能制造一种“冷知识”或“意外转折”的幽默感。OPPOSITE：表示“不、纠正”，语气比 no 柔和，比但更直接，专门用来温和地反驳别人或澄清错误。比如朋友说昨天下雨，你回 Actually, it was sunny，这就是在指出事实偏差。核心易混点：别把它当成“实际上（truth-wise）”的中性连接词硬塞进所有句子，它的灵魂在于“反差”——要么你惊讶，要么你纠正。没有反差感的平铺直叙里用它，会显得像在硬找存在感，毒舌提醒：用 actual 形容词（实际的）比用 actually 副词（实际上）时，语境完全不同，别把 I actually know 说成 I am actual know。",
+   "family": [
+    {
+     "w": "actual",
+     "rel": "sibling",
+     "pos": "adjective",
+     "zh": "实际的，真实的，非理论的"
+    },
+    {
+     "w": "actuality",
+     "rel": "derived",
+     "pos": "noun",
+     "zh": "现实，事实，具体存在"
+    }
+   ],
+   "etymology": {
+    "origin": "来自拉丁语 actualis（行动中的），源自 actus（行动）。",
+    "story": "从“正在行动的”演变为“真实的、非想象的”。在数学中，actual number 指实际数值，对应虚数；在日常英语中，它剥离了“正在发生”的动态感，强调了“既定事实”的静态真理性，从而衍生出纠正谬误和揭示真相的语用功能。",
+    "path": [
+     {
+      "form": "actus",
+      "lang": "Latin",
+      "meaning": "行动，行为"
+     },
+     {
+      "form": "actualis",
+      "lang": "Latin",
+      "meaning": "行动中的，现行的"
+     },
+     {
+      "form": "actual",
+      "lang": "Middle English",
+      "meaning": "当前的，真实的"
+     }
+    ]
+   }
+  },
+  {
+   "k": "ad",
+   "w": "ad",
+   "promptV": 3,
+   "model": "agnes-3.0-flash",
+   "generatedAt": "2026-09-29T02:24:23.397Z",
+   "zh": "这里的 ad 就是 advertisement 的口语简称，专指广告。注意不要和数学函数 ad (adjoint) 或拉丁前缀 ad (towards) 混淆，但在日常英语里，你 99% 遇到的 ad 都是指那个让人跳不过去的视频、报纸上的方块，或者 App 里强制弹窗。场景区分：Commercial：电视或 YouTube 里播放的正式广告；Classified：报纸角落那种没图的小分类广告；Online Ads：网页两旁的侧边栏横幅。一个常见的误用是别把 ad 当作动词用（除非你是广告主），动词通常用 advertise。记住，ad 是中性的，既可以是好广告也可以是坏广告，它只是媒介形式。",
+   "family": [],
+   "etymology": {
+    "origin": "英文 abbreviation，源自 advertisement 的词根前缀 ad-",
+    "story": "advertisement 源自中世纪拉丁语 advertisement（公告、告知），由 ad（向）+ vocare（呼叫）演变而来。在 20 世纪末，随着大众媒体兴起，人们嫌 advertisement 太长，直接截取了它拉丁语源词前的 ad- 部分作为简写。这个 ad 既保留了‘广告’的含义，也保留了‘指向’的语源色彩，因为广告的本质就是指向商品或信息。",
+    "path": [
+     {
+      "form": "ad-",
+      "lang": "Latin",
+      "meaning": "向，往"
+     },
+     {
+      "form": "advertisement",
+      "lang": "English",
+      "meaning": "广告"
+     },
+     {
+      "form": "ad",
+      "lang": "English",
+      "meaning": "广告（简写）"
+     }
+    ]
+   }
+  },
+  {
+   "k": "adapt",
+   "w": "adapt",
+   "promptV": 3,
+   "model": "agnes-3.0-flash",
+   "generatedAt": "2026-09-29T02:24:32.179Z",
+   "zh": "adapt的核心逻辑是“为了适合新情况而做出改变”，重点在于主体与客体、自身与他者间的调整。在CHANGE BEHAVIOUR场景下，主语通常是人或生物，强调主观的适应过程，常搭配介词to，如适应新环境、新规则，暗示这需要时间和心理建设，并非瞬间完成。在CHANGE SOMETHING场景下，主语多为机构或开发者，宾语是具体的物品、软件或计划，意为“改造”或“改编”，目的是让事物适配新的用途或平台。常见误用点：adapt to后接名词或动名词，直接接动词原形是错误的；adapt into通常用于影视改编（如小说改电影），而adapt to侧重于对环境的顺应。别把它和adjust混淆，adapt更强调长期性的根本改变，而adjust偏向微调；适应不了就硬撑那是固执，不是适应性。",
+   "family": [
+    {
+     "w": "adaptation",
+     "rel": "derived",
+     "pos": "noun",
+     "zh": "适应，改编"
+    },
+    {
+     "w": "adaptive",
+     "rel": "derived",
+     "pos": "adjective",
+     "zh": "适应性的"
+    }
+   ],
+   "etymology": {
+    "origin": "源自拉丁语 adaptare，意为“通过应用使某物适合”。",
+    "story": "词根aptus（适合）与ap-（应用）结合。原指将某物应用于特定用途使其契合，后引申为生物或人主动改变以匹配环境，体现了从“机械适配”到“生存策略”的语义升华。",
+    "path": [
+     {
+      "form": "adaptare",
+      "lang": "Latin",
+      "meaning": "使适合"
+     },
+     {
+      "form": "adapter",
+      "lang": "French",
+      "meaning": "适配器"
+     }
+    ]
+   }
+  },
+  {
+   "k": "add",
+   "w": "add",
+   "promptV": 3,
+   "model": "agnes-3.0-flash",
+   "generatedAt": "2026-09-29T02:25:26.887Z",
+   "zh": "SAY MORE：这是 add 在口语和写作中最核心的引申义。当你在别人说完话后，想补充一点新信息、澄清事实或增加一个观点时，就用 add。注意场景区分：如果是接着上句话简单附和或重复，不要硬用 add；add 强调的是“追加”一个独立的、通常具有递进或补充性质的新内容。常搭配 used to say / remark 等，例如 'he added that...' 表示他补充说。易混点：很多人以为 add 只能用于数学加法或物理上的增加数量，但在 B2 学习阶段，要重点掌握它‘语言补充’的功能。不要把它和 say 简单画等号，say 是陈述，add 是陈述完后再追加一块信息。别把 add 用成‘我觉得’或‘顺便提一句’那么随意，它带有一种正式的补充感。",
+   "family": [
+    {
+     "w": "addition",
+     "rel": "derived",
+     "pos": "noun",
+     "zh": "加法；增加；新增部分"
+    },
+    {
+     "w": "additional",
+     "rel": "derived",
+     "pos": "adjective",
+     "zh": "额外的；附加的"
+    },
+    {
+     "w": "addict",
+     "rel": "sibling",
+     "pos": "noun",
+     "zh": "入迷者；上瘾者"
+    }
+   ],
+   "etymology": {
+    "origin": "古高地德语 *atdagjan，意为“增加”，源自 ad-（加上）+ dag（做/变）",
+    "story": "这个词源故事有点意思：古高地德语的 dag 其实是“做”或“使变化”的意思，而 ad- 是“加上”。合起来就是“使其增加”。后来演变成 add，最初主要指物理量的增加（如重量、数字）。到了18世纪，随着社交礼仪和逻辑表达的发展，人们发现说话时“追加”观点也很像往堆里“加”东西，于是 add 获得了“补充说明”的义项。这种从“物理堆叠”到“逻辑堆叠”的隐喻，是英语中很多动词共同的演变路径。",
+    "path": [
+     {
+      "form": "*atdagjan",
+      "lang": "Old High German",
+      "meaning": "增加"
+     },
+     {
+      "form": "add",
+      "lang": "Middle English",
+      "meaning": "加；增加"
+     },
+     {
+      "form": "add",
+      "lang": "Modern English",
+      "meaning": "补充说；追加"
+     }
+    ]
+   }
+  },
+  {
+   "k": "addict",
+   "w": "addict",
+   "promptV": 3,
+   "model": "agnes-3.0-flash",
+   "generatedAt": "2026-09-29T02:25:42.534Z",
+   "zh": "核心场景是'成瘾者'，指完全被某事物控制、生理或心理上无法自拔的人。通常指对有害物质的依赖，如毒品、酒精，这是它最常用且最沉重的含义，a drug addict 是典型搭配。\n\n引申场景是'狂热爱好的支持者'。这种用法比较轻松或带有调侃意味，指对非有害事物（如音乐、电影、运动）极度痴迷的人。例如 a chess addict（棋迷）或 a Netflix addict（追剧狂魔）。注意这里常带一点自嘲或幽默，暗示虽然不上瘾，但时间花费巨大。\n\n易混点与误用提醒：\n1. 不要混淆 addict 与 addicted。addict 是名词（人），而 addicted 是形容词（状态）。我们说 'He is an addict'（他是瘾君子）或 'He is addicted to coffee'（他对咖啡上瘾），不能说 'He is a addicted'。\n2. 语气辨析：在严肃的医疗或法律语境中，'addict' 往往带有贬义或病理色彩；而在日常社交中，用来形容爱好时（如 a foodie addict），它更多是一种夸张的修辞，表示'爱得不行'。用错场合会显得你要么太冷酷（叫吸毒者瘾君子），要么太不专业（把咖啡依赖说成药物成瘾）。\n3. 记忆技巧：把它想象成一个被锁链拴住的人，无论链条上挂的是海洛因还是最新款手机，核心都是'失去控制权'。",
+   "family": [
+    {
+     "w": "addiction",
+     "rel": "derived",
+     "pos": "noun",
+     "zh": "瘾，依赖，成瘾状态（指这种状态本身）"
+    }
+   ],
+   "etymology": {
+    "origin": "来自拉丁语 addicere，意为'指派给'，源自 ad（朝向）+ dicere（说、宣告）。",
+    "story": "词源非常有趣。addict 并非最初指'上瘾'，而是罗马法中的术语。addictus 是法官判决债务人后，将债务人'指派'（dicere）给债权人的人，即'被判给奴隶主的人'。后来，由于这种被强制支配、失去自由的身份感，词义逐渐引申为'被某事物强烈束缚'的人，最终演变为现代的'成瘾者'。从'法律判决的奴役'到'生理依赖的奴役'，这条语义演变路径清晰地展示了'失去自主权'这一核心概念。",
+    "path": [
+     {
+      "form": "addicere",
+      "lang": "Latin",
+      "meaning": "指派，宣告（将债务人交给债权人）"
+     },
+     {
+      "form": "addictus",
+      "lang": "Latin",
+      "meaning": "被判给的人，依附于某人的奴隶"
+     }
+    ]
+   }
+  },
+  {
+   "k": "addicted",
+   "w": "addicted",
+   "promptV": 3,
+   "model": "agnes-3.0-flash",
+   "generatedAt": "2026-09-29T02:25:54.113Z",
+   "zh": "这个词是动词 addict 的过去分词形式，常作形容词用，用来描述一种病态的依赖或强烈的痴迷。核心场景是 DRUGS，指身体或心理上对毒品、酒精产生依赖，无法自控地继续使用，通常带有严重的负面色彩，暗示成瘾者已失去理智控制。引申场景是 LIKING，用于描述对某事物（如巧克力、足球、社交媒体）有极度的热情或沉迷，虽然比毒品危害小，但依然暗示这种喜欢已经过了头，变成了一种难以割舍的习惯。易混点在于 addicted to 后面必须接名词，表示“对……上瘾”；切记不要误用为 addicted of 或 addicted for。如果说一个人 addicted to working，虽然不吸毒，但说明他工作狂到了病态的程度，听者可能会担心他的健康。",
+   "family": [
+    {
+     "w": "addict",
+     "rel": "sibling",
+     "pos": "noun",
+     "zh": "瘾君子，成瘾者"
+    },
+    {
+     "w": "addiction",
+     "rel": "derived",
+     "pos": "noun",
+     "zh": "瘾，依赖，沉溺"
+    }
+   ],
+   "etymology": {
+    "origin": "拉丁语 addicere，意为‘宣布归属、判给某所有’",
+    "story": "源自拉丁语 addicere，原指在法律判决中将俘虏或债务人‘判给’债权人或奴隶主，表示一种强制的归属关系。后来词义发生漂移，不再指法律上的财产/人身归属，而是引申为心理或生理上‘被锁定’于某种物质或行为，无法脱离。这种从‘法律强制’到‘生理/心理依赖’的演变，生动地解释了为何该词总带有一种失控和无法摆脱的负面色彩。",
+    "path": [
+     {
+      "form": "addicere",
+      "lang": "Latin",
+      "meaning": "宣布归属，判给"
+     },
+     {
+      "form": "addictus",
+      "lang": "Latin",
+      "meaning": "被判决的，被归附的"
+     },
+     {
+      "form": "addicted",
+      "lang": "English",
+      "meaning": "成瘾的，被依赖锁定的"
+     }
+    ]
+   }
+  },
+  {
+   "k": "addiction",
+   "w": "addiction",
+   "promptV": 3,
+   "model": "agnes-3.0-flash",
+   "generatedAt": "2026-09-29T02:26:08.540Z",
+   "zh": "addiction 核心指“瘾”，特指那种无法停止做某事或摄入某物的状态，带有强烈的心理或生理依赖色彩。场景一：物质成瘾。这是最本义，用于 drug, alcohol, cigarette addiction，指身体离不开该物质，强行戒断会有戒断反应。场景二：行为成瘾。指南里没明说但极常用，如 shopping, gaming, phone addiction。注意这里没有物质摄入，但多巴胺机制类似，强调“停不下来”。场景三：比喻义/负面引申。偶尔用来形容对某事的极度痴迷，如 an addiction to success, work addiction。虽褒贬不一，但通常含警告意味：你已身不由己。易混点：别把 passion（热情/热爱，可控）和 addiction（成瘾，失控）混用。说 I have a passion for coding 是酷，说 I have an addiction to coding 是警号响铃。记住：addiction 的本质是“失去控制权”，带着一声叹息。",
+   "family": [
+    {
+     "w": "addict",
+     "rel": "derived",
+     "pos": "noun",
+     "zh": "上瘾者，毒瘾患者"
+    },
+    {
+     "w": "addicted",
+     "rel": "derived",
+     "pos": "adjective",
+     "zh": "上瘾的，沉溺的"
+    }
+   ],
+   "etymology": {
+    "origin": "拉丁语 addicere，意为‘宣判归某人所有’，后引申为‘固定、绑定’。",
+    "story": "1598年，addict 进入英语，原指法庭宣判罪犯归债权人所有（类似债务奴隶）。后来词义转向心理和生理层面，指人被某事物‘束缚’、无法摆脱。18世纪中叶，addiction 作为名词出现，专指对毒品的依赖。从‘法律上的绑定’到‘生理上的成瘾’，词源透露出其核心含义：丧失自由，被外力牢牢抓住。",
+    "path": [
+     {
+      "form": "addicere",
+      "lang": "Latin",
+      "meaning": "宣判，归因"
+     },
+     {
+      "form": "addict",
+      "lang": "English",
+      "meaning": "上瘾者"
+     },
+     {
+      "form": "addiction",
+      "lang": "English",
+      "meaning": "成瘾"
+     }
+    ]
+   }
+  },
+  {
+   "k": "addition",
+   "w": "addition",
+   "promptV": 3,
+   "model": "agnes-3.0-flash",
+   "generatedAt": "2026-09-29T02:26:31.558Z",
+   "zh": "addition 的核心就是“加”，但别只想到数学。最常用的是指“新增的人或事物”，强调“多出来的、额外的”这个感觉。比如球队新签的球星叫 a new addition to the team，新添的家庭成员也是 addition。这里它和 increase 不同，increase 侧重数量变多，addition 侧重多出来的那个具体对象。在数学场景下，它指“加法”或“做加法”这个动作，和 subtraction（减法）相对。学生做数学题就是 doing addition。要注意，addition 是名词，动词是 add，别混淆。还有一个高频搭配 in addition to，意思是“除……之外还有”，用来补充信息，比如 In addition to French, she speaks German. 记住：从数字相加到人事物叠加，核心逻辑都是“多了一个”，毒舌提醒：别把 addition 写成 adiction（那是成瘾，完全不同的词，拼写差一个字母，意思天差地别）。",
+   "family": [
+    {
+     "w": "add",
+     "rel": "sibling",
+     "pos": "verb",
+     "zh": "添加；增加；计算"
+    },
+    {
+     "w": "additional",
+     "rel": "derived",
+     "pos": "adjective",
+     "zh": "额外的；附加的"
+    }
+   ],
+   "etymology": {
+    "origin": "古法语 aicion，源自拉丁语 additio，意为“添加的动作或结果”",
+    "story": "来自拉丁语 addere（ad 向 + dare 给），本意是“投向、给予”，引申为“附加到……上”。进入古法语后变成 addition，13 世纪传入英语。词根 dar/don 在英语里很常见，比如 donate、data、duty，都跟“给予”有关。addition 就是“把某物给予/附加到主体上”的抽象名词形式。",
+    "path": [
+     {
+      "form": "addere",
+      "lang": "Latin",
+      "meaning": "添加，投入"
+     },
+     {
+      "form": "aicion",
+      "lang": "Old French",
+      "meaning": "加法；新增部分"
+     },
+     {
+      "form": "addition",
+      "lang": "Middle English",
+      "meaning": "加法；附加物"
+     }
+    ]
+   }
+  },
+  {
+   "k": "additional",
+   "w": "additional",
+   "promptV": 3,
+   "model": "agnes-3.0-flash",
+   "generatedAt": "2026-09-29T02:26:42.786Z",
+   "zh": "additional 是形容词，核心意思就是“额外的、附加的”。B2 级别主要用来修饰名词，表示在原有基础上多出来的东西。比如 additional costs（额外费用）、additional problems（新问题）、additional help（额外帮助）。注意它和 extra 意思非常接近，很多时候可以互换，但 additional 听起来更正式、更书面，适合用在报告、邮件或正式场合；extra 则更口语化，比如 \"extra charge\" 在账单上很常见。千万别把它当副词用，它只能放在名词前面或 be 动词后面，比如 \"There is an additional issue\" 是对的，但 \"He answered additional\" 是错的，这时候应该用额外地 extra 或者补充地 supplementarily（后者极少用）。记住这个点：它专门修饰名词，表示“加码、追加”。简单说，就是“在已有的基础上再加一块”，常用于描述数量、费用、时间或要求的增加。",
+   "family": [
+    {
+     "w": "add",
+     "rel": "sibling",
+     "pos": "verb",
+     "zh": "添加，增加"
+    },
+    {
+     "w": "addition",
+     "rel": "derived",
+     "pos": "noun",
+     "zh": "附加物，加法"
+    }
+   ],
+   "etymology": {
+    "origin": "源自拉丁语 additionalis，意为“附加的，增加的”。",
+    "story": "",
+    "path": [
+     {
+      "form": "addere",
+      "lang": "Latin",
+      "meaning": "添加，放在上面"
+     },
+     {
+      "form": "additional",
+      "lang": "Old French",
+      "meaning": "附加的"
+     }
+    ]
+   }
+  },
+  {
+   "k": "additionally",
+   "w": "additionally",
+   "promptV": 3,
+   "model": "agnes-3.0-flash",
+   "generatedAt": "2026-09-29T02:26:51.102Z",
+   "zh": "这个词就是‘另外’、‘此外’的意思，用法比 in addition 更正式、更书面。\n\n写作与商务：常用于补充次要信息或附加条件。比如先说了主要要求，紧接着说“Additionally, we request a deposit...”，表示“还有这么个事儿”。别指望它在日常闲聊里出镜，朋友之间说“还有别的吗”直接用 Besides 或 Also 就行。\n\n逻辑连接：它暗示新增的信息是对前文的补充，而非转折或对比。如果你心里的潜台词是“而且情况更糟了”或者“但是...”，那就别用它，用 Furthermore（递进）或 However（转折）才对路。\n\n易混提醒：很多母语人士在正式邮件里滥用 it 来代替 this 或 that，导致指代不清。虽然 additionally 是副词，但它引导的补充内容最好逻辑紧密，别让它挂在一个完全无关的句子上，否则就是逻辑脱节。",
+   "family": [
+    {
+     "w": "addition",
+     "rel": "sibling",
+     "pos": "noun",
+     "zh": "添加，增加（名词形式）"
+    },
+    {
+     "w": "add",
+     "rel": "sibling",
+     "pos": "verb",
+     "zh": "加，增添（动词原形）"
+    }
+   ],
+   "etymology": {
+    "origin": "来自拉丁语 addere 'to throw upon' (附加)",
+    "story": "词根 ad- (toward) + dare (to give)。最初指“把东西扔向某处”或“给予某物”，引申为数学上的“加法”。到了现代英语，它彻底抽象化为逻辑上的“额外补充”。那个表示“进一步”的副词尾 -ly 是后来加上的，让它从动词变成了修饰语气的副词。",
+    "path": [
+     {
+      "form": "addere",
+      "lang": "Latin",
+      "meaning": "to give, throw upon"
+     },
+     {
+      "form": "adden",
+      "lang": "Middle English",
+      "meaning": "to put together"
+     },
+     {
+      "form": "additionally",
+      "lang": "Modern English",
+      "meaning": "in addition"
+     }
+    ]
+   }
+  },
+  {
+   "k": "adequate",
+   "w": "adequate",
+   "promptV": 3,
+   "model": "agnes-3.0-flash",
+   "generatedAt": "2026-09-29T02:27:11.212Z",
+   "zh": "ENOUGH：指数量、时间或程度上“够用”，但别期待有余。说“adequate time”就是刚好够准备，再少就手忙脚乱，比 enough 更强调“满足最低标准”。GOOD ENOUGH：指质量“尚可”，即不惊艳但能用。说“adequate service”就是服务中规中矩，没投诉但也别夸。核心易混点：别把 adequate 当“好”用，它只是及格线；想要“优秀”请用 good 或 excellent。口语中常说“it's adequate”带点无奈，暗示“虽然不完美，但凑合过吧”。",
+   "family": [
+    {
+     "w": "adequately",
+     "rel": "derived",
+     "pos": "adverb",
+     "zh": "充分地，恰当地"
+    },
+    {
+     "w": "adequacy",
+     "rel": "derived",
+     "pos": "noun",
+     "zh": "适当，充分"
+    }
+   ],
+   "etymology": {
+    "origin": "拉丁语 ad + -equus + -atus，意为“匹配、平衡”",
+    "story": "",
+    "path": [
+     {
+      "form": "aequus",
+      "lang": "Latin",
+      "meaning": "相等，平衡"
+     },
+     {
+      "form": "adequat",
+      "lang": "Middle French",
+      "meaning": "适当的"
+     },
+     {
+      "form": "adequate",
+      "lang": "English",
+      "meaning": "足够的，恰当的"
+     }
+    ]
+   }
+  },
+  {
+   "k": "adequately",
+   "w": "adequately",
+   "promptV": 3,
+   "model": "agnes-3.0-flash",
+   "generatedAt": "2026-09-29T02:27:40.215Z",
+   "zh": "核心场景是“程度/标准”：表示“足够地、恰当地”，强调数量或质量刚好达标，不是“非常好”也不是“多到过剩”。\n常用来修饰完成状态或能力，如 be adequately informed (知情充分)、prepared adequately (准备到位)。注意它偏向中性甚至略带消极的“勉强够”，若需表达“足够且舒适”可用 sufficiently，若表达“完美”则用 perfectly。\n易混点：don't think 'adequately' means 'excellently'. 它是及格线，不是满分线，别把“刚好及格”吹成“优秀”。",
+   "family": [
+    {
+     "w": "adequate",
+     "rel": "derived",
+     "pos": "adjective",
+     "zh": "足够的；胜任的；恰当的"
+    },
+    {
+     "w": "adequacy",
+     "rel": "derived",
+     "pos": "noun",
+     "zh": "充分性；合格；恰当"
+    },
+    {
+     "w": "inadequate",
+     "rel": "derived",
+     "pos": "adjective",
+     "zh": "不充足的；不称职的"
+    },
+    {
+     "w": "inadequately",
+     "rel": "derived",
+     "pos": "adverb",
+     "zh": "不足地；不够好地"
+    }
+   ],
+   "etymology": {
+    "origin": "拉丁语 adequatus，分词形式 of aequus（相等/公平）+ -atus，意为“使相等/匹配”",
+    "story": "源自 aequus（平等、公平）。中世纪拉丁语演变为 adequatus，指“使事物处于平衡或匹配状态”。进入英语后，本义从数学上的“相等”逐渐泛化，引申为“与需求相匹配的”，进而演变为“数量足够、质量合格”的日常语义。现代用法中，它常隐含着“刚好够用，没有冗余”的限制感。",
+    "path": [
+     {
+      "form": "aequus",
+      "lang": "Latin",
+      "meaning": "相等，公平"
+     },
+     {
+      "form": "adequatus",
+      "lang": "Medieval Latin",
+      "meaning": "被匹配，相等"
+     },
+     {
+      "form": "adequate",
+      "lang": "English",
+      "meaning": "足够的，恰当的"
+     }
+    ]
+   }
+  },
+  {
+   "k": "adjust",
+   "w": "adjust",
+   "promptV": 3,
+   "model": "agnes-3.0-flash",
+   "generatedAt": "2026-09-29T02:27:49.961Z",
+   "zh": "adjust 的核心是“微调”而非“大修”，专指为了让某物更合适、功能更顺畅或让人更舒适而进行的小幅改动。\n\n物理微调：这是最基础的场景，比如调节音量旋钮、调整椅子高度、校正镜头焦距。它暗示动作是精细的、持续性的，而非一次性的大动作。不要说 adjust my height（调整身高），因为身高不是你能微调的机械参数，你只能 adjust the seat（调整座椅）来适应身高。\n\n抽象适应：引申为改变行为、思维或习惯以适应新环境。常用搭配是 adjust to，后接名词或动名词。比如调整心态适应新工作、调整预算适应通货膨胀。这里强调的是动态的平衡过程，而不是彻底改变生活方式。\n\n易混点：与 fix 区分。fix 是修坏的东西，adjust 是让好的东西更好。你的电脑坏了用 fix，你的电脑能跑但有点卡顿需要优化设置时用 adjust。别把“适应”说成 adapt alone，虽然 adapt 侧重生物性或结构性的大改变，但 adjust 更侧重人为的、可控的微调。\n\n记住：它是微调的艺术，不是整容。",
+   "family": [],
+   "etymology": {
+    "origin": "源自法语ajuster，意为“使适合，使匹配”，词根为拉丁语adjactare。",
+    "story": "这个词源流展示了从“物理对齐”到“心理适应”的延伸。古法语中ajuster本意是“让A和B对齐、匹配”（如将两根木材拼合）。进入英语后，最初仅用于机械和物理层面的“校准”（如钟表齿轮、望远镜镜头）。18-19世纪，随着工业革命和心理学萌芽，其外延扩展到抽象领域：人们开始用adjust来描述调整行为以适应社会规范（adjust to society）或调整经济策略（adjust prices）。它保留了“小幅、可控、为求和谐”的核心义，区别于彻底的重塑（restructure）或被动的发展（grow）。",
+    "path": [
+     {
+      "form": "jungere",
+      "lang": "Latin",
+      "meaning": "连接，结合"
+     },
+     {
+      "form": "ajuster",
+      "lang": "Old French",
+      "meaning": "使适合，对齐"
+     },
+     {
+      "form": "adjust",
+      "lang": "English",
+      "meaning": "调整，适应"
+     }
+    ]
+   }
+  },
+  {
+   "k": "adjustment",
+   "w": "adjustment",
+   "promptV": 3,
+   "model": "agnes-3.0-flash",
+   "generatedAt": "2026-09-29T02:27:56.833Z",
+   "zh": "adjustment 是名词，核心场景是“微调”或“适应性改变”。它不是大刀阔斧的重构，而是为了让某物更合适、运作更顺畅而做的小幅修正。常见于物理层面，如调整音量、座椅或设备参数；也用于抽象层面，如生活方式、习惯或计划中的细节变动。与 fix 不同，fix 通常指修理坏掉的东西，而 adjustment 侧重于优化或适应新情况；与 change 相比，adjustment 语气更轻，强调精准度和细微度。商务语境中常指薪资或预算的核定调整；个人语境中多指心理或生理上的适应期。注意不要把它当成大改，用错了会显得词不达意。",
+   "family": [
+    {
+     "w": "adjust",
+     "rel": "derived",
+     "pos": "verb",
+     "zh": "调整，调节"
+    }
+   ],
+   "etymology": {
+    "origin": "来自拉丁语 adjustare，意为“使相等、对齐”",
+    "story": "",
+    "path": [
+     {
+      "form": "adjutare",
+      "lang": "Latin",
+      "meaning": "对齐，使之相等"
+     },
+     {
+      "form": "adjuster",
+      "lang": "Old French",
+      "meaning": "测量器，调节器"
+     }
+    ]
+   }
+  },
+  {
+   "k": "admiration",
+   "w": "admiration",
+   "promptV": 3,
+   "model": "agnes-3.0-flash",
+   "generatedAt": "2026-09-29T02:28:35.653Z",
+   "zh": "admiration 是一个纯粹的情感名词，核心含义是“钦佩、赞赏”。它的场景主要集中在对人或事物的深度认可，而非简单的喜欢。注意区分它与 respect（尊重）和 appreciation（欣赏/感激）：respect 更多基于地位或能力，强调敬重；appreciation 常带有帮助或理解后的感激；而 admiration 则带有仰慕、向往的色彩，通常指向那些你认为很优秀、很卓越的人或事，比如对英雄、大师或杰出成就的感叹。在写作或口语中，它常与 have admiration for 或 express admiration for 搭配。易混点在于，不要把它用在日常琐事或普通同事身上，用词过重会显得不真诚或讽刺。它适合用在正式场合或表达强烈敬佩时，比如看着偶像登台、阅读伟大作品后的内心感受。记住，admiration 是仰望的姿态，而不是平视的评价。",
+   "family": [
+    {
+     "w": "admire",
+     "rel": "derived",
+     "pos": "verb",
+     "zh": "钦佩，欣赏（动词原型）"
+    },
+    {
+     "w": "admiring",
+     "rel": "derived",
+     "pos": "adjective",
+     "zh": "充满敬意的（形容词）"
+    }
+   ],
+   "etymology": {
+    "origin": "拉丁语 admirari，原义为“感到惊奇、诧异”。",
+    "story": "最初，admiration 并非今天的“赞美”，而是“惊讶”。当人们看到非凡之事时，首先的反应是震惊和不可思议（wonder）。随着时间推移，这种对卓越的惊讶逐渐固化为一种积极的心理状态，即对他人成就或品质的仰慕。词根 mirari（wonder）保留了这种“看着并感到震撼”的核心，使得 admiration 始终带有一种距离感和崇高感。",
+    "path": [
+     {
+      "form": "admirari",
+      "lang": "Latin",
+      "meaning": "感到惊奇，视为珍贵"
+     },
+     {
+      "form": "admiration",
+      "lang": "Middle English",
+      "meaning": "惊讶，惊奇（逐渐转为赞美）"
+     }
+    ]
+   }
+  },
+  {
+   "k": "admire",
+   "w": "admire",
+   "promptV": 3,
+   "model": "agnes-3.0-flash",
+   "generatedAt": "2026-09-29T02:28:47.872Z",
+   "zh": "admire 的核心感是“带着欣赏眼光去注视”，比 look at 多了情感厚度。在 LOOK AT 场景中，它特指被外表或美感吸引，比如盯着别人的衣服或风景看，重点是视觉上的愉悦；若只是单纯看而不带敬意，用 look 即可。在 RESPECT 场景中，它延伸至精神层面，指对某人品德、才华的钦佩，这种敬意往往包含“对方做到了我没做到的事”的自惭之意。易混点在于 respect：respect 更侧重正式、严肃的尊重（如尊重长辈），而 admire 更侧重感性、热烈的仰慕（如迷偶像）。此外，admire 常接 for（钦佩某人的某特质）或 without object（纯表赞美），切忌误用为“羡慕”，羡慕是 envy，admire 是正面欣赏，不带嫉妒的苦涩味。记住：admire 是眼里有光，envy 是眼里有刺。",
+   "family": [
+    {
+     "w": "admirable",
+     "rel": "derived",
+     "pos": "adjective",
+     "zh": "令人钦佩的，极好的"
+    },
+    {
+     "w": "admiration",
+     "rel": "derived",
+     "pos": "noun",
+     "zh": "钦佩，赞赏"
+    }
+   ],
+   "etymology": {
+    "origin": "古法语 admirer，源自拉丁语 admirari（惊讶、着迷）",
+    "story": "词源里藏着从“惊讶”到“崇拜”的微妙转折。拉丁语 ad-（朝向）+ mirari（奇迹/惊奇）本意是“被某事吸引目光”，最初多指对神迹或非凡事物的惊愕。进入英语后，惊讶的成分淡出，审美与敬仰的成分加重，最终定格为“因美好或卓越而心生向往”。",
+    "path": [
+     {
+      "form": "admirari",
+      "lang": "Latin",
+      "meaning": "to wonder, be amazed"
+     },
+     {
+      "form": "admirer",
+      "lang": "Old French",
+      "meaning": "to look at with wonder"
+     }
+    ]
+   }
+  },
+  {
+   "k": "admission",
+   "w": "admission",
+   "promptV": 3,
+   "model": "agnes-3.0-flash",
+   "generatedAt": "2026-09-29T02:28:59.458Z",
+   "zh": "admission 的核心感是“被接纳进一个门槛之内”，由此衍生出两个最常用场景：\nMONEY：指“入场费、门票”，即为了跨过门槛需要付出的金钱。常与 free admission（免费入场）、admission fee（门票）连用。注意它和 entrance fee 很像，但 admission 更正式，常见于博物馆、剧院、体育赛事等官方语境；口语说“ticket”或“entry”更随意。\nPERMISSION：指“准许进入、录取”，强调的是机构或权威方“点头让你进来”。典型搭配是 admission to a university/hospital/club。比如 apply for admission to law school（申请法学院录取），或 admission to a private school（进入私校的资格）。这里 admission 侧重的是“被官方接受的资格”，而不是物理上的进门动作。\n易混提醒：别把 admission 和 admit 混为一谈——admit 是动词（承认/允许进入），admission 是名词，常出现在“申请录取通知（admission notice）”或“门票（admission ticket）”里。另外，admission 还有一个高阶义“承认、坦白”，但用户场景未涉及，暂不展开，但要知道它确实有这个用法，别只在“门票”里困住。",
+   "family": [
+    {
+     "w": "admit",
+     "rel": "derived",
+     "pos": "verb",
+     "zh": "允许进入；承认"
+    },
+    {
+     "w": "admissible",
+     "rel": "derived",
+     "pos": "adjective",
+     "zh": "可被接受的；合理的"
+    },
+    {
+     "w": "admissibility",
+     "rel": "derived",
+     "pos": "noun",
+     "zh": "可接受性；合理程度"
+    }
+   ],
+   "etymology": {
+    "origin": "拉丁语 admittere（ad + mittere），意为“发送/投放到某处，允许进入”。",
+    "story": "admission 源自拉丁语 admittere，前缀 ad-（向）加上 mittere（送、放），本义是“把某物/某人放进去、准许其进入”。古罗马时期，这个词用于描述允许市民进入公共建筑或集会场所，带有“官方许可”的色彩。后来词义逐渐抽象化：物理的“进入”引申为“被接受、被认可”，于是产生了“大学录取”“俱乐部资格”等用法；“付费进入”则因“进入需支付代价”的逻辑，衍生出“门票、入场费”义。词义从具体空间准入，慢慢扩展到社会资格与制度门槛，直到现代英语中，它同时承载着“钱（MONEY）”和“许可（PERMISSION）”的双重含义。",
+    "path": [
+     {
+      "form": "admittere",
+      "lang": "Latin",
+      "meaning": "允许进入，送进去"
+     },
+     {
+      "form": "admettre",
+      "lang": "French",
+      "meaning": "准许进入（中世纪法语）"
+     },
+     {
+      "form": "admission",
+      "lang": "English",
+      "meaning": "准许进入；门票"
+     }
+    ]
+   }
+  },
+  {
+   "k": "admit",
+   "w": "admit",
+   "promptV": 3,
+   "model": "agnes-3.0-flash",
+   "generatedAt": "2026-09-29T02:29:26.342Z",
+   "zh": "admit 的核心语感是“在压力下松口”，强调承认事实或真相，尤其是当你不想承认、感到抗拒或需要付出勇气时。它的核心场景是 CONFESS（坦白/认错）：这里指不情愿地承认自己的错误、罪过或弱点，如 admit guilt 或 admit a mistake。请注意，在美式英语日常口语中，单纯承认自己犯了小错通常用 confess 或 just own up 更地道，admit 常带有一种“被逼迫后不得不承认”的被动感和沉重感。\n其次是 AWARENESS（确认/接收）：指让某人进入某个受限区域，或使某物被正式接纳，如 admit patients 或 be admitted to school。这是从“承认某人身份/资格”引申出的空间或制度上的“准入”。\n易混点：切勿将 admit 与 announce 混淆。announce 是主动向公众告知信息，而 admit 是内向性的，往往是针对已经存在的事实做出被动或迟来的确认。记住，admit 里带着一种“割舍不掉”的被动与妥协。",
+   "family": [],
+   "etymology": {
+    "origin": "源自拉丁语 admittere，ad（到）+ mittere（放/送），原义为“放入、送入”。",
+    "story": "拉丁语 admittere 由 ad（指向）和 mittere（让/送）组成，最初指“把某物放到某处”。古罗马时期，这个词被用来描述军队“接纳”新成员进入营帐，或让士兵“进入”阵地。随着时间推移，物理上的“进入”逐渐引申为心理上的“进入脑海”或“允许事物存在”，进而演变为承认（admit）某个事实进入你的信念体系中，即接受或承认。",
+    "path": [
+     {
+      "form": "admittere",
+      "lang": "Latin",
+      "meaning": "放入，接纳"
+     },
+     {
+      "form": "admettre",
+      "lang": "Old French",
+      "meaning": "准许进入，承认"
+     }
+    ]
+   }
+  },
+  {
+   "k": "admittedly",
+   "w": "admittedly",
+   "promptV": 3,
+   "model": "agnes-3.0-flash",
+   "generatedAt": "2026-09-29T02:29:41.531Z",
+   "zh": "admittedly 是一个用来“退一步讲”的副词，核心场景是【让步】。当你想承认某事确实存在或为真，但紧接着要提出反驳、转折或保留意见时使用它。它不是简单的同意，而是一种“策略性承认”，用来软化语气或展示客观性。例如在辩论中，你说“Admittedly, the price is high”意味着你承认价格高，但后面通常会接“but the quality is worth it”来维持你的核心观点。易混点在于它与 simply 或 obviously 的区别：后者通常用于强调显而易见的事实，而 admittedly 专门用于那些你心里其实不太愿意接受、但为了逻辑严密不得不承认的负面事实。口语中常放在句首，带有强烈的转折意味，提醒读者“我知道这听起来不太好，但我继续说”。",
+   "family": [
+    {
+     "w": "admit",
+     "rel": "sibling",
+     "pos": "verb",
+     "zh": "承认，准许进入"
+    },
+    {
+     "w": "admission",
+     "rel": "derived",
+     "pos": "noun",
+     "zh": "承认；入场费；接纳"
+    },
+    {
+     "w": "admissible",
+     "rel": "derived",
+     "pos": "adjective",
+     "zh": "可被接受的，合法的"
+    }
+   ],
+   "etymology": {
+    "origin": "拉丁语 admittere (ad + mittere)，意为“使进入、让入、允许”。",
+    "story": "词根 admit 原指物理上的“让进入”，如进入房间或群体。后来引申为心理或逻辑上的“让某事进入心智”，即承认某事为真。admittedly 加上 -ly 变为副词，专门用于修饰这种“虽不情愿但不得不承认”的语气，将物理的“准入”转化为修辞上的“退让”。",
+    "path": [
+     {
+      "form": "admittere",
+      "lang": "Latin",
+      "meaning": "使进入，接纳"
+     },
+     {
+      "form": "admettre",
+      "lang": "Old French",
+      "meaning": "允许，承认"
+     },
+     {
+      "form": "admit",
+      "lang": "English",
+      "meaning": "承认事实"
+     }
+    ]
+   }
+  },
+  {
+   "k": "adopt",
+   "w": "adopt",
+   "promptV": 3,
+   "model": "agnes-3.0-flash",
+   "generatedAt": "2026-09-29T02:29:53.098Z",
+   "zh": "这个词的核心动作是“主动接纳并纳入自己体系”，无论是思想还是人。\n\n制度引入：指公司、组织或个人正式启用新的规则、方法或技术。注意，这里强调的是“官方采纳”而非临时尝试，比如公司 adopt a new policy，意思是把这套新政策定成规矩。\n\n收养子女：法律术语，指通过合法程序成为孩子的父母，切断生父母关系。中文里常说“领养”，但在正式英语语境中，adopt 比 take in 更具法律效力和永久性，不仅仅是寄养。\n\n易混点：千万别和 adapt（适应）搞混。Adapt 是“我改变自己以适应环境”，比如适应新气候；而 adopt 是“我选择并拿来用这个新东西”，是我主动挑中它。一个是被动调整，一个是主动挑选，逻辑完全相反。记不住的话，想想 adopt 后面跟的通常是“新政策、新方法、新孩子”，都是被“挑中”的对象。",
+   "family": [
+    {
+     "w": "adoption",
+     "rel": "derived",
+     "pos": "noun",
+     "zh": "收养；采纳"
+    },
+    {
+     "w": "adoptive",
+     "rel": "derived",
+     "pos": "adjective",
+     "zh": "收养的（父母）"
+    }
+   ],
+   "etymology": {
+    "origin": "拉丁语 adoptare，意为‘使某人成为儿子’",
+    "story": "",
+    "path": [
+     {
+      "form": "adoptare",
+      "lang": "Latin",
+      "meaning": "使成为儿子"
+     },
+     {
+      "form": "adopter",
+      "lang": "French",
+      "meaning": "收养；采用"
+     }
+    ]
+   }
+  },
+  {
+   "k": "adopted",
+   "w": "adopted",
+   "promptV": 3,
+   "model": "agnes-3.0-flash",
+   "generatedAt": "2026-09-29T02:30:01.186Z",
+   "zh": "这个词是形容词，专门用来描述“被领养的”这一法律状态，即一个孩子在法律上被另一个家庭正式接纳并抚养长大。\n领认场景：指孩子被法律认定属于该家庭，拥有同等权利和义务，常用于介绍家庭结构，如说我有两个孩子，两个是亲生的，一个是被领养的。\n情感色彩：它强调的是一种合法的身份转变，而不仅仅是物理上的照顾。注意区分：adopted 只能用于人或（法律意义上的）法案/决议，千万不要把它混同于 adopted（采纳）或 adapted（改编/适应），后者多用于文本或生物进化语境。虽然 adopted 听起来很中性甚至带点行政感，但在实际生活中它承载着深刻的羁绊与归属，用来形容家人时显得既正式又充满温情。\n毒舌提醒：别搞错了，孩子是被 adopt（领养）的，但法律方案是被 adopt（采纳）的，而电影剧本是被 adapt（改编）的，这三者发音像双胞胎但意思南辕北辙。",
+   "family": [
+    {
+     "w": "adopt",
+     "rel": "derived",
+     "pos": "verb",
+     "zh": "领养；采纳"
+    },
+    {
+     "w": "adoption",
+     "rel": "derived",
+     "pos": "noun",
+     "zh": "领养；采用"
+    }
+   ],
+   "etymology": {
+    "origin": "源自拉丁语 adoptare，意为‘作为儿子接纳’",
+    "story": "这个词源于古罗马法中的 'adoptare'，字面意思是‘作为儿子接受’。最初仅指罗马公民将非亲生孩子（如外邦人）纳入家族谱系，以获得继承权。随着英语吸收该词，它既保留了‘法律上确立亲子关系’的核心含义，又衍生出‘采纳某事物为正式政策/方法’的隐喻义——就像把某个理念‘认作’自己团队的一部分。",
+    "path": [
+     {
+      "form": "adoptare",
+      "lang": "Latin",
+      "meaning": "作为儿子接纳"
+     },
+     {
+      "form": "adopt",
+      "lang": "Old French/Middle English",
+      "meaning": "领取；收养"
+     },
+     {
+      "form": "adopted",
+      "lang": "English",
+      "meaning": "被领养的"
+     }
+    ]
+   }
+  },
+  {
+   "k": "adoption",
+   "w": "adoption",
+   "promptV": 3,
+   "model": "agnes-3.0-flash",
+   "generatedAt": "2026-09-29T02:30:17.872Z",
+   "zh": "adopt 的核心逻辑是“接纳并使其成为自己的”，这个词在 B2 阶段最常用于两个截然不同的场景。法律场景：指收养行为，即通过法律程序让非亲生孩子成为法律上的子女，例如办理收养手续或成为收养家庭，这里强调身份的正式转移。技术/政策场景：指采用新方法、新技术或新政策，表示从不使用到正式投入使用的过程，例如公司采用了新的软件系统或政府采用了更严格的安全标准，这里侧重“接受并运用”的动作。易混点：很多人会混淆 adoption（过程/行为本身，名词）和 adopt（采纳/收养，动词），写作中常误用名词做动词，或者在指代“普及率”时错误使用 adoption rate，其实 adoption 本身就包含“被接受的程度”这层引申义。记住：从法律上的“养”到工作上的“用”，核心都是“纳入麾下”，别把 adoption 当成长期的“适应期”（那是 adaptation），前者是决定性的动作，后者是渐进式的调整。",
+   "family": [
+    {
+     "w": "adopt",
+     "rel": "derived",
+     "pos": "verb",
+     "zh": "收养；采用；正式通过"
+    }
+   ],
+   "etymology": {
+    "origin": "来自拉丁语 adoptio，原义为‘挑选’或‘选取’",
+    "story": "最初仅指罗马法中‘选中’继承人或配偶。随着《圣经》译本将‘选取为子’翻译为收养，该词在16世纪进入英语时保留了法律层面的‘建立亲子关系’含义。后来，这一‘主动选取并纳入’的逻辑被借用至技术与政策领域，演变为现代‘采用新技术’之义。",
+    "path": [
+     {
+      "form": "adoptare",
+      "lang": "Latin",
+      "meaning": "挑选，选取"
+     },
+     {
+      "form": "adopter",
+      "lang": "Old French",
+      "meaning": "收养"
+     },
+     {
+      "form": "adoption",
+      "lang": "Middle English",
+      "meaning": "收养；采用"
+     }
+    ]
+   }
+  },
+  {
+   "k": "advance",
+   "w": "advance",
+   "promptV": 3,
+   "model": "agnes-3.0-flash",
+   "generatedAt": "2026-09-29T02:31:00.962Z",
+   "zh": "advance 的核心逻辑是“向前移动”，在 B2 阶段最需要掌握的是它作为“进展”的抽象用法。在科技或学术场景中，特指新的发现或发明时，必须使用复数形式 advances，例如 technological advances 或 major advances in medicine，切记不要说 an advance in technology，除非特指某一次具体的突破。这与 progress（常作不可数名词，侧重整体进程）和 improvement（侧重质量提升而非新增量）有细微区别：progress 是路，improvement 是路修得好，而 advance 是修通了新路段或发现了新大陆。此外，advance 还常用于指提前支付的钱款（a cash advance）或策略性前进（advance a plan）。最容易犯的错误是混淆单复数：说“取得了很大进展”时，通常用 made significant advances（复数）或 made progress，如果非要用单数 advance，通常指具体的某个进步或预付行为，而非泛指的领域进步。记住：复数谈趋势，单数谈具体事件或预付款。",
+   "family": [
+    {
+     "w": "advanced",
+     "rel": "sibling",
+     "pos": "adjective",
+     "zh": "高级的，晚期的"
+    },
+    {
+     "w": "advancement",
+     "rel": "derived",
+     "pos": "noun",
+     "zh": "提升，晋升"
+    }
+   ],
+   "etymology": {
+    "origin": "源自拉丁语 advances，由 ad（向）+ cedere（走）组成，原义为“向前走去”。",
+    "story": "词根 cedere 意味着“移动”，加上 ad“向”，本义是“走过去”。在中古英语中，它从军事领域（向前推进军队）引申为比喻义，指思想或技术的“向前突破”。因为总是涉及“比现在更靠前的位置”，所以自然衍生出“预付”（提前付钱）和“进展”（向前进的状态）两层意思。理解“向前”这个核心动作，就能串联起所有义项。",
+    "path": [
+     {
+      "form": "advances",
+      "lang": "Latin",
+      "meaning": "向前走，预付"
+     },
+     {
+      "form": "advance",
+      "lang": "Middle English",
+      "meaning": "军事推进，前进"
+     }
+    ]
+   }
+  },
+  {
+   "k": "advanced",
+   "w": "advanced",
+   "promptV": 3,
+   "model": "agnes-3.0-flash",
+   "generatedAt": "2026-09-29T02:31:25.670Z",
+   "zh": "别光想着 'Advanced English' 里的 '高等'，这个词在描述事物状态时，核心含义是 '先进、精密、处于领先地位'。场景一：MODERN。用于形容科技、系统或设备，强调其复杂度和技术含量高，比如 advanced technology（尖端科技）或 advanced age（高龄，这里 'advanced' 指时间或程度上的 '高'，注意 age 不能用 high 替换，除非口语化）。这和 modern（现代、当代，侧重时间新旧）不同，modern 可以是老式但仍是 '现代' 风格，advanced 则一定带有 '超越普通标准' 的意味。易混点：不要说 advanced price（价格高），价格高用 high/expensive，因为价格不是技术或程度上的 '进阶'。毒舌提醒：把 'advanced' 用在 'advanced breakfast'（高级早餐）上，听起来像是在吃分子料理，普通煎饼果子就别套这个词了。",
+   "family": [
+    {
+     "w": "advance",
+     "rel": "sibling",
+     "pos": "noun",
+     "zh": "前进，预付金"
+    },
+    {
+     "w": "advancement",
+     "rel": "derived",
+     "pos": "noun",
+     "zh": "晋升，进步"
+    }
+   ],
+   "etymology": {
+    "origin": "源自古法语 avancié，来自拉丁语 ante '在前面'。",
+    "story": "词根 ant- 意为 '前'。从物理位置上的 '向前移动' 引申为 '向前发展'，进而演变为抽象意义上的 '在水平上处于前列'。在16世纪进入英语后，除了保留 '推进' 的动作义，更常用作形容词，形容那些在复杂度和难度上超越了初级阶段的事物，从而衍生出 '先进' 这一含义。",
+    "path": [
+     {
+      "form": "ante",
+      "lang": "Latin",
+      "meaning": "在前面"
+     },
+     {
+      "form": "avance",
+      "lang": "Old French",
+      "meaning": "前进，推进"
+     },
+     {
+      "form": "advanced",
+      "lang": "English",
+      "meaning": "前进的，先进的"
+     }
+    ]
+   }
+  },
+  {
+   "k": "advantage",
+   "w": "advantage",
+   "promptV": 3,
+   "model": "agnes-3.0-flash",
+   "generatedAt": "2026-09-29T02:31:35.019Z",
+   "zh": "优势；有利条件：核心义就是“比对手多出来的那个好东西”，通常用于商业、竞争或策略场景。比如新航线的开通给了航空公司相对于竞争对手的优势（advantage over competitors），这里强调的是“领先一步”的状态。注意区分 advantage 和 benefit：benefit 侧重“好处、福利”（对受益者直接有益，如员工福利），而 advantage 侧重“相对优势”（对比中谁更强、谁更方便）。日常口语中常说 turn to one's advantage，意思是把某种情况转化为对自己有利的局面，比如虽然下雨了，但正好不用出门，这就成了你的 advantage。易混点：不要只用 advantage 泛指所有“好事”，它隐含“比较级”逻辑，没有对比就没有 advantage。另外，短语 take advantage of 虽然含 advantage，但常指“利用（他人弱点或机会）”，略带投机色彩，慎用。一句话总结：它是竞争场上的“护城河”，不是生活里的“小确幸”。",
+   "family": [
+    {
+     "w": "disadvantage",
+     "rel": "derived",
+     "pos": "noun",
+     "zh": "劣势，不利条件"
+    },
+    {
+     "w": "advantageous",
+     "rel": "derived",
+     "pos": "adjective",
+     "zh": "有利的，有利的"
+    }
+   ],
+   "etymology": {
+    "origin": "Old French avantaige, from avant (before, in front)",
+    "story": "词源其实很直观，来自法语 avant（在前面），加上后缀 -age 表示“状态”。字面意思就是“处于前面的状态”，即“领先”。从中古法语进入英语后，本义“空间上的靠前”逐渐引申为抽象的“利益领先”，比如军事中的地形优势、商业中的市场先机。有趣的是，它的反义词 disadvantage 加了 dis- 前缀，意思是“不在前面”，即落后。",
+    "path": [
+     {
+      "form": "avant",
+      "lang": "Old French",
+      "meaning": "前面，advantage的前身"
+     },
+     {
+      "form": "avantaige",
+      "lang": "Old French",
+      "meaning": "优势，领先状态"
+     },
+     {
+      "form": "advantage",
+      "lang": "Middle English",
+      "meaning": "优势"
+     }
+    ]
+   }
+  },
+  {
+   "k": "adventurous",
+   "w": "adventurous",
+   "promptV": 3,
+   "model": "agnes-3.0-flash",
+   "generatedAt": "2026-09-29T02:32:50.848Z",
+   "error": "上游服务异常（HTTP 502）：{\"error\":{\"message\":\"CC Switch local proxy failed while handling Codex endpoint /chat/completions. Provider: Agnes; model: agnes-3.0-flash; cause: 转发失败: 上游请求发送失败: error sending request\",\"type\":\"proxy_"
+  },
+  {
+   "k": "advert",
+   "w": "advert",
+   "promptV": 3,
+   "model": "agnes-3.0-flash",
+   "generatedAt": "2026-09-29T02:33:07.187Z",
+   "zh": "核心义：广告\nadvert 是 advertisement 的口语化缩写，专门用于英式英语，美式英语更常说 ad。在“商业营销”场景中，它指报纸、电视或网络上的广告信息，例如 “We ran an advert for the new restaurant.”。与 ad 相比，advert 显得稍正式一点但非书面，两者在日常口语中经常互换。易混点：很多人误以为 advert 只能指电视广告，实际上它涵盖所有媒介；还要注意它不是形容词“可广告的”（那种词不存在，用 advertisable）。\n使用上，常搭配 run（投放）、place（刊登）或 “an advert for...” 结构。注意发音，第二个音节 /ə/ 轻读，重音在 adv，别念成两个重音节。",
+   "family": [
+    {
+     "w": "advertisement",
+     "rel": "derived",
+     "pos": "noun",
+     "zh": "广告（正式全称）"
+    },
+    {
+     "w": "advertise",
+     "rel": "derived",
+     "pos": "verb",
+     "zh": "做广告；宣传"
+    }
+   ],
+   "etymology": {
+    "origin": "源自拉丁语 advertise，原意为“公开张贴”",
+    "story": "",
+    "path": [
+     {
+      "form": "advertire",
+      "lang": "Latin",
+      "meaning": "转向、注意"
+     },
+     {
+      "form": "advertisement",
+      "lang": "Middle English",
+      "meaning": "公开通知"
+     }
+    ]
+   }
+  },
+  {
+   "k": "advertise",
+   "w": "advertise",
+   "promptV": 3,
+   "model": "agnes-3.0-flash",
+   "generatedAt": "2026-09-29T02:33:17.170Z",
+   "zh": "这个词的核心逻辑是“主动把信息推送到别人面前”，分为两个主要场景：\n\nASK FOR：当你是需求方，比如在报纸或网上发布招聘信息、失物招领时，这是“刊登启事”的意思。注意这里通常接 for，比如 advertise for staff，强调你正在寻找什么。\n\nTRY TO SELL：当你是商业方，目的是让大众知道你的产品或服务，这是最常见的“做广告、打广告”。比如电视台播放商业片段，或者社交媒体上的带货视频，都属于 advertise。在这个场景下，它往往带有商业营销的色彩，目的是促进销售。\n\n易混点提醒：很多人分不清 advertise 和 publicize。两者意思很近，但 advertise 更具体地指“投放付费广告”或“通过媒体渠道宣传”，而 publicize 范围更广，可以指通过新闻发布会、口碑等非付费方式让公众知晓。另外，动词 advertise 的名词是 advertisement 或 ad，千万别直接说 an advertise，那是语法错误。",
+   "family": [
+    {
+     "w": "advertisement",
+     "rel": "derived",
+     "pos": "noun",
+     "zh": "广告启事，商业广告"
+    },
+    {
+     "w": "ad",
+     "rel": "sibling",
+     "pos": "noun",
+     "zh": "advertisement 的口语简称"
+    }
+   ],
+   "etymology": {
+    "origin": "拉丁语 advertise，源自 advertere，意为“转向、注意”",
+    "story": "词源很有趣，advertise 的前身是拉丁语 advertere，由 ad（向）和 verto（转）组成，本义是“转过头去看”或“留心”。在中古英语时期，它原本是一个法律术语，意思是“告知”或“告知某人某事”，比如法官告知被告案件细节。到了17世纪，随着商业发展，这个词的用法发生了漂移，从“正式告知”变成了“通过公共媒体告知大众”，也就是我们现在理解的“打广告”。",
+    "path": [
+     {
+      "form": "advertere",
+      "lang": "Latin",
+      "meaning": "转向，注意"
+     },
+     {
+      "form": "advertir",
+      "lang": "Middle English",
+      "meaning": "告知，提醒"
+     }
+    ]
+   }
+  },
+  {
+   "k": "advertising",
+   "w": "advertising",
+   "promptV": 3,
+   "model": "agnes-3.0-flash",
+   "generatedAt": "2026-09-29T02:33:26.078Z",
+   "zh": "这个词的核心就是‘广告’本身，即通过媒体劝诱消费者购买产品或服务的商业行为。B2学习者要注意，它常作为一个行业统称出现，比如‘work in advertising’指的是从事广告行业，而不仅仅是看广告。在具体语境中，它既可以指具体的广告活动（如 a TV advertising campaign），也可以指整个产业。与 promotion 相比，advertising 更侧重于付费媒体投放，而 promotion 范围更广，包括促销活动等。记住这个词时，别把它和 advocate（提倡）混淆，虽然长得有点像，但意思完全不同。简单点说，广告商花钱买版面，你花眼力看，这就是 advertising 的本质。",
+   "family": [
+    {
+     "w": "advertise",
+     "rel": "sibling",
+     "pos": "verb",
+     "zh": "打广告，登广告"
+    }
+   ],
+   "etymology": {
+    "origin": "源自拉丁语 advertise，由 ad（向）+ vertere（转向）组成，意为‘转向’",
+    "story": "最初指将注意力‘转向’某事，如‘to advertise to’意为告知。后来演变为向公众发布信息，进而特指商业推广。从‘转向注意’到‘商业宣传’，体现了语言从抽象动作到具体行业的固化过程。",
+    "path": [
+     {
+      "form": "advertire",
+      "lang": "Latin",
+      "meaning": "转向，注意"
+     },
+     {
+      "form": "advertise",
+      "lang": "English",
+      "meaning": "告知，通知"
+     }
+    ]
+   }
+  },
+  {
+   "k": "advise",
+   "w": "advise",
+   "promptV": 3,
+   "model": "agnes-3.0-flash",
+   "generatedAt": "2026-09-29T02:33:44.989Z",
+   "zh": "核心义：给建议。注意拼写：advise 是动词（建议），advice 是名词（建议），这是 B2 学习者最高频的拼写陷阱，考试必考。\n工作场景：正式地提出策略或方案，如 advise the board（向董事会建议）。\n专业场景：法律、金融领域的咨询，比 suggest 更权威、更有责任风险，如 lawyer advises client（律师给客户咨询意见）。\n社交场景：朋友间给忠告，语气较重，往往伴随对后果的预判，如 I advise you against it（我不建议你这么做）。\n易混点：千万别写成 \"I have a advice\"，必须用 \"a piece of advice\"；动词直接用 \"advise sb to do sth\"。",
+   "family": [
+    {
+     "w": "advice",
+     "rel": "sibling",
+     "pos": "noun",
+     "zh": "名词，建议，不可数"
+    },
+    {
+     "w": "adviser",
+     "rel": "derived",
+     "pos": "noun",
+     "zh": "顾问，建议者"
+    },
+    {
+     "w": "advisory",
+     "rel": "derived",
+     "pos": "adjective",
+     "zh": "顾问的，建议性的"
+    },
+    {
+     "w": "advisee",
+     "rel": "derived",
+     "pos": "noun",
+     "zh": "被建议者，被顾问指导的人"
+    }
+   ],
+   "etymology": {
+    "origin": "源自拉丁语 advisare，意为“使清醒、理性判断”。",
+    "story": "从“唤醒理性”到“给予建议”的演变极具现代意义。14世纪英语中，advise 原意接近现代法语 adviser，指“仔细考虑、理性判断”（deliberate），而非直接给答案。直到16世纪，词义才窄化为“提出建议”。这解释了为何正式场合用 advise 时，隐含了“经过深思熟虑”的责任感，而不仅仅是随口一说。",
+    "path": [
+     {
+      "form": "adviser",
+      "lang": "Old French",
+      "meaning": "使清醒，理性判断"
+     },
+     {
+      "form": "advise",
+      "lang": "Middle English",
+      "meaning": "仔细考虑，随后演变为提出建议"
+     }
+    ]
+   }
+  },
+  {
+   "k": "affair",
+   "w": "affair",
+   "promptV": 3,
+   "model": "agnes-3.0-flash",
+   "generatedAt": "2026-09-29T02:33:52.569Z",
+   "zh": "这个词的核心其实是个中性词，指“事务”或“事情”，但现代英语里它有两个主要陷阱。第一，提到 RELATIONSHIP 场景时，90% 的情况指“婚外情”，而且特指秘密的、不正当的肉体关系，不是普通的谈恋爱，说 I'm having an affair with my girlfriend 会显得非常滑稽，因为那叫约会不叫偷情。第二，提到 SITUATION 场景时，affair 通常指“丑闻”或“风波”，比如政治丑闻或外交危机，带有负面和复杂的色彩，普通的家庭琐事用 it 或 matter 就够了，用 affair 会显得小题大做，仿佛在处理国家大事。简单记：偷偷摸摸的是婚外情，乌烟瘴气的是大丑闻。",
+   "family": [],
+   "etymology": {
+    "origin": "古法语 afair，源自 afaire，意为“安排、照料”",
+    "story": "这个词源于拉丁语 ad + facere（做+面向），本意是“去处理某事”。在中世纪，它指代任何需要操心的事或业务。后来随着法律和商业发展，词义缩小并特指涉及个人利益或秘密的“事务”。再后来，因婚姻道德的约束，秘密的性关系被称为“私事/隐事”，最终固化为“婚外情”这一现代常用义。从“处理事务”到“处理私情”，再引申到“处理丑闻”，逻辑链条非常清晰。",
+    "path": [
+     {
+      "form": "faire",
+      "lang": "Latin",
+      "meaning": "做"
+     },
+     {
+      "form": "afaire",
+      "lang": "Old French",
+      "meaning": "安排，照料"
+     },
+     {
+      "form": "affair",
+      "lang": "English",
+      "meaning": "事务，事情"
+     }
+    ]
+   }
+  },
+  {
+   "k": "affect",
+   "w": "affect",
+   "promptV": 3,
+   "model": "agnes-3.0-flash",
+   "generatedAt": "2026-09-29T02:35:46.231Z",
+   "zh": "affect 的核心动作是“施加影响”，主要分两个场景：一是客观因果，二是主观情感。在 CAUSE CHANGE（引发变化）场景中，它强调某事对结果产生的实际波及或改变，比如污染影响生态、经济下行影响物价。这里要注意与动词 affect 的名词形式 effect 区分：affect 是动词（去影响），effect 通常是名词（影响结果）或作动词时指“实现/产生”，不要写 “affect an effect” 这种废话。在 CAUSE EMOTION（触动情感）场景中，它特指心灵被触动，通常带来强烈的情绪波动（多为负面，如悲伤、震撼），强调深层的心理涟漪，而不仅仅是表面反应。易混点：很多学习者把 affect 当作名词用，或者把它和 affect（伪装）这个极冷门的义项搞混。B2 阶段只需牢记：看到 affect 当动词，问自己“谁影响了谁”或“什么触动了心弦”，如果是名词需求，请直接切换为 effect。",
+   "family": [
+    {
+     "w": "effect",
+     "rel": "sibling",
+     "pos": "noun",
+     "zh": "影响结果，效应"
+    },
+    {
+     "w": "affectation",
+     "rel": "derived",
+     "pos": "noun",
+     "zh": "做作，矫揉造作"
+    }
+   ],
+   "etymology": {
+    "origin": "拉丁语 afficere，原义为“击中”或“触动”",
+    "story": "affect 的词根来自拉丁语 ad（朝向）+ ficere（做/打）。最初的意思就是“打到某物上”，进而引申为“击中内心”即情感波动，或“击中事物状态”即引起变化。中世纪法语 affecher 保留了“打击”的暴力色彩，后来随着英语的使用规范，动词义逐渐柔化，专门指“产生非物理性的影响”。",
+    "path": [
+     {
+      "form": "afficere",
+      "lang": "Latin",
+      "meaning": "打，击中，引起"
+     },
+     {
+      "form": "affecter",
+      "lang": "Old French",
+      "meaning": "影响，触动"
+     }
+    ]
+   }
+  },
+  {
+   "k": "affection",
+   "w": "affection",
+   "promptV": 3,
+   "model": "agnes-3.0-flash",
+   "generatedAt": "2026-09-29T02:35:55.060Z",
+   "zh": "这个核心义是深厚的情感或喜爱，指对特定的人或地方那种温暖、亲近且持久的内心感受。它比普通的 like 要深，但比 intense passion 要克制，带有一种温馨、柔和的色彩。在使用场景中，它常用来形容对亲人、老房子、故乡或逝去时光的眷恋。注意区分它和 romantic love，affection 更多指向亲情或友情层面的‘疼爱’与‘眷恋’，若用来形容情人，通常指那种老夫老妻般的温情，而非轰轰烈烈的激情。口语中偶尔会说 'have an affection for' 来表示对某物的喜爱，但现代英语中直接说 'affection' 作名词更常见，形容人时常用 'warmth' 替换以避免过于正式。别用它来形容对食物的胃口，那是 appetite 的地盘，混用了会显得你情感泛滥。",
+   "family": [
+    {
+     "w": "affect",
+     "rel": "sibling",
+     "pos": "verb",
+     "zh": "影响，感动，侵袭"
+    },
+    {
+     "w": "affective",
+     "rel": "derived",
+     "pos": "adjective",
+     "zh": "情感的，情绪的"
+    }
+   ],
+   "etymology": {
+    "origin": "拉丁语 affectus，来自 afluere，意为‘流向、倾注’",
+    "story": "词源上，affection 与物理上的‘流动’有关。古罗马时期，认为情感像水一样在身体内部‘流淌’，激动时血液沸腾或冷却。17世纪，哲学家和文学家将这种生理反应转化为心理状态，指代‘情绪流露’或‘内心倾向’。到了现代，‘流向’的含义弱化，固定为‘喜爱’或‘深情’，保留了那种情感如水般自然涌出的意象。",
+    "path": [
+     {
+      "form": "afluere",
+      "lang": "Latin",
+      "meaning": "流向，涌出"
+     },
+     {
+      "form": "affectus",
+      "lang": "Latin",
+      "meaning": "情感，倾向"
+     }
+    ]
+   }
+  },
+  {
+   "k": "afraid",
+   "w": "afraid",
+   "promptV": 3,
+   "model": "agnes-3.0-flash",
+   "generatedAt": "2026-09-29T02:36:12.029Z",
+   "zh": "afraid 最核心的使用场景是 WORRIED，表达“担心某件坏事发生”，通常搭配介词 of 表示对具体对象的恐惧（如 afraid of spiders），或者引导 that 从句表示对某种可能性的忧虑（如 afraid that he will fail）。注意，afraid 与 scared 有细微差别：scared 更偏向生理上的惊恐和心跳加速，而 afraid 可以包含理智上的担忧或对后果的顾虑，语气相对平实。在口语中，afraid 经常被降级使用作为委婉语，放在句子中间或句首（如 I'm afraid I can't help you），用来软化拒绝或坏消息，此时它并不表示真的害怕，而是表示“遗憾”或“恐怕”，这是很多初学者容易忽略的礼貌用法。如果把它当成单纯的“害怕”，你就错过了它在社交润滑剂上的重要作用。别以为只有鬼片里的人才会用 afraid，职场和日常生活中它出现的频率高得离谱，用错了只会显得不够地道。",
+   "family": [
+    {
+     "w": "fear",
+     "rel": "sibling",
+     "pos": "noun",
+     "zh": "恐惧，畏惧"
+    },
+    {
+     "w": "fright",
+     "rel": "sibling",
+     "pos": "noun",
+     "zh": "惊吓，惊骇"
+    }
+   ],
+   "etymology": {
+    "origin": "古英语 āfræd（a- 强烈 + fræad 恐惧，字面意“强烈恐惧”）",
+    "story": "",
+    "path": [
+     {
+      "form": "āfræad",
+      "lang": "Old English",
+      "meaning": "恐惧，害怕"
+     },
+     {
+      "form": "afred",
+      "lang": "Middle English",
+      "meaning": "害怕，担忧"
+     }
+    ]
+   }
+  },
+  {
+   "k": "after",
+   "w": "after",
+   "promptV": 3,
+   "model": "agnes-3.0-flash",
+   "generatedAt": "2026-09-29T02:36:33.191Z",
+   "zh": "after 的核心逻辑是“时间或空间上的跟随”。\n\nCONJUNCTION (B1)：作连词时，强调“先后顺序”，即某事发生在另一事之后。常用于叙事中交代背景或结果，如“joined... started making noise”。注意与 when 的区别，when 侧重同时或一般状态，after 严格侧重时序。\n\nFOLLOWING (PREPOSITION)：作介词时，空间或动作上的“紧随其后”。既可指物理追逐（run after him），也可指命名来源（a song after the hero）。这里有个易错点：run after 是“追”，但 be after someone 在口语里意思是“找某事/某人”，别搞混。\n\nBECAUSE OF (PREPOSITION, B2)：高阶用法，表示“鉴于/因为...的结果”。通常接 what/that 引导的从句，暗示前一件事导致了后一种情感或态度变化。例如“after what she did”，这里的 after 不仅仅是时间先后，更蕴含因果判断：“鉴于她做的那些事（所以我不再信任她）”。这是 B2 层级常考考点，要把 after 理解成一种“带有因果暗示的时间连接词”。\n\n毒舌提醒：别把 after 只用成“在...后面”，它其实是个隐形因果连接词，尤其在书面语和复杂从句里。",
+   "family": [
+    {
+     "w": "afterward",
+     "rel": "derived",
+     "pos": "adverb",
+     "zh": "过后，后来"
+    },
+    {
+     "w": "afterlife",
+     "rel": "derived",
+     "pos": "noun",
+     "zh": "来世，死后的世界"
+    },
+    {
+     "w": "aftermath",
+     "rel": "derived",
+     "pos": "noun",
+     "zh": "后果，残局"
+    }
+   ],
+   "etymology": {
+    "origin": "古英语 aefter，意为 'behind' 或 'following'",
+    "story": "",
+    "path": [
+     {
+      "form": "aefter",
+      "lang": "Old English",
+      "meaning": "after, behind"
+     },
+     {
+      "form": "after",
+      "lang": "Middle English",
+      "meaning": "following in space or time"
+     }
+    ]
+   }
+  },
+  {
+   "k": "against",
+   "w": "against",
+   "promptV": 3,
+   "model": "agnes-3.0-flash",
+   "generatedAt": "2026-09-29T02:36:52.410Z",
+   "zh": "against 是英语里最基础的方位介词之一，核心逻辑是“相反”或“抵触”，主要分三类场景。第一类是物理方向上的相反，比如逆流而上、逆风行驶，或者靠墙站立，强调空间上的逆向或接触支撑。第二类是抽象的反对或冲突，比如反对某个计划、起诉某人，这里体现的是立场或利益的对立。第三类是意外碰撞，比如撞到树上，强调无意的冲击。学习者最容易混淆的是 against 和 opposed to，前者更侧重动作或状态上的逆向，后者更侧重观点上的不赞同；另外别把 against 简单理解为“在...后面”，那是 behind 的事，against 强调的是“顶着”或“对着”。记住它的灵魂是“对抗”，无论是物理上的逆风，还是社交上的顶嘴，本质都是一股力在抵抗另一股力。",
+   "family": [],
+   "etymology": {
+    "origin": "古英语 aginst，由 a- 和 ginst（对抗）组成，意为“对着”",
+    "story": "",
+    "path": [
+     {
+      "form": "aginst",
+      "lang": "Old English",
+      "meaning": "against, opposite"
+     },
+     {
+      "form": "against",
+      "lang": "Middle English",
+      "meaning": "in opposition to"
+     }
+    ]
+   }
+  },
+  {
+   "k": "age",
+   "w": "age",
+   "promptV": 3,
+   "model": "agnes-3.0-flash",
+   "generatedAt": "2026-09-29T02:37:08.075Z",
+   "zh": "age 作为名词最核心的场景是 PERIOD（时期/年代），指代历史长河中某一特定时段。不要把它简单等同于 time 或 period，time 偏向抽象时间，period 偏向相对较短的段，而 age 强调宏观的历史纪元或时代特征。例如 the Bronze Age 青铜时代，the digital age 数字时代。在正式语境中，the modern age 指现代社会，比 modern times 更具历史厚重感。易混点：别把 60-year-old man 的 age（年龄）和 historical age（时代）混为一谈，虽然词源相同，但语境截然不同。口语中较少单独用 age 指'时代'，多用 era 或 period，但在固定搭配中 age 不可替代。",
+   "family": [
+    {
+     "w": "aging",
+     "rel": "derived",
+     "pos": "verb",
+     "zh": "变老，使衰老"
+    },
+    {
+     "w": "aged",
+     "rel": "derived",
+     "pos": "adjective",
+     "zh": "老年的，陈年的"
+    },
+    {
+     "w": "agency",
+     "rel": "derived",
+     "pos": "noun",
+     "zh": "代理机构，行动力"
+    }
+   ],
+   "etymology": {
+    "origin": "源自日耳曼语 *aigiz，意为'时代、年岁'，后演变为英语 age。",
+    "story": "从'个人寿命'到'历史纪元'的语义扩展。古英语中 ēġ 指一个人从出生到死亡的时间跨度。中世纪时期，词义泛化，开始指'特定人群共处的时代'。18世纪后，随着历史学发展，age 被用来划分社会形态（如 Industrial Age），完成了从微观个体生命到宏观文明进程的飞跃。",
+    "path": [
+     {
+      "form": "ēġ",
+      "lang": "Old English",
+      "meaning": "时间，寿命，年纪"
+     },
+     {
+      "form": "age",
+      "lang": "Middle English",
+      "meaning": "时期，时代，年龄"
+     }
+    ]
+   }
+  }
+ ]
+}
