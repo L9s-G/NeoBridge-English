@@ -92,6 +92,37 @@ try {
   await page.waitForTimeout(800);
   console.log('[re-dl]    card =', await page.$eval('.q-front', el => el.querySelector('.q-word').textContent));
   console.log('[re-dl]    bell =', await page.$eval('.q-sound .q-bell', el => `${el.tagName} title=${el.getAttribute('title')}`));
+
+  // 卡背扩展区：默认折叠的「扩展信息」；词源块按首发策略应整块不存在（短语卡无扩展数据则整块缺席）
+  await page.click('.q-actions .btn');
+  await page.waitForTimeout(300);
+  console.log('[re-dl]    ext =', await page.evaluate(() => {
+    const word = document.querySelector('.q-word').textContent;
+    const d = document.querySelector('.q-ext');
+    if (!d) return { word, present: false };
+    return {
+      word,
+      present: true,
+      open: d.open,
+      summary: d.querySelector('summary').textContent,
+      hasZh: !!d.querySelector('.ext-zh'),
+      hasOrigin: !!d.querySelector('.ext-origin'),
+      hasStory: !!d.querySelector('.ext-story'),
+      chips: d.querySelectorAll('.ext-chip').length,
+      chip0: (d.querySelector('.ext-chip') || {}).textContent || null,
+    };
+  }));
+  console.log('[re-dl]    ext cache =', await page.evaluate(async () => {
+    try {
+      const cache = await caches.open('neobridge-ext');
+      const meta = await cache.match('./data/manifest-ext.json');
+      const body = await cache.match('./data/ext.v1.json');
+      return { meta: !!meta, bodyBytes: body ? (await body.text()).length : 0 };
+    } catch (e) {
+      return 'err: ' + e.message;
+    }
+  }));
+
   await page.click('.session-head button');
   await page.waitForTimeout(300);
   console.log('[re-dl]    status =', (await page.textContent('#status')).trim());

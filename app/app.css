@@ -396,6 +396,55 @@ button.ghost { padding: .25rem .6rem; font-size: .8rem; }
   font-size: 1.3rem;
 }
 
+/* 卡背扩展区（词级扩展数据，build:ext 产出）：默认折叠，词义之后的附加层。
+   不用 flex gap（iOS 12 要 @supports 兜底）——这里全是块级流，不需要 flex。 */
+.q-ext {
+  margin-top: .9rem;
+  padding-top: .9rem;
+  border-top: 1px solid var(--border);
+}
+.q-ext > summary,
+.ext-story > summary {
+  cursor: pointer;
+  color: var(--text-dim);
+  font-size: .85rem;
+}
+.ext-zh {
+  margin: .5rem 0 0;
+  font-size: 1.05rem;
+  line-height: 1.6;
+}
+.ext-origin,
+.ext-path {
+  margin: .4rem 0 0;
+  color: var(--text-dim);
+  font-size: .95rem;
+}
+.ext-story { margin-top: .4rem; }
+.ext-story p {
+  margin: .35rem 0 0;
+  color: var(--text);
+  font-size: 1rem;
+  line-height: 1.6;
+}
+.ext-fam {
+  display: flex;
+  flex-wrap: wrap;
+  margin-top: .55rem;
+}
+.ext-chip {
+  margin: 0 .4rem .4rem 0;   /* iOS 12 无 flex gap（14.1+）：间距用 margin，别加 gap */
+  padding: .12rem .6rem;
+  background: var(--bg);
+  border: 1px solid var(--border-strong);
+  border-radius: 999px;
+  font-size: .85rem;
+}
+.ext-chip b {
+  color: var(--accent);
+  font-weight: 600;
+}
+
 .lvl {
   display: inline-block;
   padding: 0 .35rem;

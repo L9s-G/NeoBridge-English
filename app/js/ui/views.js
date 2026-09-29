@@ -11,7 +11,8 @@
 
 import { audioNamesOfWord } from './audio-download.js';
 import {
-  distinctPos, keywordText, lenClass, posTitle, senseUrl, showGrouping, youglishUrl,
+  distinctPos, extFamilyLabel, extPathText, extSummary, keywordText, lenClass,
+  posTitle, senseUrl, showGrouping, youglishUrl,
 } from './card-info.js';
 
 /** 外链统一新标签打开：套进 PWA 里会丢掉当前 session */
@@ -98,7 +99,37 @@ function senseBlock(baseUrl, sense, withPos) {
   );
 }
 
-function back(word, baseUrl) {
+/**
+ * 卡背扩展区：默认折叠（词卡主体是词义，扩展是按需深挖的附加层）。
+ * 空字段整块不渲染 —— 首发词源（origin/path/story）按发布策略留空，
+ * 这里就只剩中文详解 / 家族；将来数据补回，UI 自动多出词源行与演变故事。
+ */
+function extBlock(ext) {
+  const ety = (ext && ext.etymology) || {};
+  const path = ety.path || [];
+  const family = (ext && ext.family) || [];
+
+  return h('details', { class: 'q-ext' },
+    h('summary', null, extSummary(ext)),
+    h('div', { class: 'ext-body' },
+      ext.zh ? h('p', { class: 'ext-zh' }, ext.zh) : null,
+      ety.origin ? h('p', { class: 'ext-origin' }, '词源：', ety.origin) : null,
+      path.length ? h('p', { class: 'ext-path' }, extPathText(path)) : null,
+      ety.story
+        ? h('details', { class: 'ext-story' },
+            h('summary', null, `演变故事 · ${ety.story.length} 字`),
+            h('p', null, ety.story))
+        : null,
+      family.length
+        ? h('div', { class: 'ext-fam' }, family.map(f => h('span', {
+            class: 'ext-chip', title: extFamilyLabel(f) || null,
+          }, h('b', null, f.w), ` ${f.zh}`)))
+        : null,
+    ),
+  );
+}
+
+function back(word, baseUrl, ext) {
   const grouped = showGrouping(word);
 
   return h('div', { class: 'q-back' },
@@ -108,6 +139,7 @@ function back(word, baseUrl) {
           word.senses.filter(s => s.pos === pos).map(s => senseBlock(baseUrl, s, false)),
         ))
       : word.senses.map(s => senseBlock(baseUrl, s, true)),
+    ext ? extBlock(ext) : null,
   );
 }
 
@@ -118,10 +150,11 @@ function back(word, baseUrl) {
  * @param {string}   o.baseUrl   词包里的官方链接前缀，只有背面用得到
  * @param {boolean}  o.flipped   是否已翻面
  * @param {Function} [o.onPlay]  正面 🔊：传入该卡的发音文件名数组；不传则回落 YouGlish
+ * @param {object}   [o.ext]     词级扩展条目（zh/词源/家族）；无数据（未加载 / 短语）整块不画
  */
-export function questionView({ word, baseUrl, flipped, onFlip, onAnswer, onPlay }) {
+export function questionView({ word, baseUrl, flipped, onFlip, onAnswer, onPlay, ext }) {
   const root = h('div', { class: 'q' }, front(word, onPlay));
-  if (flipped) root.append(back(word, baseUrl));
+  if (flipped) root.append(back(word, baseUrl, ext));
 
   root.append(h('div', { class: 'q-actions' },
     flipped

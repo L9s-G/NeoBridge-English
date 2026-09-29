@@ -12,6 +12,7 @@ import { withParams } from './core/params.js';
 import { coverageOf } from './core/progress.js';
 import { isWrongWord } from './core/pools.js';
 import { downloadPack, removePack, restorePacks, setActivePackId } from './db/importer.js';
+import { loadExt } from './db/ext-loader.js';
 import { getActivePackId, loadDaily, loadProgress, openStore } from './db/stores.js';
 import { audioNamesOf, countCached, downloadAudio } from './ui/audio-download.js';
 import { renderWeek, renderWrongList } from './ui/lists.js';
@@ -65,7 +66,7 @@ function fmtBytes(n) {
 /* ---------------- 渲染 ---------------- */
 
 let db = null;
-let view = { packs: [], activeId: null, payload: null, progress: {} };
+let view = { packs: [], activeId: null, payload: null, progress: {}, ext: null };
 let audioNames = [];
 
 function renderPacks() {
@@ -241,6 +242,7 @@ function startSession(size, words) {
     words: words || view.payload.words,
     baseUrl: view.payload.baseUrl,
     states: view.progress,
+    extMap: view.ext ? view.ext.map : null,
     size,
     host,
     onExit: async () => {
@@ -284,6 +286,8 @@ async function boot() {
     }
 
     setStatus('正在打开本地数据库…');
+    // 扩展数据与 IDB/词包恢复并行拉取（loadExt 全程失败兜底 null，不阻塞初始化）
+    const extPromise = loadExt();
     db = await openStore();
 
     setStatus('正在恢复已下载的词包…');
@@ -293,6 +297,7 @@ async function boot() {
       await downloadPack(db, { baseUrl: BUNDLED_BASE });
     }
 
+    view.ext = await extPromise;
     await refresh();
   } catch (err) {
     showError('初始化失败：', err);

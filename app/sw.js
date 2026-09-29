@@ -12,7 +12,7 @@
  * 所以 SW 缓存过期最多少拿一次，不会读到损坏数据。
  */
 
-const SHELL_CACHE = 'neobridge-shell-v21';   // ← 发版时改这里（v21：入口/PWA 启动改用根路径 / + 导航响应洗掉 redirected 标志）
+const SHELL_CACHE = 'neobridge-shell-v22';   // ← 发版时改这里（v22：新增卡背扩展区 + 扩展数据加载器 ext-loader）
 const PACK_CACHE_PREFIX = 'neobridge-pack-';
 // 与 app/js/ui/audio-download.js 里的 AUDIO_CACHE 保持一致（sw.js 是经典脚本，不能 import）
 const AUDIO_CACHE = 'neobridge-audio-v1';
@@ -38,6 +38,7 @@ const SHELL = [
   './js/db/idb.js',
   './js/db/stores.js',
   './js/db/importer.js',
+  './js/db/ext-loader.js',
   './js/ui/views.js',
   './js/ui/card-info.js',
   './js/ui/audio-download.js',
@@ -97,7 +98,14 @@ self.addEventListener('fetch', event => {
 });
 
 async function handle(request) {
-  // 数据文件（词包清单 / 词包本体）必须网络优先：缓存里那份旧 manifest 会让人下到旧版词包，
+  const path = new URL(request.url).pathname;
+  // 扩展正文（约 4 MB）由 ext-loader 自管独立缓存 neobridge-ext（按 manifest sha 增量更新）：
+  // SW 只放行，绝不落 SHELL 缓存 —— 双份浪费是其次，cache-first 锁旧才是要命的
+  // （caches.match 跨缓存搜索，连 loader 自己存的新版都会被当成"命中"直接返回旧响应）。
+  // 离线时 fetch 抛错 → loader 捕获后读自己的缓存兜底。
+  if (path.endsWith('/data/ext.v1.json')) return fetch(request);
+
+  // 数据文件（词包清单 / 扩展清单 / 词包本体）必须网络优先：缓存里那份旧 manifest 会让人下到旧版词包，
   // 旧词包没有 a 字段 → 整页卡片都退回 YouGlish。在线时以服务器为准，离线才回退缓存。
   if (isDataUrl(request.url)) return networkFirst(request);
 
@@ -159,7 +167,9 @@ async function networkFirst(request) {
 
 function isDataUrl(url) {
   const path = new URL(url).pathname;
-  return path.endsWith('/data/manifest.json') || /\/data\/words[^/]*\.json$/.test(path);
+  return path.endsWith('/data/manifest.json')
+    || path.endsWith('/data/manifest-ext.json')
+    || /\/data\/words[^/]*\.json$/.test(path);
 }
 
 function isAudioUrl(url) {

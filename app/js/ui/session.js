@@ -35,9 +35,10 @@ if (typeof window !== 'undefined') {
  * @param {object} opts.host      答题容器
  * @param {Function} opts.onExit  点"退出 / 回到首页"时回调
  * @param {Function} [opts.onPlay] 正面 🔊 的播放实现，默认放本地发音
+ * @param {Map}     [opts.extMap] wordKey → 扩展条目（ext-loader 产出）；缺省时卡背无扩展区
  */
 export function openSession({
-  db, words, baseUrl, states, size, host, onExit, onPlay = playAudio,
+  db, words, baseUrl, states, size, host, onExit, onPlay = playAudio, extMap = null,
   params = withParams(), now = () => Date.now(), rng = Math.random,
 }) {
   const byKey = new Map(words.map(w => [w.k, w]));
@@ -130,6 +131,7 @@ export function openSession({
       word: byKey.get(queue[index].k),
       baseUrl,
       flipped,
+      ext: extMap ? extMap.get(queue[index].k) : null,
       onFlip: () => { flipped = true; paint(); },
       onAnswer: answer,
       onPlay,

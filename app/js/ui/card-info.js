@@ -81,7 +81,34 @@ export function youglishUrl(word) {
   return `https://youglish.com/pronounce/${encodeURIComponent(word?.w || '')}/english/uk`;
 }
 
-/** 背面每个义项的官方详情链接：baseUrl 已含尾部 ?refid= */
+/** 词包里的官方链接前缀；只有背面用得到（正面永远不放链接） */
 export function senseUrl(baseUrl, sense) {
   return `${baseUrl || ''}${sense?.refid || ''}`;
+}
+
+/** family rel → 中文（validate 只认 derived / sibling 两个枚举） */
+export const REL_ZH = Object.freeze({ derived: '派生', sibling: '同族' });
+
+/**
+ * 卡背扩展区的 <summary> 文案：按实际有内容的块拼 ——
+ * 首发词源块（origin/path/story）整块留空，就只报「中文详解 / 家族」，不虚报。
+ */
+export function extSummary(ext) {
+  const parts = ['中文详解'];
+  const ety = (ext && ext.etymology) || {};
+  if (ety.origin || ety.story || (ety.path || []).length) parts.push('词源');
+  if ((ext && ext.family || []).length) parts.push('家族');
+  return `扩展信息 · ${parts.join(' / ')}`;
+}
+
+/** 演变链：form（lang·meaning） → form（lang·meaning） … */
+export function extPathText(path) {
+  return (path || []).map(p => `${p.form}（${p.lang}·${p.meaning}）`).join(' → ');
+}
+
+/** family chip 的悬浮标注：派生·形容词 —— 可见文本只留「词 + 中文」（与 llm-test 一致） */
+export function extFamilyLabel(item) {
+  const rel = REL_ZH[item.rel] || item.rel || '';
+  const pos = posTitle(item.pos);
+  return [rel, pos].filter(Boolean).join('·');
 }

@@ -562,6 +562,96 @@
     }
   }
 
+  // app/js/db/ext-loader.js
+  var EXT_CACHE = "neobridge-ext";
+  var BODY_URL = "./data/ext.v1.json";
+  var MANIFEST_URL = "./data/manifest-ext.json";
+  function decideExt({ manifestSha, storedSha, hasBody }) {
+    const desired = manifestSha || storedSha;
+    if (!desired) return { action: "unavailable", sha: null };
+    if (desired === storedSha && hasBody) return { action: "use-cache", sha: desired };
+    if (hasBody) return { action: "refresh", sha: desired };
+    return { action: "fetch", sha: desired };
+  }
+  function parseExt(text, meta) {
+    const payload = JSON.parse(text);
+    if (!payload || typeof payload.words !== "object" || Object.keys(payload.words).length !== payload.count) {
+      throw new Error("\u6269\u5C55\u6570\u636E\u7ED3\u6784\u4E0D\u81EA\u6D3D");
+    }
+    return {
+      map: new Map(Object.entries(payload.words)),
+      extVersion: payload.extVersion,
+      count: payload.count,
+      sha256: meta.sha,
+      fromCache: !!meta.fromCache
+    };
+  }
+  async function loadExt({ fetchImpl, cachesOk } = {}) {
+    try {
+      const f = fetchImpl || (typeof fetch === "function" ? fetch : null);
+      if (!f) return null;
+      const hasCaches = cachesOk !== void 0 ? cachesOk : typeof caches !== "undefined";
+      let manifestSha = null;
+      let manifest = null;
+      try {
+        const res = await f(MANIFEST_URL);
+        if (res.ok) {
+          manifest = await res.json();
+          if (typeof manifest.sha256 === "string") manifestSha = manifest.sha256;
+        }
+      } catch {
+      }
+      let storedSha = null;
+      let bodyText = null;
+      if (hasCaches) {
+        try {
+          const cache = await caches.open(EXT_CACHE);
+          const metaRes = await cache.match(MANIFEST_URL);
+          if (metaRes) {
+            const stored = await metaRes.json();
+            if (typeof stored.sha256 === "string") storedSha = stored.sha256;
+          }
+          const bodyRes = await cache.match(BODY_URL);
+          if (bodyRes) bodyText = await bodyRes.text();
+        } catch {
+        }
+      }
+      const plan = decideExt({ manifestSha, storedSha, hasBody: bodyText != null });
+      if (plan.action === "unavailable") return null;
+      if (plan.action === "use-cache") return parseExt(bodyText, { sha: plan.sha, fromCache: true });
+      try {
+        const res = await f(BODY_URL);
+        if (!res.ok) throw new Error("HTTP ".concat(res.status));
+        const buffer = await res.arrayBuffer();
+        const sha = await sha256Hex(buffer);
+        if (sha !== plan.sha) throw new Error("sha256 \u4E0D\u7B26\uFF08\u6B63\u6587 ".concat(sha.slice(0, 12), " \u2260 \u76EE\u6807 ").concat(plan.sha.slice(0, 12), "\uFF09"));
+        const text = new TextDecoder("utf-8").decode(buffer);
+        if (hasCaches) {
+          try {
+            const cache = await caches.open(EXT_CACHE);
+            await cache.put(BODY_URL, new Response(text, { headers: { "Content-Type": "application/json" } }));
+            if (manifest) {
+              await cache.put(MANIFEST_URL, new Response(JSON.stringify(manifest), { headers: { "Content-Type": "application/json" } }));
+            }
+          } catch (err) {
+            console.warn("\u6269\u5C55\u6570\u636E\u5199\u7F13\u5B58\u5931\u8D25\uFF08\u672C\u6B21\u4ECD\u53EF\u7528\uFF09\uFF1A", err);
+          }
+        }
+        return parseExt(text, { sha: plan.sha, fromCache: false });
+      } catch (err) {
+        if (bodyText != null) {
+          console.warn("\u62C9\u53D6\u6269\u5C55\u6570\u636E\u5931\u8D25\uFF0C\u9000\u56DE\u672C\u5730\u65E7\u7248\uFF1A", err);
+          return parseExt(bodyText, { sha: storedSha, fromCache: true });
+        }
+        console.warn("\u6269\u5C55\u6570\u636E\u4E0D\u53EF\u7528\uFF1A", err);
+        return null;
+      }
+    } catch (err) {
+      console.warn("\u6269\u5C55\u6570\u636E\u52A0\u8F7D\u5F02\u5E38\uFF08\u4E0D\u5F71\u54CD\u8BCD\u5305\uFF09\uFF1A", err);
+      return null;
+    }
+  }
+
   // app/js/ui/audio-download.js
   var AUDIO_CACHE = "neobridge-audio-v1";
   var MIN_BYTES = 500;
@@ -717,6 +807,22 @@
   function senseUrl(baseUrl, sense) {
     return "".concat(baseUrl || "").concat((sense == null ? void 0 : sense.refid) || "");
   }
+  var REL_ZH = Object.freeze({ derived: "\u6D3E\u751F", sibling: "\u540C\u65CF" });
+  function extSummary(ext) {
+    const parts = ["\u4E2D\u6587\u8BE6\u89E3"];
+    const ety = ext && ext.etymology || {};
+    if (ety.origin || ety.story || (ety.path || []).length) parts.push("\u8BCD\u6E90");
+    if ((ext && ext.family || []).length) parts.push("\u5BB6\u65CF");
+    return "\u6269\u5C55\u4FE1\u606F \xB7 ".concat(parts.join(" / "));
+  }
+  function extPathText(path) {
+    return (path || []).map((p) => "".concat(p.form, "\uFF08").concat(p.lang, "\xB7").concat(p.meaning, "\uFF09")).join(" \u2192 ");
+  }
+  function extFamilyLabel(item) {
+    const rel = REL_ZH[item.rel] || item.rel || "";
+    const pos = posTitle(item.pos);
+    return [rel, pos].filter(Boolean).join("\xB7");
+  }
 
   // app/js/ui/views.js
   var EXT = { target: "_blank", rel: "noopener" };
@@ -794,7 +900,34 @@
       (sense.ex || []).slice(0, 2).map((ex) => h("p", { class: "sense-ex" }, "\u201C".concat(ex, "\u201D")))
     );
   }
-  function back(word, baseUrl) {
+  function extBlock(ext) {
+    const ety = ext && ext.etymology || {};
+    const path = ety.path || [];
+    const family = ext && ext.family || [];
+    return h(
+      "details",
+      { class: "q-ext" },
+      h("summary", null, extSummary(ext)),
+      h(
+        "div",
+        { class: "ext-body" },
+        ext.zh ? h("p", { class: "ext-zh" }, ext.zh) : null,
+        ety.origin ? h("p", { class: "ext-origin" }, "\u8BCD\u6E90\uFF1A", ety.origin) : null,
+        path.length ? h("p", { class: "ext-path" }, extPathText(path)) : null,
+        ety.story ? h(
+          "details",
+          { class: "ext-story" },
+          h("summary", null, "\u6F14\u53D8\u6545\u4E8B \xB7 ".concat(ety.story.length, " \u5B57")),
+          h("p", null, ety.story)
+        ) : null,
+        family.length ? h("div", { class: "ext-fam" }, family.map((f) => h("span", {
+          class: "ext-chip",
+          title: extFamilyLabel(f) || null
+        }, h("b", null, f.w), " ".concat(f.zh)))) : null
+      )
+    );
+  }
+  function back(word, baseUrl, ext) {
     const grouped = showGrouping(word);
     return h(
       "div",
@@ -804,12 +937,13 @@
         { class: "pos-group" },
         h("p", { class: "pos-head" }, h("span", { class: "tag", title: posTitle(pos) }, pos)),
         word.senses.filter((s) => s.pos === pos).map((s) => senseBlock(baseUrl, s, false))
-      )) : word.senses.map((s) => senseBlock(baseUrl, s, true))
+      )) : word.senses.map((s) => senseBlock(baseUrl, s, true)),
+      ext ? extBlock(ext) : null
     );
   }
-  function questionView({ word, baseUrl, flipped, onFlip, onAnswer, onPlay }) {
+  function questionView({ word, baseUrl, flipped, onFlip, onAnswer, onPlay, ext }) {
     const root = h("div", { class: "q" }, front(word, onPlay));
-    if (flipped) root.append(back(word, baseUrl));
+    if (flipped) root.append(back(word, baseUrl, ext));
     root.append(h(
       "div",
       { class: "q-actions" },
@@ -1082,6 +1216,7 @@
     host,
     onExit,
     onPlay = playAudio,
+    extMap = null,
     params: params2 = withParams(),
     now = () => Date.now(),
     rng = Math.random
@@ -1160,6 +1295,7 @@
         word: byKey.get(queue[index].k),
         baseUrl,
         flipped,
+        ext: extMap ? extMap.get(queue[index].k) : null,
         onFlip: () => {
           flipped = true;
           paint();
@@ -1200,7 +1336,7 @@
     return n >= 1024 * 1024 ? "".concat((n / 1024 / 1024).toFixed(2), " MB") : "".concat(Math.round(n / 1024), " KB");
   }
   var db = null;
-  var view = { packs: [], activeId: null, payload: null, progress: {} };
+  var view = { packs: [], activeId: null, payload: null, progress: {}, ext: null };
   var audioNames = [];
   function renderPacks() {
     $("pack-card").hidden = false;
@@ -1343,6 +1479,7 @@
       words: words || view.payload.words,
       baseUrl: view.payload.baseUrl,
       states: view.progress,
+      extMap: view.ext ? view.ext.map : null,
       size,
       host,
       onExit: async () => {
@@ -1375,6 +1512,7 @@
         navigator.serviceWorker.register("./sw.js").catch((err) => console.warn("Service Worker \u6CE8\u518C\u5931\u8D25", err));
       }
       setStatus("\u6B63\u5728\u6253\u5F00\u672C\u5730\u6570\u636E\u5E93\u2026");
+      const extPromise = loadExt();
       db = await openStore();
       setStatus("\u6B63\u5728\u6062\u590D\u5DF2\u4E0B\u8F7D\u7684\u8BCD\u5305\u2026");
       const existing = await restorePacks(db);
@@ -1382,6 +1520,7 @@
         setStatus("\u672C\u5730\u6CA1\u6709\u8BCD\u5305\uFF0C\u6B63\u5728\u4E0B\u8F7D\u5185\u7F6E\u8BCD\u5305\u2026");
         await downloadPack(db, { baseUrl: BUNDLED_BASE });
       }
+      view.ext = await extPromise;
       await refresh();
     } catch (err) {
       showError("\u521D\u59CB\u5316\u5931\u8D25\uFF1A", err);

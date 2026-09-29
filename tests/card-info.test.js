@@ -14,7 +14,11 @@ import { test } from 'node:test';
 
 import {
   POS_ZH,
+  REL_ZH,
   distinctPos,
+  extFamilyLabel,
+  extPathText,
+  extSummary,
   keywordText,
   lenClass,
   posTitle,
@@ -189,6 +193,51 @@ test('真实词包：多词条卡里 241 张有 Keyword 行，3 张靠义项链�
     3,
     'lie / row / tear —— hw===w，只能靠背面的义项详情链接',
   );
+});
+
+/* ---------------- 扩展区文案（extSummary / extPathText / extFamilyText） ---------------- */
+
+test('extSummary：按实际有内容的块拼，首发词源留空不虚报', () => {
+  assert.equal(
+    extSummary({ zh: 'x', etymology: { origin: 'o', story: 's', path: [{}] }, family: [{}] }),
+    '扩展信息 · 中文详解 / 词源 / 家族',
+  );
+  assert.equal(
+    extSummary({ zh: 'x', etymology: { origin: '', story: '', path: [] }, family: [{}] }),
+    '扩展信息 · 中文详解 / 家族',
+    '首发策略：词源整块留空时 summary 不提词源',
+  );
+  assert.equal(
+    extSummary({ zh: 'x', etymology: { origin: '', story: '', path: [] }, family: [] }),
+    '扩展信息 · 中文详解',
+  );
+  assert.equal(
+    extSummary({ zh: 'x', etymology: { origin: '', story: '', path: [{ form: 'a' }] }, family: [] }),
+    '扩展信息 · 中文详解 / 词源',
+    '只有演变链也算词源',
+  );
+  assert.equal(extSummary(null), '扩展信息 · 中文详解', 'null 兜底不炸');
+});
+
+test('extPathText：form（lang·meaning）箭头串联，空给空串', () => {
+  assert.equal(extPathText([]), '');
+  assert.equal(extPathText(null), '');
+  assert.equal(
+    extPathText([
+      { form: 'un-', lang: '拉丁', meaning: '不' },
+      { form: 'able', lang: '拉丁', meaning: '能' },
+    ]),
+    'un-（拉丁·不） → able（拉丁·能）',
+  );
+});
+
+test('extFamilyLabel：rel·词性 悬浮标注，缺项不炸，未知 rel 原样透传', () => {
+  assert.equal(REL_ZH.derived, '派生');
+  assert.equal(REL_ZH.sibling, '同族');
+  assert.equal(extFamilyLabel({ w: 'unable', rel: 'derived', pos: 'adjective', zh: '不能的' }), '派生·形容词');
+  assert.equal(extFamilyLabel({ w: 'ab', rel: 'sibling', pos: '', zh: '（缩写）' }), '同族');
+  assert.equal(extFamilyLabel({ w: 'x', rel: '未知枚举', pos: 'noun', zh: '注' }), '未知枚举·名词');
+  assert.equal(extFamilyLabel({ w: 'x', rel: '', pos: '', zh: '' }), '', '全缺给空串（调用方不挂 title）');
 });
 
 /* ---------------- baseUrl 与词包一致 ---------------- */

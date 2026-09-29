@@ -33,7 +33,7 @@ SMOKE_PATH=legacy.html npm run smoke   # 冒烟旧版入口
 1. **改了 `app/js/**` 或 `app/index.html` → 必须 `npm run build:legacy`**。
    `tests/legacy.test.js` 会现场重新构建并与入库产物比对，忘了跑直接测试失败。
 2. **发版必须 bump `app/sw.js` 里的 `SHELL_CACHE` 版本号**（`neobridge-shell-vNN` 的 NN +1，
-   当前 v18），否则老用户外壳不刷新（shell 是 cache-first），改动静默不生效。
+   以 `sw.js` 里现值为准），否则老用户外壳不刷新（shell 是 cache-first），改动静默不生效。
 3. **`app/sw.js` 的 `SHELL` 预缓存清单要盖住所有入口用到的模块**：
    新增 `app/js/core/*.js` 这类被 import 的文件时，记得同步加进去（如 `./js/core/sha256.js`）。
 4. **`app/legacy.html`、`app/legacy.js` 是构建输出，勿手改**；它们入库提交，
