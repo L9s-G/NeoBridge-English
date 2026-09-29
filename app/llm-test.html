@@ -4,83 +4,144 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex">
-<title>LLM 词库扩展测试台 · NeoBridge</title>
+<title>LLM 测试台 · NeoBridge</title>
+<link rel="icon" href="./icon.svg" type="image/svg+xml">
 <link rel="stylesheet" href="./app.css">
 <style>
-  /* 开发页自带的排版：面板 / 日志 / 结果三段，复用 app.css 的色板 */
-  .panel { background: var(--bg-card); border: 1px solid var(--border); border-radius: .75rem; padding: .9rem 1rem; margin-bottom: 1rem; }
-  .row { display: flex; flex-wrap: wrap; align-items: center; gap: .5rem; }
-  .row + .row { margin-top: .6rem; }
-  label { color: var(--text-dim); font-size: .9rem; }
-  input[type=text], input[type=url], input[type=password], select {
-    background: var(--bg); color: var(--text); border: 1px solid var(--border-strong);
-    border-radius: .5rem; padding: .45rem .6rem; font: inherit;
+  /* 开发专用 · 只考虑 PC 横向版面：左 1/3 输入+日志，右 2/3 输出 */
+  html, body { height: 100%; }
+  body { display: flex; flex-direction: column; overflow: hidden; }
+
+  .top {
+    display: flex; align-items: baseline; gap: 1rem;
+    padding: .7rem 1rem; border-bottom: 1px solid var(--border);
   }
-  input[type=text] { width: 11rem; }
-  input.grow { flex: 1 1 14rem; }
-  button { font: inherit; padding: .45rem .9rem; border-radius: .5rem; border: 1px solid var(--border-strong); background: var(--bg); color: var(--text); cursor: pointer; }
-  button.primary { background: var(--accent); border-color: var(--accent); color: var(--bg); font-weight: 600; }
-  button:disabled { opacity: .5; cursor: default; }
-  #log { font: 13px/1.7 ui-monospace, Consolas, monospace; white-space: pre-wrap; word-break: break-all; max-height: 14rem; overflow: auto; color: var(--text-dim); margin: 0; }
-  #log .ok { color: var(--accent); }
-  #log .err { color: var(--danger); }
-  pre { font: 13px/1.6 ui-monospace, Consolas, monospace; white-space: pre-wrap; word-break: break-all; margin: .5rem 0 0; overflow: auto; max-height: 22rem; }
-  .tag { display: inline-block; padding: .1rem .5rem; border-radius: 999px; font-size: .78rem; border: 1px solid var(--border-strong); color: var(--text-dim); }
+  .top .title { margin: 0; font-size: 1.15rem; }
+  .top .meta { color: var(--text-dim); font-size: .82rem; }
+  .top .back { margin-left: auto; color: var(--text-dim); text-decoration: none; font-size: .9rem; }
+  .top .back:hover { color: var(--accent); }
+
+  .shell {
+    flex: 1; min-height: 0;
+    display: grid; grid-template-columns: minmax(340px, 1fr) 2fr;
+    gap: 1rem; padding: 1rem;
+  }
+  @media (max-width: 960px) { .shell { grid-template-columns: 1fr; } }
+
+  .left { display: flex; flex-direction: column; gap: .8rem; min-height: 0; min-width: 0; }
+  .right { overflow: auto; min-width: 0; }
+
+  .panel {
+    background: var(--bg-card); border: 1px solid var(--border);
+    border-radius: .75rem; padding: .8rem 1rem;
+  }
+  .panel h2 { margin: 0 0 .5rem; font-size: .95rem; color: var(--text-dim); font-weight: 600; }
+
+  textarea, input[type=text], input[type=url], input[type=password] {
+    width: 100%; box-sizing: border-box;
+    background: var(--bg); color: var(--text); border: 1px solid var(--border-strong);
+    border-radius: .5rem; padding: .5rem .6rem; font: inherit;
+  }
+  textarea { resize: vertical; min-height: 5.5rem; font: 14px/1.6 ui-monospace, Consolas, monospace; }
+  input.mono { font-family: ui-monospace, Consolas, monospace; }
+
+  .row { display: flex; flex-wrap: wrap; align-items: center; gap: .5rem; }
+  .row + .row { margin-top: .55rem; }
+  label.opt { color: var(--text-dim); font-size: .85rem; display: inline-flex; align-items: center; gap: .3rem; }
+  .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: .5rem .7rem; }
+  .grid2 label { display: flex; flex-direction: column; gap: .2rem; color: var(--text-dim); font-size: .8rem; }
+  .dim { color: var(--text-dim); font-size: .82rem; }
+  .tag {
+    display: inline-block; padding: .1rem .55rem; border-radius: 999px;
+    font-size: .78rem; border: 1px solid var(--border-strong); color: var(--text-dim);
+    white-space: nowrap;
+  }
   .tag.ok { border-color: var(--accent); color: var(--accent); }
   .tag.bad { border-color: var(--danger); color: var(--danger); }
-  h2 { font-size: 1.05rem; margin: 0 0 .5rem; }
-  .dim { color: var(--text-dim); font-size: .88rem; }
-  .stack { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
-  @media (max-width: 720px) { .stack { grid-template-columns: 1fr; } }
+  .tag.run { border-color: #fbbf24; color: #fbbf24; }
+
+  .log-panel { flex: 1; display: flex; flex-direction: column; min-height: 8rem; }
+  #log {
+    flex: 1; margin: 0; overflow: auto; white-space: pre-wrap; word-break: break-all;
+    font: 12.5px/1.65 ui-monospace, Consolas, monospace; color: var(--text-dim);
+  }
+  #log .ok { color: var(--accent); }
+  #log .err { color: var(--danger); }
+  #log .gap { color: #fbbf24; }
+
+  /* 输出区：每个词一张卡，卡内分层（正文常显，故事/JSON 折叠） */
+  .card {
+    background: var(--bg-card); border: 1px solid var(--border);
+    border-radius: .75rem; padding: .85rem 1.1rem; margin-bottom: .9rem;
+  }
+  .card[data-state="fail"] { border-color: var(--danger); }
+  .card-head { display: flex; align-items: baseline; gap: .6rem; flex-wrap: wrap; }
+  .card-head b { font-size: 1.2rem; color: var(--accent); }
+  .zh { margin: .55rem 0 0; line-height: 1.75; white-space: pre-wrap; }
+  .fam { margin-top: .6rem; display: flex; flex-wrap: wrap; gap: .4rem; }
+  .chip {
+    background: var(--bg); border: 1px solid var(--border-strong);
+    border-radius: 999px; padding: .12rem .6rem; font-size: .85rem;
+  }
+  .chip b { color: var(--accent); font-weight: 600; }
+  .origin { margin: .6rem 0 0; color: var(--text-dim); font-size: .92rem; }
+  .path { margin: .3rem 0 0; font: 13px/1.6 ui-monospace, Consolas, monospace; color: var(--text-dim); }
+  details { margin-top: .5rem; }
+  summary { cursor: pointer; color: var(--text-dim); font-size: .85rem; user-select: none; }
+  details pre {
+    margin: .4rem 0 0; padding: .55rem .7rem; background: var(--bg);
+    border: 1px solid var(--border); border-radius: .5rem;
+    font: 12.5px/1.6 ui-monospace, Consolas, monospace;
+    white-space: pre-wrap; word-break: break-all; max-height: 18rem; overflow: auto;
+  }
+  .empty { color: var(--text-dim); text-align: center; margin-top: 3rem; font-size: .9rem; }
 </style>
 </head>
 <body>
-<div class="page">
-  <header>
-    <h1 class="title">LLM 测试台</h1>
-    <a class="classic-link" href="./index.html" title="回主站">🏠</a>
-  </header>
-  <p class="dim">开发专用（不部署）。走 <code>serve.mjs</code> 的 <code>/llm/*</code> 同源反代，验证
-    <code>app/js/llm/</code> 这条链路：prompt 构建 → chat → 解析 → 校验。</p>
+<header class="top">
+  <h1 class="title">LLM 测试台</h1>
+  <span class="meta">开发专用（不部署）· /llm 同源反代 · promptV <span id="pv">–</span></span>
+  <a class="back" href="./">回主站 ↗</a>
+</header>
 
-  <div class="panel">
-    <div class="row">
-      <label for="word">单词</label>
-      <input type="text" id="word" value="account" spellcheck="false">
-      <label><input type="checkbox" id="withPhrases" checked> 注入官方短语家族</label>
-      <button id="run" class="primary">生成一轮</button>
-      <button id="clear">清空日志</button>
-      <span id="status" class="tag">待命</span>
-    </div>
-    <div class="row">
-      <label for="baseUrl">端点</label>
-      <input type="url" id="baseUrl" class="grow" value="/llm/v1" spellcheck="false">
-      <label for="model">model</label>
-      <input type="text" id="model" value="agnes-3.0-flash" spellcheck="false">
-      <label for="apiKey">key</label>
-      <input type="password" id="apiKey" value="PROXY_MANAGED" spellcheck="false">
-    </div>
-    <div class="row">
-      <label for="minGap">限速间隔 ms</label>
-      <input type="text" id="minGap" value="6500" style="width:6rem" spellcheck="false">
-      <span class="dim">本地代理 RPM 10；点「生成一轮」是单发，排队器只在多发时生效</span>
-    </div>
+<div class="shell">
+  <div class="left">
+    <section class="panel">
+      <h2>词单</h2>
+      <textarea id="words" spellcheck="false" placeholder="用分号分隔，与进度一键复制一致">account; tear; row; lie</textarea>
+      <div class="row" style="margin-top:.55rem">
+        <span class="tag" id="wc">4 词</span>
+        <label class="opt"><input type="checkbox" id="withPhrases" checked> 注入官方短语家族</label>
+        <span class="dim">可直接粘贴复制来的词单</span>
+      </div>
+    </section>
+
+    <section class="panel">
+      <h2>配置</h2>
+      <div class="grid2">
+        <label>端点 <input type="url" id="baseUrl" class="mono" value="/llm/v1" spellcheck="false"></label>
+        <label>model <input type="text" id="model" value="agnes-3.0-flash" spellcheck="false"></label>
+        <label>key <input type="password" id="apiKey" class="mono" value="PROXY_MANAGED" spellcheck="false"></label>
+        <label>限速间隔 ms <input type="text" id="minGap" class="mono" value="6500" spellcheck="false"></label>
+      </div>
+      <div class="row" style="margin-top:.7rem">
+        <button id="run" class="primary">生成整单</button>
+        <button id="stop" disabled>停止</button>
+        <button id="clearLog">清日志</button>
+        <button id="clearOut">清输出</button>
+        <span id="status" class="tag">待命</span>
+      </div>
+    </section>
+
+    <section class="panel log-panel">
+      <h2>日志</h2>
+      <pre id="log"></pre>
+    </section>
   </div>
 
-  <div class="panel">
-    <h2>日志</h2>
-    <pre id="log"></pre>
-  </div>
-
-  <div class="stack">
-    <div class="panel">
-      <h2>原始输出 <span id="rawTag" class="tag">—</span></h2>
-      <pre id="raw">（还没跑）</pre>
-    </div>
-    <div class="panel">
-      <h2>清洗后 <span id="cleanTag" class="tag">—</span></h2>
-      <pre id="clean">（还没跑）</pre>
-    </div>
+  <div class="right" id="right">
+    <div class="empty" id="empty">输出区 —— 左侧填词单，点「生成整单」</div>
+    <div id="cards"></div>
   </div>
 </div>
 
@@ -88,11 +149,33 @@
 import { chat, LlmError } from './js/llm/client.js';
 import { buildWordExtPrompt, parseWordExt, PROMPT_VERSION } from './js/llm/prompts.js';
 import { validateWordExt } from './js/llm/validate.js';
+import { createQueue } from './js/llm/ratelimit.js';
 
 const $ = id => document.getElementById(id);
 const logEl = $('log');
+const cardsEl = $('cards');
 let pack = null;
 let busy = false;
+let stopFlag = false;
+
+$('pv').textContent = PROMPT_VERSION;
+
+/** 分号分隔（与进度一键复制 join('; ') 一致），另容忍中文分号/逗号/换行；词内空格保留（短语） */
+function parseWords(raw) {
+  const out = [];
+  const seen = new Set();
+  for (const part of String(raw).split(/[;；\n,，]+/)) {
+    const w = part.trim();
+    if (!w || seen.has(w.toLowerCase())) continue;
+    seen.add(w.toLowerCase());
+    out.push(w);
+  }
+  return out;
+}
+
+function syncCount() { $('wc').textContent = `${parseWords($('words').value).length} 词`; }
+$('words').addEventListener('input', syncCount);
+syncCount();
 
 function log(line, cls) {
   const span = document.createElement('span');
@@ -108,93 +191,207 @@ function setStatus(text, cls) {
   el.className = 'tag' + (cls ? ` ${cls}` : '');
 }
 
+function cfg() {
+  return {
+    baseUrl: $('baseUrl').value.trim(),
+    model: $('model').value.trim(),
+    apiKey: $('apiKey').value.trim(),
+  };
+}
+
 async function loadPack() {
   if (pack) return pack;
   const res = await fetch('./data/words.v2.json');
   if (!res.ok) throw new Error(`词包加载失败 HTTP ${res.status}`);
-  pack = await res.json();
-  const byKey = new Map(pack.words.map(w => [w.k, w]));
+  const data = await res.json();
+  const byKey = new Map(data.words.map(w => [w.k, w]));
   const members = new Map();
-  for (const w of pack.words) {
+  for (const w of data.words) {
     for (const e of w.entries || []) {
       if (!members.has(e)) members.set(e, []);
       members.get(e).push(w.k);
     }
   }
-  pack.byKey = byKey;
-  pack.phrasesOf = k => {
-    const out = new Set();
-    const word = byKey.get(k);
-    for (const e of (word && word.entries) || []) {
-      for (const m of members.get(e) || []) if (m !== k) out.add(m);
-    }
-    return [...out].sort();
+  pack = {
+    byKey,
+    phrasesOf(k) {
+      const out = new Set();
+      const word = byKey.get(k);
+      for (const e of (word && word.entries) || []) {
+        for (const m of members.get(e) || []) if (m !== k) out.add(m);
+      }
+      return [...out].sort();
+    },
   };
   return pack;
 }
 
-$('clear').onclick = () => { logEl.textContent = ''; };
+function el(tag, cls, text) {
+  const node = document.createElement(tag);
+  if (cls) node.className = cls;
+  if (text != null) node.textContent = text;
+  return node;
+}
+
+function makeCard(key) {
+  const card = el('article', 'card');
+  card.dataset.state = 'run';
+  card.append(
+    el('div', 'card-head', null),
+    el('p', 'zh', '生成中…'),
+  );
+  const head = card.firstChild;
+  head.append(el('b', null, key), el('span', 'tag run', '排队中'));
+  $('empty').hidden = true;
+  cardsEl.appendChild(card);
+  card.scrollIntoView({ block: 'nearest' });
+  return card;
+}
+
+function fillCard(card, key, stats, result, raw, failMsg) {
+  const head = card.firstChild;
+  const tag = head.querySelector('.tag');
+  const zhP = card.querySelector('.zh');
+
+  if (failMsg) {
+    card.dataset.state = 'fail';
+    tag.className = 'tag bad';
+    tag.textContent = '失败';
+    zhP.textContent = failMsg;
+    return;
+  }
+
+  const c = result.cleaned;
+  card.dataset.state = 'ok';
+  tag.className = 'tag ok';
+  tag.textContent = stats;
+  zhP.textContent = c.zh;
+
+  const fam = el('div', 'fam');
+  if (c.family.length) {
+    for (const f of c.family) {
+      const chip = el('span', 'chip');
+      chip.append(el('b', null, f.w), ` ${f.zh}`);
+      fam.appendChild(chip);
+    }
+  } else {
+    fam.appendChild(el('span', 'dim', 'family：[]（没有合适的家族词，不硬拗）'));
+  }
+  card.appendChild(fam);
+
+  const origin = el('p', 'origin', `词源：${c.etymology.origin || '（无）'}`);
+  card.appendChild(origin);
+  card.appendChild(el('p', 'path', c.etymology.path.map(p => `${p.form}（${p.lang}·${p.meaning}）`).join(' → ')));
+
+  if (c.etymology.story) {
+    const d = el('details');
+    d.append(el('summary', null, `演变故事 · ${c.etymology.story.length} 字（点开）`), el('p', 'zh', c.etymology.story));
+    card.appendChild(d);
+  }
+
+  const dRaw = el('details');
+  dRaw.append(el('summary', null, '原始输出'), el('pre', null, raw));
+  card.appendChild(dRaw);
+
+  const notes = [];
+  if (result.errors.length) notes.push(`校验错误：${result.errors.join('；')}`);
+  if (result.dropped.length) notes.push(`剔除：${result.dropped.map(d => `${d.w}（${d.why}）`).join('；')}`);
+  if (notes.length) {
+    const dNote = el('details');
+    dNote.append(el('summary', null, '清洗与校验'), el('pre', null, notes.join('\n')));
+    card.appendChild(dNote);
+  }
+}
+
+$('clearLog').onclick = () => { logEl.textContent = ''; };
+$('clearOut').onclick = () => {
+  cardsEl.textContent = '';
+  $('empty').hidden = false;
+};
+
+$('stop').onclick = () => {
+  stopFlag = true;
+  $('stop').disabled = true;
+  setStatus('停止中…', 'run');
+};
 
 $('run').onclick = async () => {
   if (busy) return;
+  const keys = parseWords($('words').value);
+  if (!keys.length) { setStatus('词单为空', 'bad'); return; }
+
   busy = true;
+  stopFlag = false;
   $('run').disabled = true;
-  const t0 = Date.now();
+  $('stop').disabled = false;
+
+  const gapMs = Number($('minGap').value) || 6500;
+  const t00 = Date.now();
+  let ok = 0, fail = 0;
+
   try {
-    setStatus('加载词包…');
+    log(`▶ 整单 ${keys.length} 词 · 限速 ${gapMs}ms · promptV ${PROMPT_VERSION}`);
     const p = await loadPack();
-    const key = $('word').value.trim().toLowerCase();
-    const word = p.byKey.get(key);
-    if (!word) throw new Error(`词包里没有 "${key}"（键必须小写，且是 wordKey 不是显示词形）`);
-    const phrases = $('withPhrases').checked ? p.phrasesOf(word.k) : [];
-    log(`▶ ${word.w}（义项 ${word.senses.length}，短语家族 ${phrases.length}）`);
+    const push = createQueue({ minIntervalMs: gapMs });
 
-    setStatus('生成中…');
-    const messages = buildWordExtPrompt(word, phrases);
-    log(`  system ${messages[0].content.length} 字 / user ${messages[1].content.length} 字`);
+    for (let i = 0; i < keys.length; i += 1) {
+      if (stopFlag) { log('■ 已手动停止', 'err'); break; }
+      const key = keys[i].toLowerCase();
+      const word = p.byKey.get(key);
+      setStatus(`生成中 ${i + 1}/${keys.length}`, 'run');
 
-    const content = await chat(messages, {
-      baseUrl: $('baseUrl').value.trim(),
-      model: $('model').value.trim(),
-      apiKey: $('apiKey').value.trim(),
-    }, { json: true, timeoutMs: 90000 });
+      if (!word) {
+        fail += 1;
+        const card = makeCard(key);
+        fillCard(card, key, '', null, '', `词包里没有 "${key}"（wordKey，小写；短语带空格也算）`);
+        log(`[${i + 1}/${keys.length}] ${key} ✗ 词包无此词`, 'err');
+        continue;
+      }
 
-    $('raw').textContent = content;
-    $('rawTag').textContent = '收到';
-    $('rawTag').className = 'tag ok';
-
-    setStatus('解析…');
-    const parsed = parseWordExt(content);
-    const result = validateWordExt(parsed, word.k);
-
-    $('clean').textContent = JSON.stringify(result.cleaned, null, 1);
-    if (result.ok) {
-      setStatus(`OK · ${((Date.now() - t0) / 1000).toFixed(1)}s`, 'ok');
-      $('cleanTag').textContent = '校验通过';
-      $('cleanTag').className = 'tag ok';
-      log(`  ✓ zh ${result.cleaned.zh.length} 字 / family ${result.cleaned.family.length} / path ${result.cleaned.etymology.path.length}`, 'ok');
-    } else {
-      setStatus('校验未过', 'bad');
-      $('cleanTag').textContent = `失败：${result.errors.join('；')}`;
-      $('cleanTag').className = 'tag bad';
-      result.errors.forEach(e => log(`  ✗ ${e}`, 'err'));
+      const card = makeCard(key);
+      const phrases = $('withPhrases').checked ? p.phrasesOf(word.k) : [];
+      let started = 0;
+      try {
+        // 队列在内部保证两次发起的间隔 ≥ 限速（等够再发），这里只量请求本身
+        const content = await push(() => {
+          started = Date.now();
+          return chat(buildWordExtPrompt(word, phrases), cfg(), { json: true, timeoutMs: 90000 });
+        });
+        const cost = ((Date.now() - started) / 1000).toFixed(1);
+        const result = validateWordExt(parseWordExt(content), word.k);
+        if (result.ok) ok += 1; else fail += 1;
+        const stats = `✓ ${cost}s${result.ok ? '' : ' · 校验未过'}`;
+        fillCard(card, key, stats, result, content, null);
+        log(`[${i + 1}/${keys.length}] ${key} ✓ ${cost}s${result.ok ? '' : ` · 校验未过：${result.errors.join('；')}`}`, result.ok ? 'ok' : 'err');
+        if (result.dropped.length) {
+          result.dropped.forEach(d => log(`  − 剔除 ${d.w}：${d.why}`));
+        }
+      } catch (err) {
+        fail += 1;
+        const code = err instanceof LlmError ? `[${err.code}] ` : '';
+        fillCard(card, key, '', null, '', `${code}${err.message}`);
+        log(`[${i + 1}/${keys.length}] ${key} ✗ ${code}${err.message}`, 'err');
+        if (err instanceof LlmError && err.code === 'NETWORK') {
+          log('  网络/反代不通，后面不再试', 'err');
+          break;
+        }
+      }
     }
-    if (result.dropped.length) {
-      result.dropped.forEach(d => log(`  − 剔除 ${d.w}：${d.why}`));
-    }
-    log(`  全程 ${((Date.now() - t0) / 1000).toFixed(1)}s，promptV ${PROMPT_VERSION}`);
+
+    const total = ((Date.now() - t00) / 1000).toFixed(0);
+    log(`── 完成 ✓${ok} ✗${fail} · 总耗时 ${total}s ──`, fail ? 'err' : 'ok');
+    setStatus(stopFlag ? `已停止 ✓${ok} ✗${fail}` : `完成 ✓${ok} ✗${fail}`, fail ? 'bad' : 'ok');
   } catch (err) {
-    const code = err instanceof LlmError ? `[${err.code}] ` : '';
+    log(`✗ ${err.message}`, 'err');
     setStatus('失败', 'bad');
-    $('cleanTag').textContent = '未产出';
-    $('cleanTag').className = 'tag bad';
-    log(`  ✗ ${code}${err.message}`, 'err');
     if (err instanceof LlmError && err.code === 'NETWORK') {
-      log('  提示：确认 npm start 起的 serve.mjs 在跑，且 LLM 上游已启动（LLM_UPSTREAM 可改地址）');
+      log('  提示：确认 npm start 的 serve.mjs 在跑、LLM 上游已启动（LLM_UPSTREAM 可改地址）');
     }
   } finally {
     busy = false;
     $('run').disabled = false;
+    $('stop').disabled = true;
+    $('stop').textContent = '停止';
   }
 };
 </script>
