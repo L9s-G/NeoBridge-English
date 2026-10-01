@@ -21,6 +21,19 @@ SMOKE_PATH=legacy.html npm run smoke   # 冒烟旧版入口
 # 数据流水线（一般不用动）：npm run scrape / scrape:audio / audio / rebuild / build:pack
 ```
 
+## 工具链与执行习惯（本机 Windows / pwsh）
+
+- Shell 是 pwsh（PowerShell 7），中文/UTF-8 输出正常；`node`、`pnpm`、`http-server` 均全局可用。
+- **超长命令、多步操作、带引号嵌套的 `node -e` → 一律写临时脚本再执行**（临时脚本放
+  `%TEMP%\opencode\`，可留着复用，如 `parse-ety.mjs`、`trial-*.mjs`）；内联 `node -e` 引号坑多，别硬拼。
+- 临时脚本要引仓库 ESM 模块：动态 `import('file:///C:/.../app/js/xx.js')`（Windows 路径用正斜杠）。
+- 本地服务：`npm start` → http://localhost:1080；LLM 反代 `/llm/*` ⇒ http://127.0.0.1:15721
+  （`LLM_UPSTREAM` 环境变量可覆盖）。
+- 直调 LLM：`POST http://127.0.0.1:15721/v1/chat/completions`，`model: "agnes-3.0-flash"`，
+  `Authorization: Bearer PROXY_MANAGED`（真实密钥由代理托管）；`GET /v1/models` 返回空列表属正常。
+- 大 JSON（facts / word-ext / pages 缓存）别整块读进对话：用临时脚本过滤、切片后再看。
+- write/read 工具偶发丢 `path` 参数（报 `Missing key`）：原样重试即可。
+
 ## 纪律（违反 = 测试红，或线上白屏）
 
 **Git 红线（优先于下面所有条目）：**
@@ -103,6 +116,8 @@ esbuild 的保守数据会认为 Safari 12 不支持解构、直接报错，实�
 |---|---|
 | `scripts/build-legacy.mjs` | 旧版入口构建（BUILD_OPTIONS / 派生 legacy.html / 产物入库） |
 | `scripts/build-ext.mjs` | 扩展数据发行构建（`STRIP_ETYMOLOGY` 词源剥离开关，产物 ext.v1.json + manifest-ext.json） |
+| `scripts/gen-ety.mjs` | 词源生成（facts 有据改写，只动 etymology 字段；断点=产物本身，失败进 `*.failed.json` 自动补跑；默认 RPM 10） |
+| `scripts/audit-ety.mjs` | 词源核查（换接入点设 `LLM_VERIFY_*`，只标记不改数据；`--report` 看问题清单，etyHash 指纹自动重核） |
 | `app/js/db/ext-loader.js` | 扩展数据 manifest sha 增量更新（发 ext 数据**不用** bump `SHELL_CACHE`） |
 | `app/js/core/dict.js` | 词典查询：只匹配词形，精确 > 前缀 > 包含（纯函数） |
 | `app/js/app.js` | `IS_LEGACY` 信号、SW 注册 gate、启动流程 |
